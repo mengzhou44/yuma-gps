@@ -5,16 +5,17 @@ import Error from '../components/error';
 
 class ScanScreen extends Component {
 
-    componentDidMount() {
-      this.props.getGPSLocation();
-    }
-
+ 
     render() {
         console.log(this.props.location);
         return (
             <div className='align-center'>
-            <h3>Location</h3>
-           <div> Latitude: {this.props.location.latitude }
+            <h3>YUMA GPS</h3>
+
+            <button  className='btn btn-orange'  onClick={()=> this.props. getGPSLocation()}>
+                 Get Location
+            </button> 
+             <div> Latitude: {this.props.location.latitude }
            </div>
             <div> Longitude: {this.props.location.longitude }
            </div>

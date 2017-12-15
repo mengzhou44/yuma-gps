@@ -13,6 +13,10 @@ const commandPath = isDev() ?
   
 const cmd = spawn('YumaServices.exe' , {cwd: commandPath});
 
+function stopYumaServices() {
+   cmd.unref();
+}
+
 function getGPSLocation(callback) {
   const url =  isDev() ?  
                  'http://localhost:3000/api/test/getLocation'  :
@@ -33,8 +37,9 @@ function getGPSLocation(callback) {
    }).catch(err=> {
        console.log(err);
    });
-
-
   };
 
-module.exports = { getGPSLocation, commandPath };
+
+
+
+module.exports = { getGPSLocation,  stopYumaServices };

@@ -2,7 +2,7 @@ const electron = require('electron');
 const _ = require('lodash');
 const { app, BrowserWindow, ipcMain } = electron;
 
-const {getGPSLocation } = require('./app/gps-reader');
+const {getGPSLocation, stopYumaServices } = require('./app/gps-reader');
 
 let tags = [];
 
@@ -15,7 +15,11 @@ app.on('ready', () => {
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 });
- 
+
+
+ app.on('close', ()=> {
+        stopYumaServices();
+ });
 
 ipcMain.on('location:get', (event) => {
    getGPSLocation((location)=> {
