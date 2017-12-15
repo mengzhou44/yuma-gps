@@ -1,0 +1,100 @@
+.btn-orange {
+  background-color: $color-orange !important;
+  @extend %btn-base;
+}
+
+.btn-red {
+  background-color: $color-red !important;
+  @extend %btn-base;
+}
+
+.btn-green {
+  background-color: $color-green !important;
+  @extend %btn-base;
+}
+
+.btn-yellow {
+  background-color: $color-yellow !important;
+  @extend %btn-base;
+}
+
+.btn-white {
+  @extend %btn-base;
+  background-color: $color-white !important;
+  color: $color-orange !important;
+  border-width: 1px !important;
+  font-weight: 600;
+}
+.btn-white:hover {
+  background-color: $color-whitesmoke !important;
+}
+
+.btn-orange:hover {
+  background-color: $color-orange1 !important;
+}
+
+.btn-orange-border {
+  @extend %btn-base-border;
+  color: $color-orange !important;
+  border-color: $color-orange !important;
+}
+
+.btn-red-border {
+  @extend %btn-base-border;
+  color: $color-red !important;
+  border-color: $color-red !important;
+}
+
+.btn-blue-border {
+  @extend %btn-base-border;
+  color: $color-blue !important;
+  border-color: $color-blue !important;
+}
+
+.btn-black-border {
+  @extend %btn-base-border;
+  color: $color-black !important;
+  border-color: $color-black !important;
+}
+
+.btn-orange-link {
+  @include btn-base-link;
+  color: $color-orange;
+}
+
+.btn-white-link {
+  @include btn-base-link;
+  color: $color-white;
+}
+
+.btn-red-link {
+  @include btn-base-link;
+  color: $color-red !important;
+}
+
+.btn-orange-large-link {
+  color: $color-orange !important;
+  font-size: 18px !important;
+  font-size: 600 !important;
+  text-decoration-line: underline !important;
+}
+
+.btn-black-link {
+  color: $color-black !important;
+  text-decoration-line: underline !important;
+}
+
+.btn-orange-slim-link {
+  @extend %btn-base-slim-link;
+  color: $color-orange !important;
+}
+
+.btn-silver-slim-link {
+  @extend %btn-base-slim-link;
+  color: $color-silver !important;
+}
+
+.btn-red-slim-link {
+  @extend %btn-base-slim-link;
+  color: $color-red !important;
+}

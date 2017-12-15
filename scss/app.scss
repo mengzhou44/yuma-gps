@@ -1,0 +1,59 @@
+//scss --watch --sourcemap=none scss/app.scss:assets/styles.css
+ 
+//@import url('https://fonts.googleapis.com/css?family=Trochut');
+ 
+@import './1-bases/1-bases-dir';
+@import './2-layouts/2-layouts-dir';
+@import './3-common/3-common-dir';
+@import './4-components/4-components-dir';
+
+html,
+body {
+  height: 100% !important;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px !important;
+  font-family: Avenir, Helvetica, Tahoma !important;
+}
+
+#page {
+  height: 100% !important;
+}
+
+.rounded {
+  border-radius: 5px;
+}
+
+.border-test {
+  border: 1px solid red;
+}
+
+.text-underline {
+  text-decoration-line: underline !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.slim {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.bold {
+  font-weight: 600 !important;
+}
+
+.underline {
+  text-decoration-line: underline !important;
+}
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.float-left {
+  float: left !important;
+}
