@@ -1,10 +1,15 @@
 const path = require("path");
 
+const axios = require("axios");
+
+ const wifi = require('wifi-control');
+
+ wifi.init({});
+
+
 const { spawn } = require('child_process');
 
 const { isDev } =require('./environment');
-
-const axios = require('axios');
 
 const commandPath = isDev() ? 
                     __dirname + "\\yuma-lib" : 
@@ -16,6 +21,13 @@ const cmd = spawn('YumaServices.exe' , {cwd: commandPath});
 function stopYumaServices() {
    cmd.unref();
 }
+
+function checkWifi(callback) {
+      const {connection}  = wifi.getIfaceState();
+ 
+     return callback({available: connection });
+};
+
 
 function getGPSLocation(callback) {
   const url =  isDev() ?  
@@ -40,6 +52,6 @@ function getGPSLocation(callback) {
   };
 
 
+module.exports = {stopYumaServices, checkWifi, getGPSLocation}
 
-
-module.exports = { getGPSLocation,  stopYumaServices };
+ 

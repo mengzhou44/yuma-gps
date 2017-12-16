@@ -2,7 +2,7 @@ const electron = require('electron');
 const _ = require('lodash');
 const { app, BrowserWindow, ipcMain } = electron;
 
-const {getGPSLocation, stopYumaServices } = require('./app/gps-reader');
+const {getGPSLocation, checkWifi, stopYumaServices } = require('./app/yuma-services');
 
 let tags = [];
 
@@ -24,6 +24,13 @@ app.on('ready', () => {
 ipcMain.on('location:get', (event) => {
    getGPSLocation((location)=> {
        mainWindow.webContents.send('location:result', {location})
+    });
+  
+});
+
+ipcMain.on('wifi-status:get', (event) => {
+   checkWifi((available)=> {
+       mainWindow.webContents.send('wifi-status:result', {available})
     });
   
 });
