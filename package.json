@@ -41,6 +41,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
+    "redux-form": "^7.2.0",
     "redux-thunk": "^2.2.0",
     "tcp-ping": "^0.1.1",
     "wifi-control": "^2.0.1"

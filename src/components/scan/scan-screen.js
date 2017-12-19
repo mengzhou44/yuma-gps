@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
-import Error from '../components/error';
+import * as actions from '../../actions';
+import Error from '../_common/error';
 
 class ScanScreen extends Component {
+
+    componentDidMount() {
+        this.props.fetchSettings();
+    }
 
     renderDevicesStatus() {
         let wifiAvailable = this.props.devicesStatus.wifi ? "Wifi Available" : "Wifi Not Available";
@@ -37,6 +41,8 @@ class ScanScreen extends Component {
             </button>
                 <div> Devices:  {this.renderDevicesStatus()}
                 </div>
+
+                <hr />
 
 
             </div>);
