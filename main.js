@@ -2,13 +2,13 @@ const electron = require('electron');
 const _ = require('lodash');
 const { app, BrowserWindow, ipcMain } = electron;
 
-const { getGPSData, checkWifi, checkGPS, stopYumaServices } = require('./app/yuma-services');
+const { getYumaServices } = require('./app/yuma-services-factory');
 
 let tags = [];
 
 let mainWindow;
-let tcpClient;
-let gpsReader;
+let yumaServices = getYumaServices();
+
 
 app.on('ready', () => {
     mainWindow = new BrowserWindow({});
@@ -17,11 +17,11 @@ app.on('ready', () => {
 
 
 app.on('close', () => {
-    stopYumaServices();
+    yumaServices.stop();
 });
 
 ipcMain.on('gps-data:get', (event) => {
-    getGPSData().then(data => {
+    yumaServices.getGPSData().then(data => {
         mainWindow.webContents.send('gps-data:result', data);
     });
 });
@@ -30,9 +30,9 @@ ipcMain.on('gps-data:get', (event) => {
 ipcMain.on('devices:check', (event) => {
     const devices = {};
 
-    checkGPS().then(result => {
+    yumaServices.checkGPS().then(result => {
         devices.gps = result;
-        devices.wifi = checkWifi();
+        devices.wifi = yumaServices.checkWifi();
         mainWindow.webContents.send('devices:status', devices);
     })
 
