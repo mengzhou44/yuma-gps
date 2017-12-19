@@ -17,7 +17,7 @@ export function checkDevices() {
     return function (dispatch) {
         ipcRenderer.send("devices:check");
         ipcRenderer.on("devices:status", (event, result) => {
-            console.log("result", result);
+          
             dispatch({ type: types.DEVICES_STATUS_FETCHED, payload: result });
         });
     };

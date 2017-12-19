@@ -19,7 +19,6 @@ class ScanScreen extends Component {
 
 
     render() {
-        console.log(this.props.wifi);
         return (
             <div className='align-center'>
                 <h3>YUMA GPS</h3>

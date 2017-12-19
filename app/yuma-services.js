@@ -48,13 +48,13 @@ class YumaServices {
       };
 
       async checkGPS() {
-
             try {
-                  const res = await axios.get(getGPSUrl());
+                  const res = await axios.get(this.getGPSUrl());
                   return new Promise((resolve) => {
                         resolve(true);
                   })
             } catch (e) {
+    
                   return new Promise((resolve) => {
                         resolve(false);
                   })
@@ -64,7 +64,7 @@ class YumaServices {
 
       async  getGPSData() {
             try {
-                  const res = await axios.get(getGPSUrl());
+                  const res = await axios.get(this.getGPSUrl());
                   const temp = res.data.split(",");
                   const latitude = parseFloat(temp[0].trim());
                   const longitude = parseFloat(temp[1].trim());
