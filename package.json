@@ -1,8 +1,8 @@
 {
-  "name": "yumagps",
-  "productName": "Yuma GPS",
+  "name": "SmartMat",
+  "productName": "Smart Mat",
   "version": "1.0.0",
-  "description": "A tablet electron app to get GPS data from YUMA!",
+  "description": "A tablet electron app to track mats!",
   "main": "main.js",
   "scripts": {
     "electron": "electron .",
@@ -10,7 +10,7 @@
     "dist": "build  --win --ia32"
   },
   "build": {
-    "appId": "yuma.gps",
+    "appId": "gems.smartmat",
     "extraResources": {
       "from": "app/yuma-lib",
       "to": "yuma-lib"

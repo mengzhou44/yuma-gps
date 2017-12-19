@@ -2,7 +2,7 @@ const electron = require('electron');
 const _ = require('lodash');
 const { app, BrowserWindow, ipcMain } = electron;
 
-const { getYumaServices } = require('./app/yuma-services-factory');
+const { getYumaServices } = require('./app/yuma/yuma-services-factory');
 
 let tags = [];
 
