@@ -1,10 +1,21 @@
 const fs = require("fs");
 const path = require("path");
 
+const { environment } = require('../environment');
+
 
 class Settings {
     constructor() {
-        this.jsonFile = path.join(__dirname, "settings.json");
+        
+            if (environment === "production") {
+                this.jsonFile = path.join(process.resourcesPath, "settings.json");
+
+            } else {
+                
+                this.jsonFile  = path.join(__dirname, "settings.json");
+     
+            }
+
     }
 
     fetch() {

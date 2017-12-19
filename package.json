@@ -1,6 +1,6 @@
 {
   "name": "SmartMat",
-  "productName": "Smart Mat",
+  "productName": "SmartMat",
   "version": "1.0.0",
   "description": "A tablet electron app to track mats!",
   "main": "main.js",
@@ -11,10 +11,16 @@
   },
   "build": {
     "appId": "gems.smartmat",
-    "extraResources": {
-      "from": "app/yuma-lib",
-      "to": "yuma-lib"
-    },
+    "extraResources": [
+       {
+          "from": "app/yuma/yuma-lib",
+          "to": "yuma-lib"
+       },
+       {
+          "from": "app/settings/settings.json",
+          "to": "settings.json"
+       }
+    ],
     "win": {
       "target": "nsis"
     }
