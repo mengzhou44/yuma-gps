@@ -12,14 +12,14 @@
   "build": {
     "appId": "gems.smartmat",
     "extraResources": [
-       {
-          "from": "app/yuma/yuma-lib",
-          "to": "yuma-lib"
-       },
-       {
-          "from": "app/settings/settings.json",
-          "to": "settings.json"
-       }
+      {
+        "from": "app/yuma/yuma-lib",
+        "to": "yuma-lib"
+      },
+      {
+        "from": "app/settings/settings.json",
+        "to": "settings.json"
+      }
     ],
     "win": {
       "target": "nsis"

@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import _ from 'lodash';
 
 import * as actions from '../../actions';
+import Header from '../_common/header';
 import { renderField } from '../_common/render-field';
 
 class SettingsScreen extends Component {
@@ -65,33 +66,37 @@ class SettingsScreen extends Component {
 
     render() {
         return (
-            <form
-                className='settings-form'
-                onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}
-            >
+            <div>
+                <Header />
 
-                <Field
-                    name='host'
-                    label='HOST'
-                    component={renderField}
-                    type='text'
-                    disabled={this.state.disabled}
-                />
+                <form
+                    className='settings-form'
+                    onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}
+                >
 
-                <Field
-                    name='port'
-                    label='PORT'
-                    component={renderField}
-                    type='text'
-                    disabled={this.state.disabled}
-                />
+                    <Field
+                        name='host'
+                        label='HOST'
+                        component={renderField}
+                        type='text'
+                        disabled={this.state.disabled}
+                    />
 
-                {this.renderChangeButton()}
+                    <Field
+                        name='port'
+                        label='PORT'
+                        component={renderField}
+                        type='text'
+                        disabled={this.state.disabled}
+                    />
 
-                {this.renderSaveCancelButtons()}
+                    {this.renderChangeButton()}
+
+                    {this.renderSaveCancelButtons()}
 
 
-            </form>
+                </form>
+            </div>
         );
     }
 }

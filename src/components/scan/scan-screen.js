@@ -4,8 +4,9 @@ import { ipcRenderer } from 'electron';
 
 import * as actions from '../../actions';
 import Error from '../_common/error';
+import Header from '../_common/header';
 
-import SettingsScreen from '../settings/settings-screen';
+
 
 class ScanScreen extends Component {
 
@@ -28,26 +29,27 @@ class ScanScreen extends Component {
 
     render() {
         return (
-            <div className='align-center'>
-                <h3>YUMA GPS</h3>
+            <div>
+                <Header />
+                <div className='align-center'>
+                    <h3>YUMA GPS</h3>
 
-                <button className='btn btn-orange' onClick={() => this.props.getGPSLocation()}>
-                    Get Location
+                    <button className='btn btn-orange' onClick={() => this.props.getGPSLocation()}>
+                        Get Location
             </button>
-                <div> Latitude: {this.props.location.latitude}
-                </div>
-                <div> Longitude: {this.props.location.longitude}
-                </div>
+                    <div> Latitude: {this.props.location.latitude}
+                    </div>
+                    <div> Longitude: {this.props.location.longitude}
+                    </div>
 
-                <hr />
-                <button className='btn btn-orange' onClick={() => this.props.checkDevices()}>
-                    Check Devices
+                    <hr />
+                    <button className='btn btn-orange' onClick={() => this.props.checkDevices()}>
+                        Check Devices
             </button>
-                <div> Devices:  {this.renderDevicesStatus()}
-                </div>
+                    <div> Devices:  {this.renderDevicesStatus()}
+                    </div>
 
-                <hr />
-                <SettingsScreen />
+                </div>
             </div>);
     }
 }

@@ -16,16 +16,11 @@ class Header extends Component {
             <ul className="header-menu">
                 <li className={this.getLinkClass('/')} onClick={() => this.props.history.push('/')}>
                     Scan
-        </li>
-                <li
-                    className={this.getLinkClass('/sync')}
-                    onClick={() => this.props.history.push('/sync')}
-                >
-                    Sync
-        </li>
+                  </li>
+
                 <li className={this.getLinkClass('/settings')} onClick={() => this.props.history.push('/settings')}>
                     Settings
-        </li>
+              </li>
 
             </ul>
         );

@@ -17,19 +17,18 @@ app.on('close', () => {
 
 
 app.on('ready', () => {
+    //  splashScreen = new BrowserWindow({});
+    //  splashScreen.loadURL(`file://${__dirname}/splash.html`);
 
-    splashScreen = new BrowserWindow({});
-    splashScreen.loadURL(`file://${__dirname}/splash.html`);
-
-    mainWindow = new BrowserWindow({ show: false });
+    // mainWindow = new BrowserWindow({ show: false });
+    mainWindow = new BrowserWindow({});
     mainWindow.loadURL(`file://${__dirname}/index.html`);
-
 });
 
 
 ipcMain.on('system:initialized', (event) => {
-    splashScreen.hide();
-    mainWindow.show();
+    // splashScreen.hide();
+    //  mainWindow.show();
 });
 
 

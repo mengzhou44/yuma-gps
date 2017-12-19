@@ -4,15 +4,16 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
-import ScanScreen from './components/scan/scan-screen';
-import SettingsScreen from './components/settings/settings-screen';
+import App from './components/app';
+
 import reducers from './reducers';
+
 
 const store = createStore(reducers, {}, applyMiddleware(thunk));
 
 ReactDOM.render(
     <Provider store={store}>
-        <ScanScreen />
+        <App />
     </Provider>,
     document.getElementById('root')
 );
