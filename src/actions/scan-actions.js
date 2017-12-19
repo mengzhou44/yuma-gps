@@ -5,20 +5,20 @@ import * as types from './types';
 
 export function getGPSLocation() {
     return function (dispatch) {
-        ipcRenderer.send("location:get");
-        ipcRenderer.on("location:result", (event, { location }) => {
-              dispatch({ type: types.LOCATION_FETCHED, payload: location });  
+        ipcRenderer.send("gps-data:get");
+        ipcRenderer.on("gps-data:result", (event, location) => {
+            dispatch({ type: types.LOCATION_FETCHED, payload: location });
         });
     };
 }
 
- 
-export function checkWifi() {
+
+export function checkDevices() {
     return function (dispatch) {
-        ipcRenderer.send("wifi-status:get");
-        ipcRenderer.on("wifi-status:result", (event, { available }) => {    
-              console.log("Available", available);
-              dispatch({ type: types.WIFI_STATUS_FETCHED, payload: available });  
+        ipcRenderer.send("devices:check");
+        ipcRenderer.on("devices:status", (event, result) => {
+            console.log("result", result);
+            dispatch({ type: types.DEVICES_STATUS_FETCHED, payload: result });
         });
     };
 }

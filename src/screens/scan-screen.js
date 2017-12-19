@@ -5,12 +5,15 @@ import Error from '../components/error';
 
 class ScanScreen extends Component {
 
-    renderWifiStatus() {
-      if (this.props.wifi.available) {
-          return  "Available";
-      }
+    renderDevicesStatus() {
+        let wifiAvailable = this.props.devicesStatus.wifi ? "Wifi Available" : "Wifi Not Available";
 
-      return "Not Available";
+        let gpsAvailable = this.props.devicesStatus.gps ? "GPS Available" : "GPS Not Available";
+
+        return <div>
+            <p> {wifiAvailable} </p>
+            <p> {gpsAvailable} </p>
+        </div>
 
     }
 
@@ -19,32 +22,32 @@ class ScanScreen extends Component {
         console.log(this.props.wifi);
         return (
             <div className='align-center'>
-            <h3>YUMA GPS</h3>
+                <h3>YUMA GPS</h3>
 
-            <button  className='btn btn-orange'  onClick={()=> this.props.getGPSLocation()}>
-                 Get Location
-            </button> 
-             <div> Latitude: {this.props.location.latitude }
-           </div>
-            <div> Longitude: {this.props.location.longitude }
-           </div>
+                <button className='btn btn-orange' onClick={() => this.props.getGPSLocation()}>
+                    Get Location
+            </button>
+                <div> Latitude: {this.props.location.latitude}
+                </div>
+                <div> Longitude: {this.props.location.longitude}
+                </div>
 
-            <hr/> 
-            <button  className='btn btn-orange'  onClick={()=> this.props.checkWifi()}>
-                Check Wifi
-            </button> 
-             <div> Status:  {this.renderWifiStatus()}
-           </div>
-         
+                <hr />
+                <button className='btn btn-orange' onClick={() => this.props.checkDevices()}>
+                    Check Devices
+            </button>
+                <div> Devices:  {this.renderDevicesStatus()}
+                </div>
 
-        </div>);
+
+            </div>);
     }
 }
 
-function mapStateToProps({ gps }) {
+function mapStateToProps(state) {
     return {
-         location: gps.location,
-         wifi: gps.wifi
+        location: state.gps.location,
+        devicesStatus: state.devices.status
     };
 }
 
