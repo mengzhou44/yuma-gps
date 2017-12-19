@@ -20,7 +20,7 @@
   background-color: #ffcc2f !important; }
 
 .bg-color-blue {
-  background-color: #00629b !important; }
+  background-color: #325f8c !important; }
 
 .color-green {
   color: #00a98f !important; }
@@ -41,7 +41,7 @@
   color: #e0e0e0 !important; }
 
 .color-blue {
-  color: #00629b !important; }
+  color: #325f8c !important; }
 
 .color-silver {
   color: #c0c0c0 !important; }
@@ -432,8 +432,8 @@
   border-color: #d03027 !important; }
 
 .btn-blue-border {
-  color: #00629b !important;
-  border-color: #00629b !important; }
+  color: #325f8c !important;
+  border-color: #325f8c !important; }
 
 .btn-black-border {
   color: #000000 !important;
@@ -527,29 +527,26 @@
 .display-table-cell {
   display: table-cell !important; }
 
-.company-header {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  width: 100%;
-  height: 80px !important;
-  position: fixed;
-  /* Set the navbar to fixed position */
-  z-index: 11;
-  top: 0;
-  background-color: #f58426 !important; }
-  .company-header .company-header-logo {
-    width: 200px;
-    cursor: pointer;
-    color: white;
-    display: inline-block !important; }
-  .company-header .company-header-auth {
-    text-transform: capitalize !important;
-    margin-top: 10px;
-    margin-right: 10px;
-    border-radius: 5px !important; }
-
 .error {
   color: #d03027; }
+
+.active-link {
+  color: #325f8c;
+  background-color: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px; }
+
+.header-menu-item {
+  display: inline-block;
+  margin-right: 30px;
+  cursor: pointer;
+  padding: 7px 10px; }
+
+.header-menu {
+  background-color: #325f8c;
+  color: white;
+  font-size: 20px;
+  margin-top: 0px !important; }
 
 .render-field-container {
   padding-top: 5px;

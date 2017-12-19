@@ -2,25 +2,37 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
 class Header extends Component {
-    getLinkClass(link) {
-        if (link === this.props.location.pathname) {
-            return 'active-link';
+    getLinkClass(path) {
+        if (this.isCurrentPath(path)) {
+            return 'active-link header-menu-item';
         }
+        return 'header-menu-item';
+    }
 
-        return '';
+    isCurrentPath(path) {
+        return this.props.location.pathname == path;
+    }
+
+    goTo(path) {
+        if (!this.isCurrentPath(path)) {
+            this.props.history.push(path);
+        }
     }
 
     render() {
-
         return (
             <ul className="header-menu">
-                <li className={this.getLinkClass('/')} onClick={() => this.props.history.push('/')}>
+                <li className={this.getLinkClass('/')} onClick={() =>
+                    this.goTo('/')
+                } >
                     Scan
                   </li>
 
-                <li className={this.getLinkClass('/settings')} onClick={() => this.props.history.push('/settings')}>
+                <li className={this.getLinkClass('/settings')} onClick={() =>
+                    this.goTo('/settings')
+                } >
                     Settings
-              </li>
+                </li>
 
             </ul>
         );

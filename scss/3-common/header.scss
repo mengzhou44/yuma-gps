@@ -1,0 +1,20 @@
+.active-link {
+    color: $color-blue;
+    background-color: $color-white;
+    border-top-left-radius:  5px;
+    border-top-right-radius:  5px;
+}
+
+.header-menu-item {
+    display: inline-block;
+    margin-right: 30px; 
+    cursor: pointer;
+    padding: 7px 10px;
+}
+
+.header-menu {
+    background-color: $color-blue;
+    color: $color-white;
+    font-size: 20px;
+    margin-top: 0px !important;
+}
