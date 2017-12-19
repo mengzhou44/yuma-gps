@@ -6,16 +6,11 @@ const { environment } = require('../environment');
 
 class Settings {
     constructor() {
-        
-            if (environment === "production") {
-                this.jsonFile = path.join(process.resourcesPath, "settings.json");
-
-            } else {
-                
-                this.jsonFile  = path.join(__dirname, "settings.json");
-     
-            }
-
+        if (environment === "production") {
+            this.jsonFile = path.join(process.resourcesPath, "settings.json");
+        } else {
+            this.jsonFile = path.join(__dirname, "settings.json");
+        }
     }
 
     fetch() {

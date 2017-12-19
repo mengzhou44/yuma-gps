@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { ipcRenderer } from 'electron';
+
 import * as actions from '../../actions';
 import Error from '../_common/error';
 
@@ -9,6 +11,7 @@ class ScanScreen extends Component {
 
     componentDidMount() {
         this.props.fetchSettings();
+        ipcRenderer.send("system:initialized");
     }
 
     renderDevicesStatus() {
@@ -22,7 +25,6 @@ class ScanScreen extends Component {
         </div>
 
     }
-
 
     render() {
         return (
@@ -46,7 +48,6 @@ class ScanScreen extends Component {
 
                 <hr />
                 <SettingsScreen />
-
             </div>);
     }
 }

@@ -8,18 +8,30 @@ const Settings = require('./app/settings/settings');
 let tags = [];
 
 let mainWindow;
+let splashScreen;
 let yumaServices = getYumaServices();
-
-
-app.on('ready', () => {
-    mainWindow = new BrowserWindow({});
-    mainWindow.loadURL(`file://${__dirname}/index.html`);
-});
-
 
 app.on('close', () => {
     yumaServices.stop();
 });
+
+
+app.on('ready', () => {
+
+    splashScreen = new BrowserWindow({});
+    splashScreen.loadURL(`file://${__dirname}/splash.html`);
+
+    mainWindow = new BrowserWindow({ show: false });
+    mainWindow.loadURL(`file://${__dirname}/index.html`);
+
+});
+
+
+ipcMain.on('system:initialized', (event) => {
+    splashScreen.hide();
+    mainWindow.show();
+});
+
 
 ipcMain.on('gps-data:get', (event) => {
     yumaServices.getGPSData().then(data => {
@@ -53,5 +65,6 @@ ipcMain.on('settings:save', (event, data) => {
     mainWindow.webContents.send('settings:saved', data);
 
 });
+
 
 
