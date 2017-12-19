@@ -12,7 +12,7 @@ const store = createStore(reducers, {}, applyMiddleware(thunk));
 
 ReactDOM.render(
     <Provider store={store}>
-        <SettingsScreen />
+        <ScanScreen />
     </Provider>,
     document.getElementById('root')
 );

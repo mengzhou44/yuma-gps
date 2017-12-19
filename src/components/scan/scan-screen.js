@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import Error from '../_common/error';
 
+import SettingsScreen from '../settings/settings-screen';
+
 class ScanScreen extends Component {
 
     componentDidMount() {
@@ -43,7 +45,7 @@ class ScanScreen extends Component {
                 </div>
 
                 <hr />
-
+                <SettingsScreen />
 
             </div>);
     }
