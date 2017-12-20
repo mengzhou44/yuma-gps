@@ -146,6 +146,9 @@
 .width-90-100 {
   width: 90% !important; }
 
+.width-400 {
+  width: 400px !important; }
+
 .max-width-70 {
   max-width: 70px; }
 
@@ -485,6 +488,11 @@
 .btn-red-slim-link {
   color: #d03027 !important; }
 
+.btn-block {
+  display: block;
+  margin: 0;
+  width: 100% !important; }
+
 .font-size-12 {
   font-size: 12px !important; }
 
@@ -600,6 +608,10 @@
 .splash-image {
   max-width: 50%;
   width: 100%; }
+
+.devices-status-container {
+  display: flex;
+  justify-content: center; }
 
 html,
 body {

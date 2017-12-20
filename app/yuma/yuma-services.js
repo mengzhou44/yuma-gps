@@ -44,7 +44,8 @@ class YumaServices {
 
       checkWifi() {
             const { connection } = wifi.getIfaceState();
-            return connection;
+            if (connection) return true;
+            return false;
       };
 
       async checkGPS() {

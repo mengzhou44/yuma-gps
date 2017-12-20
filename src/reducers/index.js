@@ -1,12 +1,13 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import CheckDevicesReducer from './check-devices-reducer';
 import GPSReducer from './gps-reducer';
-import DevicesReducer from './devices-reducer';
+
 import SettingsReducer from './settings-reducer';
 
 export default combineReducers({
     form: formReducer,
+    checkDevices: CheckDevicesReducer,
     gps: GPSReducer,
-    devices: DevicesReducer,
     settings: SettingsReducer
 });

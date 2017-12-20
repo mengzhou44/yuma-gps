@@ -6,58 +6,38 @@ import * as actions from '../../actions';
 import Error from '../_common/error';
 import Header from '../_common/header';
 
+import CheckDevices from './check-devices';
 
 
 class ScanScreen extends Component {
 
     componentDidMount() {
-        this.props.fetchSettings();
         ipcRenderer.send("system:initialized");
     }
 
-    renderDevicesStatus() {
-        let wifiAvailable = this.props.devicesStatus.wifi ? "Wifi Available" : "Wifi Not Available";
-
-        let gpsAvailable = this.props.devicesStatus.gps ? "GPS Available" : "GPS Not Available";
-
-        return <div>
-            <p> {wifiAvailable} </p>
-            <p> {gpsAvailable} </p>
-        </div>
-
+    renderScanContent() {
+        if (this.props.checkDevicesStatus === "check-completed") {
+            return (<div>
+                <h1> Show Scan Content Here!  </h1>
+            </div>)
+        }
     }
+
 
     render() {
         return (
             <div>
                 <Header />
-                <div className='align-center'>
-                    <h3>YUMA GPS</h3>
-
-                    <button className='btn btn-orange' onClick={() => this.props.getGPSLocation()}>
-                        Get Location
-            </button>
-                    <div> Latitude: {this.props.location.latitude}
-                    </div>
-                    <div> Longitude: {this.props.location.longitude}
-                    </div>
-
-                    <hr />
-                    <button className='btn btn-orange' onClick={() => this.props.checkDevices()}>
-                        Check Devices
-            </button>
-                    <div> Devices:  {this.renderDevicesStatus()}
-                    </div>
-
-                </div>
+                <CheckDevices />
+                {this.renderScanContent()}
             </div>);
     }
 }
 
 function mapStateToProps(state) {
     return {
-        location: state.gps.location,
-        devicesStatus: state.devices.status
+
+        checkDevicesStatus: state.checkDevices.status
     };
 }
 

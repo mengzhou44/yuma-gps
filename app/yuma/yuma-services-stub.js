@@ -2,12 +2,19 @@ const wifi = require('wifi-control');
 
 class YumaServicesStub {
 
+    constructor() {
+        wifi.init({});
+    }
+
+
     stop() {
     }
 
     checkWifi() {
         const { connection } = wifi.getIfaceState();
-        return connection;
+
+        if (connection) return true;
+        return false;
     };
 
     async checkGPS() {
