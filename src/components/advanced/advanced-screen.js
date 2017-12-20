@@ -7,7 +7,7 @@ import * as actions from '../../actions';
 import Header from '../_common/header';
 import { renderField } from '../_common/render-field';
 
-class SettingsScreen extends Component {
+class AdvancedScreen extends Component {
 
     constructor(props) {
         super(props);
@@ -126,5 +126,5 @@ export default connect(mapStateToProps, actions)(
         form: 'settings-form',
         enableReinitialize: true,
         validate
-    })(SettingsScreen));
+    })(AdvancedScreen));
 

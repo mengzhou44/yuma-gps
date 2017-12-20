@@ -43,7 +43,10 @@ class YumaServices {
       }
 
       checkWifi() {
-            const { connection } = wifi.getIfaceState();
+            const { ssid, connection } = wifi.getIfaceState();
+            if (!ssid.includes('smartmat')) {
+                  return false;
+            }
             if (connection) return true;
             return false;
       };

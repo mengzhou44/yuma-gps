@@ -12,7 +12,6 @@ class YumaServicesStub {
 
     checkWifi() {
         const { connection } = wifi.getIfaceState();
-
         if (connection) return true;
         return false;
     };

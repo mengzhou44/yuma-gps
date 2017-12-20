@@ -27,11 +27,22 @@ class Header extends Component {
                 } >
                     Scan
                   </li>
-
-                <li className={this.getLinkClass('/settings')} onClick={() =>
-                    this.goTo('/settings')
+                <li className={this.getLinkClass('/upload')} onClick={() =>
+                    this.goTo('/upload')
                 } >
-                    Settings
+                    Upload
+                  </li>
+
+                <li className={this.getLinkClass('/advanced')} onClick={() =>
+                    this.goTo('/advanced')
+                } >
+                    Advanced
+                </li>
+
+                <li className={this.getLinkClass('/help')} onClick={() =>
+                    this.goTo('/help')
+                } >
+                    Help
                 </li>
 
             </ul>
