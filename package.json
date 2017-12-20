@@ -21,8 +21,9 @@
         "to": "settings.json"
       }
     ],
-    "win": {
-      "target": "nsis"
+   "win": {
+      "target": "nsis",
+      "icon": "assets/images/icon.ico"
     }
   },
   "author": "",
