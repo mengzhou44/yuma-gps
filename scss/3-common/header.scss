@@ -1,9 +1,17 @@
+.active-link-0 {
+    color: $color-blue;
+    background-color: $color-white;
+    border-top-right-radius:  5px;
+}
+
 .active-link {
     color: $color-blue;
     background-color: $color-white;
     border-top-left-radius:  5px;
     border-top-right-radius:  5px;
 }
+
+
 
 .header-menu-item {
     display: inline-block;

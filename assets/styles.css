@@ -535,8 +535,16 @@
 .display-table-cell {
   display: table-cell !important; }
 
+.screen {
+  padding-left: 10px; }
+
 .error {
   color: #d03027; }
+
+.active-link-0 {
+  color: #325f8c;
+  background-color: white;
+  border-top-right-radius: 5px; }
 
 .active-link {
   color: #325f8c;

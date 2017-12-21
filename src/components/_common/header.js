@@ -4,6 +4,9 @@ import { withRouter } from 'react-router';
 class Header extends Component {
     getLinkClass(path) {
         if (this.isCurrentPath(path)) {
+            if (path === "/") {
+                return 'active-link-0 header-menu-item';
+            }
             return 'active-link header-menu-item';
         }
         return 'header-menu-item';

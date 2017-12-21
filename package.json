@@ -19,9 +19,13 @@
       {
         "from": "app/settings/settings.json",
         "to": "settings.json"
+      },
+      {
+        "from": "app/data/job-types.json",
+        "to": "job-types.json"
       }
     ],
-   "win": {
+    "win": {
       "target": "nsis",
       "icon": "assets/images/icon.ico"
     }

@@ -7,6 +7,7 @@ import Error from '../_common/error';
 import Header from '../_common/header';
 
 import CheckDevices from './check-devices';
+import ScanContent from './scan-content';
 
 
 class ScanScreen extends Component {
@@ -17,16 +18,14 @@ class ScanScreen extends Component {
 
     renderScanContent() {
         if (this.props.checkDevicesStatus === "check-completed") {
-            return (<div>
-                <h1> Show Scan Content Here!  </h1>
-            </div>)
+            return <ScanContent />
         }
     }
 
 
     render() {
         return (
-            <div>
+            <div className="screen">
                 <Header />
                 <CheckDevices />
                 {this.renderScanContent()}

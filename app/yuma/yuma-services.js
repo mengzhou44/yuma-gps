@@ -22,7 +22,7 @@ class YumaServices {
                   commandPath = path.join(process.resourcesPath, "yuma-lib");
 
             } else {
-                  commandPath = __dirname + "\\yuma-lib";
+                  commandPath = __dirname + "/yuma-lib";
             }
 
             this.cmd = spawn('YumaServices.exe', { cwd: commandPath });

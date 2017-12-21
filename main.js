@@ -5,6 +5,7 @@ const { app, BrowserWindow, ipcMain } = electron;
 
 const { getYumaServices } = require('./app/yuma/yuma-services-factory');
 const Settings = require('./app/settings/settings');
+const Scan = require('./app/scan');
 
 let tags = [];
 
@@ -67,6 +68,13 @@ ipcMain.on('settings:save', (event, data) => {
     const settings = new Settings();
     settings.save(data);
     mainWindow.webContents.send('settings:saved', data);
+
+});
+
+
+ipcMain.on('job-types:get', (event) => {
+    const scan = new Scan();
+    mainWindow.webContents.send('job-types:result', scan.getJobTypes());
 
 });
 
