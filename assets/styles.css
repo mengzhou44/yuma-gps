@@ -535,8 +535,9 @@
 .display-table-cell {
   display: table-cell !important; }
 
-.screen {
-  padding-left: 10px; }
+.screen-content {
+  padding-left: 10px;
+  padding-right: 10px; }
 
 .error {
   color: #d03027; }

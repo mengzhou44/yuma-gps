@@ -4,10 +4,10 @@ const fs = require('fs');
 
 const nodeModules = {};
 fs.readdirSync('node_modules')
-  .filter(function(x) {
+  .filter(function (x) {
     return ['.bin'].indexOf(x) === -1;
   })
-  .forEach(function(mod) {
+  .forEach(function (mod) {
     nodeModules[mod] = 'commonjs ' + mod;
   });
 
@@ -31,10 +31,14 @@ module.exports = {
           presets: ['react', 'es2015', 'stage-1']
         }
       },
+      { test: /\.css$/, loader: 'style-loader!css-loader' }
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx', '.css'],
+    modulesDirectories: [
+      'node_modules'
+    ]
   },
   devServer: {
     historyApiFallback: true,

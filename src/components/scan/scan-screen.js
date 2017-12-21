@@ -25,10 +25,12 @@ class ScanScreen extends Component {
 
     render() {
         return (
-            <div className="screen">
+            <div>
                 <Header />
-                <CheckDevices />
-                {this.renderScanContent()}
+                <div className="screen-content">
+                    <CheckDevices />
+                    {this.renderScanContent()}
+                </div>
             </div>);
     }
 }
