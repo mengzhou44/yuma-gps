@@ -19,9 +19,22 @@ export function selectJobId(jobId) {
     return { type: types.JOB_ID_SELECTED, payload: jobId };
 }
 
-export function startScan() {
+export function startScan(mats) {
     return function (dispatch) {
+        ipcRenderer.send("scan:start");
         dispatch({ type: types.SCAN_STARTED });
+
+        ipcRenderer.on("mat:found", (event) => {
+            mats++;
+            dispatch({ type: types.MAT_FOUND, payload: mats });
+        });
+    };
+}
+
+export function stopScan(mats) {
+    return function (dispatch) {
+        ipcRenderer.send("scan:stop");
+        dispatch({ type: types.SCAN_STOPPED });
     };
 }
 

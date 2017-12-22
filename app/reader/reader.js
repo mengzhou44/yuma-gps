@@ -4,35 +4,17 @@ var { Socket } = require('net');
 const Settings = require('../settings/settings');
 
 
-function getReaderSetting() {
-    const settings = new Settings();
-    const { reader } = settings.fetch();
-    return reader;
-}
-
-
-function check() {
-    const readerSetting = getReaderSetting();
-    return new Promise(resolve => {
-        tcpp.probe(readerSetting.host, readerSetting.port, function (err, available) {
-            resolve(available);
-        });
-    });
-}
 
 
 class Reader {
 
     constructor(mainWindow, yumaServices) {
-        super();
-        this.tags = [];
         this.mainWindow = mainWindow;
-
+        this.yumaServices = yumaServices;
+        this.tags = [];
         this.tcpClient = new Socket();
         this.tcpClient.on('error', this.onError.bind(this));
         this.tcpClient.on('data', this.onData.bind(this));
-
-
     }
 
     processTag(line) {
@@ -42,7 +24,7 @@ class Reader {
 
             this.yumaServices.getGPSData().then(location => {
 
-                const found = _.find(tags, (tag) => tag.tagNumber === tagNumber);
+                const found = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
                 if (!found) {
                     const tag = {
                         tagNumber,
@@ -50,13 +32,28 @@ class Reader {
                         longitude: location.longitude
                     };
 
-                    tags.push(tag);
-                    this.mainWindow.webContents.send('tag:found', {
-                        tag
-                    });
+                    this.tags.push(tag);
+                    this.mainWindow.webContents.send('mat:found');
                 }
             });
         }
+    }
+
+
+    getReaderSetting() {
+        const settings = new Settings();
+        const { reader } = settings.fetch();
+        return reader;
+    }
+
+
+    check() {
+        const readerSetting = getReaderSetting();
+        return new Promise(resolve => {
+            tcpp.probe(readerSetting.host, readerSetting.port, function (err, available) {
+                resolve(available);
+            });
+        });
     }
 
 
@@ -69,20 +66,19 @@ class Reader {
     }
 
     onError(error) {
-        this.mainWindow.webContents.send('tag:found', {
+        this.mainWindow.webContents.send('mat:found', {
             error
         });
     }
 
     start() {
-        const readerSetting = getReaderSetting();
+        const readerSetting = this.getReaderSetting();
         this.tcpClient.connect(readerSetting.host, readerSetting.port);
     }
 
     stop() {
-        this.tags = [];
         this.tcpClient.destroy();
     }
 }
 
-module.exports = { Reader, check };
+module.exports = Reader;

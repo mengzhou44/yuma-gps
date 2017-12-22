@@ -8,6 +8,7 @@ class ScanContent extends Component {
         return (
             <div>
                 <ScanStart />
+                <div className='height-20' />
                 <ScanStop />
             </div>
         );

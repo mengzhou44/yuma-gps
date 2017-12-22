@@ -4,7 +4,7 @@ const path = require("path");
 const { app, BrowserWindow, ipcMain } = electron;
 
 const { getYumaServices } = require('./app/yuma/yuma-services-factory');
-const { getReader, checkReader } = require('./app/reader/reader-factory');
+const { getReader } = require('./app/reader/reader-factory');
 const { getClients } = require('./app/clients');
 const Settings = require('./app/settings/settings');
 
@@ -32,7 +32,7 @@ app.on('ready', () => {
     });
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
-
+    reader = getReader(mainWindow, yumaServices);
 });
 
 
@@ -52,8 +52,8 @@ ipcMain.on('gps-data:get', (event) => {
 ipcMain.on('devices:check', (event) => {
     const devices = {};
     const promise1 = yumaServices.checkGPS();
-    const promise2 = checkReader();
-    Promises.All([promise1, promise2]).then(values => {
+    const promise2 = reader.check();
+    Promise.all([promise1, promise2]).then(values => {
         devices.gps = values[0];
         devices.reader = values[1];
         devices.wifi = yumaServices.checkWifi();
@@ -81,7 +81,7 @@ ipcMain.on('clients:get', (event) => {
 
 
 ipcMain.on('scan:start', (event) => {
-    reader = getReader(mainWindow, yumaServices);
+    reader.start();
 });
 
 ipcMain.on('scan:stop', (event) => {

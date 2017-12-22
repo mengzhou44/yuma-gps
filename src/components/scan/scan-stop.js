@@ -5,10 +5,25 @@ import * as actions from "../../actions";
 
 class ScanStop extends Component {
 
+    renderButtons() {
+        return (
+            <button
+                className='btn btn-block btn-red'
+                onClick={() => this.props.stopScan()}
+            >
+                Stop
+            </button>
+        );
+    }
     render() {
+        if (this.props.status === "not-started") {
+            return <span />;
+        }
+
         return (
             <div>
                 {this.renderButtons()}
+                <div className="height-20" />
                 <h4>Mats </h4>
                 <div>
                     <span className='scan-stop-mats'> {this.props.mats} </span>  Found
@@ -18,7 +33,7 @@ class ScanStop extends Component {
     }
 }
 
-function mapSateToProps({ scan }) {
+function mapStateToProps({ scan }) {
     return {
         status: scan.status,
         mats: scan.mats

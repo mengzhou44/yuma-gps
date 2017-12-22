@@ -80,7 +80,7 @@ class ScanStart extends Component {
                     <button
                         disabled={scanButtonDisabled}
                         className='btn btn-primary btn-block btn-green margin-top-10'
-                        onClick={() => this.props.startScan()}
+                        onClick={() => this.props.startScan(this.props.mats)}
                     >
                         Scan
                  </button>
@@ -121,7 +121,8 @@ function mapStateToProps({ scan }) {
         clients: scan.clients,
         clientId: scan.clientId,
         jobId: scan.jobId,
-        status: scan.status
+        status: scan.status,
+        mats: scan.mats
     };
 }
 

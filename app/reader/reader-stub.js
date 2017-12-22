@@ -1,10 +1,11 @@
+const _ = require('lodash');
 
 class ReaderStub {
 
     constructor(mainWindow, yumaServices) {
-        super();
-        this.tags = [];
         this.mainWindow = mainWindow;
+        this.yumaServices = yumaServices;
+        this.tags = [];
         this.timer = null;
     }
 
@@ -19,11 +20,11 @@ class ReaderStub {
     }
 
     start() {
-        this.timer = setTimeout(() => {
+        this.timer = setInterval(() => {
             const tagNumber = "AAA" + this.createRandomString(4);
             this.yumaServices.getGPSData().then(location => {
 
-                const found = _.find(tags, (tag) => tag.tagNumber === tagNumber);
+                const found = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
                 if (!found) {
                     const tag = {
                         tagNumber,
@@ -31,10 +32,8 @@ class ReaderStub {
                         longitude: location.longitude
                     };
 
-                    tags.push(tag);
-                    this.mainWindow.webContents.send('tag:found', {
-                        tag
-                    });
+                    this.tags.push(tag);
+                    this.mainWindow.webContents.send('mat:found');
                 }
             });
 
@@ -42,8 +41,7 @@ class ReaderStub {
     }
 
     stop() {
-        this.tags = [];
-        clearTimeout(this.timer);
+        clearInterval(this.timer);
     }
 }
 
