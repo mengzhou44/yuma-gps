@@ -7310,6 +7310,18 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   display: flex;
   justify-content: center; }
 
+.scan-start-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 10px; }
+
+.scan-start-mats {
+  color: #00a98f;
+  text-decoration-line: underline; }
+
 html,
 body {
   height: 100% !important;

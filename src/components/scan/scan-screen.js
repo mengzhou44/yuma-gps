@@ -37,7 +37,6 @@ class ScanScreen extends Component {
 
 function mapStateToProps(state) {
     return {
-
         checkDevicesStatus: state.checkDevices.status
     };
 }

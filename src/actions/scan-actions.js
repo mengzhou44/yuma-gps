@@ -19,6 +19,13 @@ export function selectJobId(jobId) {
     return { type: types.JOB_ID_SELECTED, payload: jobId };
 }
 
+export function startScan() {
+    return function (dispatch) {
+        dispatch({ type: types.SCAN_STARTED });
+    };
+}
+
+
 export function getGPSLocation() {
     return function (dispatch) {
         ipcRenderer.send("gps-data:get");

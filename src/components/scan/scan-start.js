@@ -39,13 +39,17 @@ class ScanStart extends Component {
         return _.sortBy(options, 'text');
     }
 
-    render() {
-        let scanButtonDisabled = true;
-        if (this.props.jobId !== -1 && this.props.clientId !== -1) {
-            scanButtonDisabled = false;
-        }
-        return (
-            <div>
+    renderForm() {
+
+        if (this.props.status === "not-started") {
+
+            let scanButtonDisabled = true;
+            if (this.props.jobId !== -1 && this.props.clientId !== -1) {
+                scanButtonDisabled = false;
+            }
+
+            return (
+
                 <form
                     className='scan-form'
                     onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}
@@ -76,11 +80,37 @@ class ScanStart extends Component {
                     <button
                         disabled={scanButtonDisabled}
                         className='btn btn-primary btn-block btn-green margin-top-10'
+                        onClick={() => this.props.startScan()}
                     >
                         Scan
-                    </button>
+                 </button>
 
                 </form>
+            );
+        }
+    }
+
+    renderSelected() {
+
+        if (this.props.status !== "not-started") {
+            const client = _.find(this.props.clients, (client) => client.clientId === this.props.clientId);
+            const job = _.find(client.jobs, (job) => job.id === this.props.jobId);
+            return (
+
+                <div className="scan-start-summary">
+                    <div><h4>{client.clientName}</h4></div>
+                    <div>{job.name} </div>
+                </div>
+            );
+        }
+    }
+
+    render() {
+
+        return (
+            <div>
+                {this.renderForm()}
+                {this.renderSelected()}
             </div>
         );
     }
@@ -90,7 +120,8 @@ function mapStateToProps({ scan }) {
     return {
         clients: scan.clients,
         clientId: scan.clientId,
-        jobId: scan.jobId
+        jobId: scan.jobId,
+        status: scan.status
     };
 }
 
