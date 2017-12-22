@@ -4,17 +4,20 @@ const path = require("path");
 const { app, BrowserWindow, ipcMain } = electron;
 
 const { getYumaServices } = require('./app/yuma/yuma-services-factory');
+const { getReader, checkReader } = require('./app/reader/reader-factory');
+const { getClients } = require('./app/clients');
 const Settings = require('./app/settings/settings');
-const Scan = require('./app/scan');
-
-let tags = [];
 
 let mainWindow;
 let splashScreen;
+let reader;
 let yumaServices = getYumaServices();
 
 app.on('close', () => {
     yumaServices.stop();
+    if (reader) {
+        reader.stop();
+    }
 });
 
 
@@ -27,7 +30,9 @@ app.on('ready', () => {
         icon: path.join(__dirname, "/assets/images/icon.ico"),
         webPreferences: { backgroundThrottling: false }
     });
+
     mainWindow.loadURL(`file://${__dirname}/index.html`);
+
 });
 
 
@@ -46,14 +51,14 @@ ipcMain.on('gps-data:get', (event) => {
 
 ipcMain.on('devices:check', (event) => {
     const devices = {};
-
-    yumaServices.checkGPS().then(result => {
-        devices.gps = result;
+    const promise1 = yumaServices.checkGPS();
+    const promise2 = checkReader();
+    Promises.All([promise1, promise2]).then(values => {
+        devices.gps = values[0];
+        devices.reader = values[1];
         devices.wifi = yumaServices.checkWifi();
-        devices.reader = true;
         mainWindow.webContents.send('devices:status', devices);
-    })
-
+    });
 });
 
 
@@ -63,7 +68,6 @@ ipcMain.on('settings:get', (event) => {
 
 });
 
-
 ipcMain.on('settings:save', (event, data) => {
     const settings = new Settings();
     settings.save(data);
@@ -71,11 +75,16 @@ ipcMain.on('settings:save', (event, data) => {
 
 });
 
-
 ipcMain.on('clients:get', (event) => {
-    const scan = new Scan();
-    mainWindow.webContents.send('clients:result', scan.getClients());
+    mainWindow.webContents.send('clients:result', getClients());
 });
 
 
+ipcMain.on('scan:start', (event) => {
+    reader = getReader(mainWindow, yumaServices);
+});
+
+ipcMain.on('scan:stop', (event) => {
+    reader.stop();
+});
 
