@@ -9,14 +9,14 @@ class Scan {
 
     }
 
-    getJobTypes() {
-        let jobTypesFile = path.join(__dirname, "data/job-types.json");
+    getClients() {
+        let clientsFile = path.join(__dirname, "data/clients.json");
 
         if (environment === "production") {
-            jobTypesFile = path.join(process.resourcesPath, "job-types.json");
+            clientsFile = path.join(process.resourcesPath, "clients.json");
         }
 
-        var text = fs.readFileSync(jobTypesFile);
+        var text = fs.readFileSync(clientsFile);
         return JSON.parse(text);
     }
 }

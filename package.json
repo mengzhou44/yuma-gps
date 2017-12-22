@@ -21,8 +21,8 @@
         "to": "settings.json"
       },
       {
-        "from": "app/data/job-types.json",
-        "to": "job-types.json"
+        "from": "app/data/clients.json",
+        "to": "clients.json"
       }
     ],
     "win": {
@@ -52,10 +52,10 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-select": "^1.1.0",
     "redux": "^3.7.2",
     "redux-form": "^7.2.0",
     "redux-thunk": "^2.2.0",
+    "semantic-ui-react": "^0.77.1",
     "tcp-ping": "^0.1.1",
     "wifi-control": "^2.0.1"
   },

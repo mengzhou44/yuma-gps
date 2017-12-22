@@ -72,10 +72,9 @@ ipcMain.on('settings:save', (event, data) => {
 });
 
 
-ipcMain.on('job-types:get', (event) => {
+ipcMain.on('clients:get', (event) => {
     const scan = new Scan();
-    mainWindow.webContents.send('job-types:result', scan.getJobTypes());
-
+    mainWindow.webContents.send('clients:result', scan.getClients());
 });
 
 

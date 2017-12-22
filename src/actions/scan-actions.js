@@ -2,15 +2,22 @@
 import { ipcRenderer } from 'electron';
 import * as types from './types';
 
-export function getJobTypes() {
+export function getClients() {
     return function (dispatch) {
-        ipcRenderer.send("job-types:get");
-        ipcRenderer.on("job-types:result", (event, data) => {
-            dispatch({ type: types.JOB_TYPES_FETCHED, payload: data });
+        ipcRenderer.send("clients:get");
+        ipcRenderer.on("clients:result", (event, data) => {
+            dispatch({ type: types.CLIENTS_FETCHED, payload: data });
         });
     };
 }
 
+export function selectClientId(clientId) {
+    return { type: types.CLIENT_ID_SELECTED, payload: clientId };
+}
+
+export function selectJobId(jobId) {
+    return { type: types.JOB_ID_SELECTED, payload: jobId };
+}
 
 export function getGPSLocation() {
     return function (dispatch) {

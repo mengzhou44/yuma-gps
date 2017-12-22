@@ -1,7 +1,8 @@
 //scss --watch --sourcemap=none scss/app.scss:assets/styles.css
  
 //@import url('https://fonts.googleapis.com/css?family=Trochut');
- 
+
+@import './0-semantic/0-semantic-dir';
 @import './1-bases/1-bases-dir';
 @import './2-layouts/2-layouts-dir';
 @import './3-common/3-common-dir';

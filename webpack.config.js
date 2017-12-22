@@ -30,15 +30,11 @@ module.exports = {
         query: {
           presets: ['react', 'es2015', 'stage-1']
         }
-      },
-      { test: /\.css$/, loader: 'style-loader!css-loader' }
+      }
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.css'],
-    modulesDirectories: [
-      'node_modules'
-    ]
+    extensions: ['.js', '.jsx']
   },
   devServer: {
     historyApiFallback: true,
