@@ -11,14 +11,14 @@ export default class App extends Component {
     render() {
         return (
             <Router>
-                <div>
-                    <Switch>
-                        <Route exact path="/" component={ScanScreen} />
-                        <Route exact path="/upload" component={UploadScreen} />
-                        <Route exact path="/advanced" component={AdvancedScreen} />
-                        <Route exact path="/help" component={HelpScreen} />
-                    </Switch>
-                </div>
+
+                <Switch>
+                    <Route exact path="/" component={ScanScreen} />
+                    <Route exact path="/upload" component={UploadScreen} />
+                    <Route exact path="/advanced" component={AdvancedScreen} />
+                    <Route exact path="/help" component={HelpScreen} />
+                </Switch>
+
             </Router>
 
         );

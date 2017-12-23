@@ -9,8 +9,11 @@
   color: $color-white !important;
   margin: 10 !important;
   border-width: 0 !important;
-  font-size: 16px !important;
+  font-size: 24px !important;
+  line-height: 40px;
   text-transform: capitalize !important;
+  height: 40px !important;
+  padding-top: 3px !important;
 }
 
 %btn-base-border {

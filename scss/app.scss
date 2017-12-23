@@ -18,8 +18,9 @@ body {
   font-family: Avenir, Helvetica, Tahoma !important;
 }
 
-#page {
+#root {
   height: 100% !important;
+  background-color:  $color-whitesmoke;
 }
 
 .rounded {

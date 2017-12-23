@@ -16,20 +16,25 @@ class ScanScreen extends Component {
         ipcRenderer.send("system:initialized");
     }
 
-    renderScanContent() {
+    renderContent() {
         if (this.props.checkDevicesStatus === "check-completed") {
             return <ScanContent />
+        } else {
+            return <div className="margin-top-100">
+                <CheckDevices />
+            </div>
         }
     }
 
 
     render() {
         return (
-            <div>
+            <div className='screen'>
                 <Header />
-                <div className="screen-content">
-                    <CheckDevices />
-                    {this.renderScanContent()}
+                <div className="screen-content-container">
+                    <div className="screen-content">
+                        {this.renderContent()}
+                    </div>
                 </div>
             </div>);
     }

@@ -1,4 +1,10 @@
-.scan-start-mats {
+.scan-stop-mats {
   color:  $color-green;
+  font-size: 45px;
   text-decoration-line: underline;
 }
+
+.scan-stop-mats-found  {
+    color:  $color-black;
+    font-size: 20px;
+  }

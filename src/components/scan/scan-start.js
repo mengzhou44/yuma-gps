@@ -51,7 +51,7 @@ class ScanStart extends Component {
             return (
 
                 <form
-                    className='scan-form'
+                    className='scan-form margin-top-100'
                     onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}
                 >
                     <Field
@@ -66,7 +66,7 @@ class ScanStart extends Component {
                         component={renderDropdownField}
                     />
 
-                    <div className='height-20' />
+                    <div className='height-50' />
 
                     <Field
                         name='jobId'
@@ -76,6 +76,8 @@ class ScanStart extends Component {
                         onSelected={(jobId) => this.props.selectJobId(jobId)}
                         component={renderDropdownField}
                     />
+
+                    <div className='height-50' />
 
                     <button
                         disabled={scanButtonDisabled}
