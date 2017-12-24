@@ -5,6 +5,7 @@ import * as actions from '../../actions';
 class CheckDevices extends Component {
 
     componentDidMount() {
+        console.log('check Devices: checkdevices');
         this.props.checkDevices();
     }
 
@@ -63,18 +64,6 @@ class CheckDevices extends Component {
                     onClick={() => this.props.checkDevices()}
                 >
                     Try Again
-                </button>
-            </div>
-            );
-        }
-        else if (this.props.status === "check-passed") {
-            return (<div className='align-center'>
-                {this.renderDevicesStatus()}
-                <button
-                    className="btn btn-green width-400 margin-top-10"
-                    onClick={() => this.props.completeCheckDevices()}
-                >
-                    Ok
                 </button>
             </div>
             );

@@ -8,6 +8,11 @@
   @extend %btn-base;
 }
 
+.btn-blue {
+  background-color: $color-blue !important;
+  @extend %btn-base;
+}
+
 .btn-green {
   background-color: $color-green !important;
   @extend %btn-base;

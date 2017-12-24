@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import _ from "lodash";
 import * as actions from "../../actions";
@@ -9,7 +9,7 @@ class ScanStop extends Component {
         if (this.props.status === "started") {
             return (
                 <button
-                    className='btn btn-block btn-green'
+                    className="btn btn-block btn-green"
                     onClick={() => this.props.stopScan()}
                 >
                     Stop
@@ -20,19 +20,19 @@ class ScanStop extends Component {
         return (
             <div>
                 <button
-                    className='btn btn-block btn-green'
+                    className="btn btn-block btn-green"
                 >
-                    Continue
+                    Resume
             </button>
                 <div className="height-30" />
                 <button
-                    className='btn btn-block btn-red'
+                    className="btn btn-block btn-red"
                 >
                     Abort
             </button>
                 <div className="height-30" />
                 <button
-                    className='btn btn-block btn-orange'
+                    className="btn btn-block btn-blue"
                 >
                     Finish
             </button>
@@ -52,14 +52,13 @@ class ScanStop extends Component {
 
                 <div className="height-30" />
 
-                <div className='align-center'>
-                    <span className='scan-stop-mats'>{this.props.mats}</span>
-                    <span className='scan-stop-mats-found'> Mats Found</span>
+                <div className="align-center">
+                    <span className="scan-stop-mats">{this.props.mats}</span>
+                    <span className="scan-stop-mats-found">&nbsp;Mats Found</span>
                 </div>
-
-                <div className="height-30" />
-
-                {this.renderButtons()}
+                <div className="scan-stop-buttons">
+                    {this.renderButtons()}
+                </div>
             </div>
         );
     }

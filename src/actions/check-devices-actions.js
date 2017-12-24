@@ -2,6 +2,10 @@ import { ipcRenderer } from 'electron';
 import * as types from './types';
 
 
+export function resetCheckStatus() {
+    return ({ type: types.DEVICES_STATUS_RESET });
+}
+
 export function checkDevices() {
     return function (dispatch) {
         ipcRenderer.send("devices:check");
@@ -20,7 +24,3 @@ export function checkDevices() {
     };
 }
 
-
-export function completeCheckDevices() {
-    return { type: types.DEVICES_CHECK_COMPLETED }
-}

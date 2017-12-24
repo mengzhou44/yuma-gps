@@ -39,6 +39,15 @@ export function stopScan(mats) {
 }
 
 
+
+export function resetScanStatus() {
+    return function (dispatch) {
+        ipcRenderer.send("scan:stop");
+        dispatch({ type: types.SCAN_STATUS_RESET });
+    };
+}
+
+
 export function getGPSLocation() {
     return function (dispatch) {
         ipcRenderer.send("gps-data:get");

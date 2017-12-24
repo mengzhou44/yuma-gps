@@ -6755,7 +6755,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 .color-gray {
   color: #e0e0e0 !important; }
 
-.btn-orange, .btn-red, .btn-green, .btn-yellow, .btn-white {
+.btn-orange, .btn-red, .btn-blue, .btn-green, .btn-yellow, .btn-white {
   color: white !important;
   margin: 10 !important;
   border-width: 0 !important;
@@ -7102,6 +7102,9 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 .btn-red {
   background-color: #d03027 !important; }
 
+.btn-blue {
+  background-color: #325f8c !important; }
+
 .btn-green {
   background-color: #00a98f !important; }
 
@@ -7326,12 +7329,15 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 
 .scan-stop-mats {
   color: #00a98f;
-  font-size: 45px;
+  font-size: 75px;
   text-decoration-line: underline; }
 
 .scan-stop-mats-found {
   color: #000000;
-  font-size: 20px; }
+  font-size: 25px; }
+
+.scan-stop-buttons {
+  margin-top: 100px; }
 
 html,
 body {

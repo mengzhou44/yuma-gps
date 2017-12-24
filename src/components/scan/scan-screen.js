@@ -16,8 +16,13 @@ class ScanScreen extends Component {
         ipcRenderer.send("system:initialized");
     }
 
+    componentWillUnmount() {
+        this.props.resetCheckStatus();
+        this.props.resetScanStatus();
+    }
+
     renderContent() {
-        if (this.props.checkDevicesStatus === "check-completed") {
+        if (this.props.checkDevicesStatus === "check-passed") {
             return <ScanContent />
         } else {
             return <div className="margin-top-100">
@@ -25,7 +30,6 @@ class ScanScreen extends Component {
             </div>
         }
     }
-
 
     render() {
         return (
