@@ -23,6 +23,10 @@
       {
         "from": "app/data/clients.json",
         "to": "clients.json"
+      },
+      {
+        "from": "app/data/scans.json",
+        "to": "scans.json"
       }
     ],
     "win": {

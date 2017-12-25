@@ -6,6 +6,7 @@ const { app, BrowserWindow, ipcMain } = electron;
 const { getYumaServices } = require('./app/yuma/yuma-services-factory');
 const { getReader } = require('./app/reader/reader-factory');
 const { getClients } = require('./app/clients');
+const { addNewScan } = require('./app/scans');
 const Settings = require('./app/settings/settings');
 
 let mainWindow;
@@ -84,7 +85,18 @@ ipcMain.on('scan:start', (event) => {
     reader.start();
 });
 
+ipcMain.on('scan:abort', (event) => {
+    reader.clearData();
+});
+
+ipcMain.on('scan:complete', (event, scan) => {
+    scan.tags = reader.getData();
+    addNewScan(scan);
+    reader.clearData();
+});
+
 ipcMain.on('scan:stop', (event) => {
     reader.stop();
 });
+
 

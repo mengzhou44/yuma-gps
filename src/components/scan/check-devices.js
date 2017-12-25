@@ -50,9 +50,14 @@ class CheckDevices extends Component {
 
     render() {
         if (this.props.status === "checking") {
-            return <div>
-                Check Devices ...
-            </div>
+            return (
+                <div className="devices-status-checking-container">
+                    <div className="devices-status-checking">
+                        <div className="devices-status-checking-text"> Check Devices ... </div>
+                    </div>
+                </div>
+            );
+
         }
         else if (this.props.status === "check-fail") {
 
@@ -61,7 +66,13 @@ class CheckDevices extends Component {
 
                 <button
                     className="btn btn-red width-400 margin-top-10"
-                    onClick={() => this.props.checkDevices()}
+                    onClick={() => {
+                        this.props.resetCheckStatus();
+                        setTimeout(() => {
+                            this.props.checkDevices();
+                        }, 1000);
+
+                    }}
                 >
                     Try Again
                 </button>

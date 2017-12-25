@@ -3,8 +3,20 @@ import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import _ from "lodash";
 import * as actions from "../../actions";
+import MyConfirm from '../_common/my-confirm';
 
 class ScanStop extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            showConfirm: false, confirmMessage: '', onCancel: () => {
+                this.setState({
+                    showConfirm: false
+                });
+            }
+        };
+    }
 
     renderButtons() {
         if (this.props.status === "started") {
@@ -30,9 +42,13 @@ class ScanStop extends Component {
                 <button
                     className="btn btn-block btn-red"
                     onClick={() => {
-                        this.props.abortScan(() => {
-                            this.forceUpdate();
-                        });
+                        this.setState({
+                            showConfirm: true,
+                            confirmMessage: "Are you sure you want to abort this scan?",
+                            onConfirm: () => {
+                                this.props.abortScan();
+                            }
+                        })
                     }}
                 >
                     Abort
@@ -40,7 +56,15 @@ class ScanStop extends Component {
                 <div className="height-30" />
                 <button
                     className="btn btn-block btn-blue"
-                    onClick={() => this.props.completeScan()}
+                    onClick={() => {
+                        this.setState({
+                            showConfirm: true,
+                            confirmMessage: "Are you sure you want to finish this scan?",
+                            onConfirm: () => {
+                                this.props.finishScan(this.props.scan);
+                            }
+                        })
+                    }}
                 >
                     Finish
             </button>
@@ -67,6 +91,14 @@ class ScanStop extends Component {
                 <div className="scan-stop-buttons">
                     {this.renderButtons()}
                 </div>
+                <MyConfirm
+                    showConfirm={this.state.showConfirm}
+                    message={this.state.confirmMessage}
+                    onCancel={this.state.onCancel}
+                    onConfirm={this.state.onConfirm}
+                    cancelButtonText="No"
+                    confirmButtonText="Yes"
+                />
             </div>
         );
     }
@@ -74,8 +106,9 @@ class ScanStop extends Component {
 
 function mapStateToProps({ scan }) {
     return {
+        scan,
         status: scan.status,
-        mats: scan.mats
+        mats: scan.mats,
     }
 }
 

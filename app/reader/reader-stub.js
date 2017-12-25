@@ -26,10 +26,12 @@ class ReaderStub {
 
                 const found = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
                 if (!found) {
+                    const timeStamp = Math.floor(Date.now());
                     const tag = {
                         tagNumber,
                         latitude: location.latitude,
-                        longitude: location.longitude
+                        longitude: location.longitude,
+                        timeStamp
                     };
 
                     this.tags.push(tag);
@@ -37,7 +39,15 @@ class ReaderStub {
                 }
             });
 
-        }, 2000);
+        }, 1000);
+    }
+
+    getData() {
+        return this.tags;
+    }
+
+    clearData() {
+        this.tags = [];
     }
 
     stop() {

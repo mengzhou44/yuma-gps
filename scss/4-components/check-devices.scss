@@ -2,3 +2,22 @@
     display: flex; 
     justify-content: center;
 }
+
+.devices-status-checking-container  {
+    width: 300px; 
+    margin: 0 auto !important; 
+    background-color:  $color-white;
+    height: 100px;  
+}
+
+
+.devices-status-checking {  
+    height:100%;
+    display: flex !important; 
+    align-items: center;
+    justify-content: center;
+}
+
+.devices-status-checking-text {
+    font-size: 25px; 
+}

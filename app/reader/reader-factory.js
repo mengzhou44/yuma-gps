@@ -11,5 +11,4 @@ function getReader(mainWindow, yumaServices) {
 }
 
 
-
 module.exports = { getReader };

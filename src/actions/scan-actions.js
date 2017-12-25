@@ -44,7 +44,6 @@ export function stopScan(mats) {
 
 export function resetScanStatus() {
     return function (dispatch) {
-        ipcRenderer.send("scan:stop");
         dispatch({ type: types.SCAN_STATUS_RESET });
         ipcRenderer.removeAllListeners("mat:found");
     };
@@ -59,24 +58,21 @@ export function resumeScan() {
     };
 }
 
-export function abortScan(callback) {
+export function abortScan() {
     return function (dispatch) {
-        ipcRenderer.send("scan:stop");
         dispatch({ type: types.SCAN_STATUS_RESET });
-        ipcRenderer.removeAllListeners("mat:found");
-        callback();
-    };
-}
-
-export function finishScan() {
-    return function (dispatch) {
-        ipcRenderer.send("scan:stop");
-        dispatch({ type: types.SCAN_STATUS_RESET });
+        ipcRenderer.send("scan:abort");
         ipcRenderer.removeAllListeners("mat:found");
     };
 }
 
-
+export function finishScan({ clientId, jobId }) {
+    return function (dispatch) {
+        dispatch({ type: types.SCAN_STATUS_RESET });
+        ipcRenderer.send("scan:complete", { clientId, jobId });
+        ipcRenderer.removeAllListeners("mat:found");
+    };
+}
 
 export function getGPSLocation() {
     return function (dispatch) {

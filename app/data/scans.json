@@ -1,0 +1,128 @@
+[
+    {
+        "clientId": 343444,
+        "jobId": 76652,
+        "tags": [
+            {
+                "tagNumber": "AAAA00003256",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224113561
+            },
+            {
+                "tagNumber": "AAAA00003253",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224113562
+            },
+            {
+                "tagNumber": "AAAA00003259",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224113809
+            },
+            {
+                "tagNumber": "AAAA00003255",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224114234
+            },
+            {
+                "tagNumber": "30395DFA833C4E800008DDA2",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224114815
+            }
+        ]
+    },
+    {
+        "clientId": 343444,
+        "jobId": 76652,
+        "tags": [
+            {
+                "tagNumber": "AAAs7rd",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224328284
+            },
+            {
+                "tagNumber": "AAA4yf0",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224329290
+            },
+            {
+                "tagNumber": "AAA81cy",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224330296
+            },
+            {
+                "tagNumber": "AAAxmdx",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224331301
+            },
+            {
+                "tagNumber": "AAAa83e",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224332303
+            },
+            {
+                "tagNumber": "AAAevz1",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224333306
+            },
+            {
+                "tagNumber": "AAA9q90",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224334312
+            },
+            {
+                "tagNumber": "AAAxl2z",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224335314
+            },
+            {
+                "tagNumber": "AAAt1j9",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514224336318
+            }
+        ]
+    },
+    {
+        "clientId": 343444,
+        "jobId": 76652,
+        "tags": [
+            {
+                "tagNumber": "AAA6kmv",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514226413002
+            },
+            {
+                "tagNumber": "AAAmvw3",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514226414007
+            },
+            {
+                "tagNumber": "AAAk56h",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514226508379
+            },
+            {
+                "tagNumber": "AAAfp89",
+                "latitude": 45.573,
+                "longitude": -104.323,
+                "timeStamp": 1514226509383
+            }
+        ]
+    }
+]

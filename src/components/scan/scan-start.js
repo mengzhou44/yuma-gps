@@ -13,6 +13,7 @@ class ScanStart extends Component {
         this.props.getClients();
     }
 
+
     getClientOptions() {
         const options = [];
         _.map(this.props.clients, client => {
@@ -39,6 +40,7 @@ class ScanStart extends Component {
 
         if (this.props.status === "not-started") {
 
+
             let scanButtonDisabled = true;
             if (this.props.jobId !== -1 && this.props.clientId !== -1) {
                 scanButtonDisabled = false;
@@ -50,7 +52,7 @@ class ScanStart extends Component {
                     className='margin-top-100'
                 >
                     <Field
-                        name='clientId'
+                        name="clientId"
                         type="text"
                         placeholder="Please select client ..."
                         options={this.getClientOptions()}
@@ -67,8 +69,12 @@ class ScanStart extends Component {
                         name='jobId'
                         type="text"
                         placeholder="Please select job ..."
+
                         options={this.getJobOptions(this.props.clientId)}
-                        onSelected={(jobId) => this.props.selectJobId(jobId)}
+                        onSelected={(jobId) => {
+                            this.props.selectJobId(jobId);
+                        }
+                        }
                         component={renderDropdownField}
                     />
 

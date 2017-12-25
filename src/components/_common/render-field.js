@@ -25,7 +25,6 @@ export const renderField = ({
 
 export const renderDropdownField = ({
     input,
-    controlId,
     placeholder,
     onSelected,
     options,

@@ -5,16 +5,12 @@ const Settings = require('../settings/settings');
 
 
 
-
 class Reader {
 
     constructor(mainWindow, yumaServices) {
         this.mainWindow = mainWindow;
         this.yumaServices = yumaServices;
         this.tags = [];
-        this.tcpClient = new Socket();
-        this.tcpClient.on('error', this.onError.bind(this));
-        this.tcpClient.on('data', this.onData.bind(this));
     }
 
     processTag(line) {
@@ -26,10 +22,12 @@ class Reader {
 
                 const found = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
                 if (!found) {
+                    const timeStamp = Math.floor(Date.now());
                     const tag = {
                         tagNumber,
                         latitude: location.latitude,
-                        longitude: location.longitude
+                        longitude: location.longitude,
+                        timeStamp
                     };
 
                     this.tags.push(tag);
@@ -48,7 +46,7 @@ class Reader {
 
 
     check() {
-        const readerSetting = getReaderSetting();
+        const readerSetting = this.getReaderSetting();
         return new Promise(resolve => {
             tcpp.probe(readerSetting.host, readerSetting.port, function (err, available) {
                 resolve(available);
@@ -66,19 +64,37 @@ class Reader {
     }
 
     onError(error) {
+
         this.mainWindow.webContents.send('mat:found', {
             error
         });
     }
 
+
     start() {
+        this.tcpClient = new Socket();
+        this.tcpClient.on('error', this.onError.bind(this));
+        this.tcpClient.on('data', this.onData.bind(this));
         const readerSetting = this.getReaderSetting();
-        this.tcpClient.connect(readerSetting.host, readerSetting.port);
+        this.tcpClient.connect(readerSetting.port, readerSetting.host);
     }
 
     stop() {
         this.tcpClient.destroy();
+        this.tcpClient = null;
+    }
+
+    getData() {
+        return this.tags;
+    }
+
+    clearData() {
+        this.tags = [];
     }
 }
 
 module.exports = Reader;
+
+
+
+
