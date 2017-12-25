@@ -31,6 +31,8 @@ export function startScan(mats) {
     };
 }
 
+
+
 export function stopScan(mats) {
     return function (dispatch) {
         ipcRenderer.send("scan:stop");
@@ -44,8 +46,36 @@ export function resetScanStatus() {
     return function (dispatch) {
         ipcRenderer.send("scan:stop");
         dispatch({ type: types.SCAN_STATUS_RESET });
+        ipcRenderer.removeAllListeners("mat:found");
     };
 }
+
+
+export function resumeScan() {
+    return function (dispatch) {
+        ipcRenderer.send("scan:start");
+        dispatch({ type: types.SCAN_STARTED });
+
+    };
+}
+
+export function abortScan(callback) {
+    return function (dispatch) {
+        ipcRenderer.send("scan:stop");
+        dispatch({ type: types.SCAN_STATUS_RESET });
+        ipcRenderer.removeAllListeners("mat:found");
+        callback();
+    };
+}
+
+export function finishScan() {
+    return function (dispatch) {
+        ipcRenderer.send("scan:stop");
+        dispatch({ type: types.SCAN_STATUS_RESET });
+        ipcRenderer.removeAllListeners("mat:found");
+    };
+}
+
 
 
 export function getGPSLocation() {

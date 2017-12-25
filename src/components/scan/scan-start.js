@@ -13,10 +13,6 @@ class ScanStart extends Component {
         this.props.getClients();
     }
 
-    onSubmit(props) {
-        console.log("values", props);
-    }
-
     getClientOptions() {
         const options = [];
         _.map(this.props.clients, client => {
@@ -51,8 +47,7 @@ class ScanStart extends Component {
             return (
 
                 <form
-                    className='scan-form margin-top-100'
-                    onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}
+                    className='margin-top-100'
                 >
                     <Field
                         name='clientId'

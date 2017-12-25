@@ -6,7 +6,7 @@ const INITIAL_STATE = { clients: [], clientId: -1, jobId: -1, status: 'not-start
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case types.SCAN_STATUS_RESET:
-            return { ...INITIAL_STATE };
+            return { ...state, clientId: -1, jobId: -1, status: 'not-started', mats: 0 };
         case types.CLIENTS_FETCHED:
             return { ...INITIAL_STATE, clients: action.payload };
         case types.CLIENT_ID_SELECTED:

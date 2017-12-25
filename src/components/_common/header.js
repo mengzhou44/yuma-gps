@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 import { withRouter } from 'react-router';
 
 class Header extends Component {
@@ -22,7 +23,26 @@ class Header extends Component {
         }
     }
 
+    renderScanStarted() {
+
+    }
+
+
     render() {
+
+        if (this.props.scanStatus !== "not-started") {
+            return (
+                <ul className="header-menu">
+                    <li className={this.getLinkClass('/')} onClick={() =>
+                        this.goTo('/')
+                    } >
+                        Scan
+                  </li>
+                </ul>
+            );
+        }
+
+
         return (
             <ul className="header-menu">
                 <li className={this.getLinkClass('/')} onClick={() =>
@@ -53,5 +73,11 @@ class Header extends Component {
     }
 }
 
+function mapStateToProps({ scan }) {
+    return {
+        scanStatus: scan.status
+    };
+}
 
-export default withRouter(Header);
+
+export default connect(mapStateToProps, null)(withRouter(Header));

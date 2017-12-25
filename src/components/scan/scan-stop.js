@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import _ from "lodash";
 import * as actions from "../../actions";
@@ -21,18 +22,25 @@ class ScanStop extends Component {
             <div>
                 <button
                     className="btn btn-block btn-green"
+                    onClick={() => this.props.resumeScan()}
                 >
                     Resume
             </button>
                 <div className="height-30" />
                 <button
                     className="btn btn-block btn-red"
+                    onClick={() => {
+                        this.props.abortScan(() => {
+                            this.forceUpdate();
+                        });
+                    }}
                 >
                     Abort
             </button>
                 <div className="height-30" />
                 <button
                     className="btn btn-block btn-blue"
+                    onClick={() => this.props.completeScan()}
                 >
                     Finish
             </button>
@@ -72,5 +80,5 @@ function mapStateToProps({ scan }) {
 }
 
 
-export default connect(mapStateToProps, actions)(ScanStop);
+export default connect(mapStateToProps, actions)(withRouter(ScanStop));
 

@@ -36,7 +36,6 @@ export const renderDropdownField = ({
         <div>
             <Dropdown
                 selection
-                search
                 fluid
                 {...input}
                 options={options}
