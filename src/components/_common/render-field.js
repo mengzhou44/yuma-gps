@@ -32,7 +32,7 @@ export const renderDropdownField = ({
     meta: { touched, error }
   }) => {
     return (
-        <div>
+        <span>
             <Dropdown
                 selection
                 fluid
@@ -51,7 +51,7 @@ export const renderDropdownField = ({
             />
 
             {touched && error && <div className="error">{error}</div>}
-        </div>
+        </span>
     );
 };
 

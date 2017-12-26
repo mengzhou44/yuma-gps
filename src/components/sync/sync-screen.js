@@ -17,7 +17,7 @@ class SyncScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            current: "download",
+            current: "upload",
             inProgress: false,
             showAlert: false,
             alertMessage: "",
@@ -40,17 +40,18 @@ class SyncScreen extends Component {
         return (
             <ul className="collection sync-sidebar">
                 <li
-                    className={this.getSideBarLinkClass('download')}
-                    onClick={() => this.setState({ current: 'download' })}
-                >
-                    Download
-            </li>
-                <li
                     className={this.getSideBarLinkClass('upload')}
                     onClick={() => this.setState({ current: 'upload' })}
                 >
                     Upload
             </li>
+                <li
+                    className={this.getSideBarLinkClass('download')}
+                    onClick={() => this.setState({ current: 'download' })}
+                >
+                    Download
+            </li>
+
             </ul>
         );
     }
@@ -80,15 +81,15 @@ class SyncScreen extends Component {
                             inProgress: true
                         });
                         ipcRenderer.send("clients:download");
-                        ipcRenderer.once("clients:download", (error) => {
+                        ipcRenderer.once("clients:download", (event, error) => {
                             if (error) {
+
                                 this.setState({
                                     current: "download",
                                     inProgress: false,
                                     error
                                 });
                             } else {
-
                                 this.setState({
                                     current: "download",
                                     inProgress: false,

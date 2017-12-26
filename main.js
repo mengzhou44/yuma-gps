@@ -82,12 +82,14 @@ ipcMain.on("clients:get", (event) => {
 
 ipcMain.on("clients:download", (event) => {
     const clients = new Clients();
-    clients.downloadClients().then(() => {
-        mainWindow.webContents.send("clients:download");
+    clients.downloadClients().then((error) => {
+        console.log("error", error);
+        mainWindow.webContents.send("clients:download", error);
     });
 });
 
 ipcMain.on("clients:new-client", (event, clientName) => {
+    console.log("client name", clientName);
     new Clients().addNewClient(clientName);
     mainWindow.webContents.send("clients:new-client");
 });

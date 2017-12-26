@@ -63,9 +63,14 @@ class Clients {
     async downloadClients() {
         const { portalUrl } = getConfig();
         const clientsUrl = `${portalUrl}/clients`;
-        const res = await axios.get(clientsUrl);
+        try {
+            const res = await axios.get(clientsUrl);
+            fs.writeFileSync(this.clientsFile, JSON.stringify(res.data, null, 4));
+            return "";
+        } catch (error) {
+            return "Error occurred when downloading clients.";
+        }
 
-        fs.writeFileSync(this.clientsFile, JSON.stringify(res.data, null, 4));
     }
 }
 

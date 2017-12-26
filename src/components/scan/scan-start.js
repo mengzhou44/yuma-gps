@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import _ from "lodash";
@@ -6,6 +6,8 @@ import _ from "lodash";
 import { renderDropdownField } from "../_common/render-field";
 
 import * as actions from "../../actions";
+import TableRow from "../_common/table-row";
+import AddNewClient from "./add-new-client";
 
 class ScanStart extends Component {
 
@@ -21,7 +23,7 @@ class ScanStart extends Component {
             options.push({ value: client.clientId, key, text: client.clientName });
         });
 
-        return _.sortBy(options, 'text');
+        return _.sortBy(options, "text");
     }
 
     getJobOptions() {
@@ -33,7 +35,7 @@ class ScanStart extends Component {
             options.push({ value: job.id, key, text: job.name });
         });
 
-        return _.sortBy(options, 'text');
+        return _.sortBy(options, "text");
     }
 
     renderForm() {
@@ -49,24 +51,34 @@ class ScanStart extends Component {
             return (
 
                 <form
-                    className='margin-top-100'
+                    className="margin-top-100"
                 >
-                    <Field
-                        name="clientId"
-                        type="text"
-                        placeholder="Please select client ..."
-                        options={this.getClientOptions()}
-                        onSelected={(clientId) => {
-                            this.props.selectClientId(clientId);
-                            this.props.selectJobId(-1);
-                        }}
-                        component={renderDropdownField}
-                    />
+                    <TableRow>
+                        <tr>
+                            <td className="width-100-100">
+                                <Field
 
-                    <div className='height-50' />
+                                    name="clientId"
+                                    type="text"
+                                    placeholder="Please select client ..."
+                                    options={this.getClientOptions()}
+                                    onSelected={(clientId) => {
+                                        this.props.selectClientId(clientId);
+                                        this.props.selectJobId(-1);
+                                    }}
+                                    component={renderDropdownField}
+                                />
+                            </td>
+                            <td>
+                                <AddNewClient />
+                            </td>
+                        </tr>
+                    </TableRow>
+
+                    <div className="height-50" />
 
                     <Field
-                        name='jobId'
+                        name="jobId"
                         type="text"
                         placeholder="Please select job ..."
 
@@ -78,11 +90,11 @@ class ScanStart extends Component {
                         component={renderDropdownField}
                     />
 
-                    <div className='height-50' />
+                    <div className="height-50" />
 
                     <button
                         disabled={scanButtonDisabled}
-                        className='btn btn-primary btn-block btn-green margin-top-10'
+                        className="btn btn-primary btn-block btn-green margin-top-10"
                         onClick={() => this.props.startScan(this.props.mats)}
                     >
                         Scan
@@ -136,7 +148,7 @@ const validate = (values) => {
 }
 
 export default connect(mapStateToProps, actions)(reduxForm({
-    form: 'scan-form',
+    form: "scan-form",
     enableReinitialize: true,
     validate
 })(ScanStart));
