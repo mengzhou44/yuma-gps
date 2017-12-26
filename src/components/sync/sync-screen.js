@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ipcRenderer } from "electron";
+import moment from "moment";
 
 import * as actions from "../../actions";
 import Error from "../_common/error";
@@ -41,11 +42,11 @@ class SyncScreen extends Component {
             </div>
                 <div className="height-20" />
                 <button
-                    className='btn btn-block btn-blue'
+                    className="btn btn-block btn-blue"
                     disabled={downloadButtonDisabled}
                     onClick={() => {
                         this.setState({
-                            mode: 'download',
+                            mode: "download",
                             inProgress: true
                         });
                         ipcRenderer.send("clients:download");
@@ -70,12 +71,17 @@ class SyncScreen extends Component {
 
 
     renderScan(scan) {
+        const jobDate = moment(scan.created).format("MMM DD, YYYY     HH:mm");
         return (
             <div
                 className="collection-item"
-                key={scan.clientId}
+                key={scan.created}
             >
-                {scan.clientId}  - {scan.jobId}
+                <div>{jobDate} </div>
+                <div className="sync-scan-detail">
+                    <div>{scan.clientName} </div>
+                    <div> {scan.jobName} </div>
+                </div>
             </div>
         );
 
@@ -86,7 +92,8 @@ class SyncScreen extends Component {
                 <div className="sync-title">
                     Upload
                 </div>
-                <div className="collection">
+
+                <div className="collection margin-top-10">
                     {this.props.scans.map(this.renderScan)}
                 </div>
             </div>
@@ -113,8 +120,6 @@ class SyncScreen extends Component {
         );
     }
     render() {
-        console.log("portalAvailable", this.props.portalAvailable);
-
         if (this.props.portalAvailable === true) {
             return (
                 <div>

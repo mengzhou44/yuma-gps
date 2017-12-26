@@ -1,6 +1,8 @@
 
-import { ipcRenderer } from 'electron';
-import * as types from './types';
+import { ipcRenderer } from "electron";
+import moment from "moment";
+import * as types from "./types";
+
 
 export function getClients() {
     return function (dispatch) {
@@ -22,8 +24,8 @@ export function selectJobId(jobId) {
 export function startScan(mats) {
     return function (dispatch) {
         ipcRenderer.send("scan:start");
-        dispatch({ type: types.SCAN_STARTED });
 
+        dispatch({ type: types.SCAN_STARTED, payload: Math.floor(Date.now()) });
         ipcRenderer.on("mat:found", (event) => {
             mats++;
             dispatch({ type: types.MAT_FOUND, payload: mats });
@@ -31,16 +33,12 @@ export function startScan(mats) {
     };
 }
 
-
-
 export function stopScan(mats) {
     return function (dispatch) {
         ipcRenderer.send("scan:stop");
         dispatch({ type: types.SCAN_STOPPED });
     };
 }
-
-
 
 export function resetScanStatus() {
     return function (dispatch) {
@@ -66,10 +64,10 @@ export function abortScan() {
     };
 }
 
-export function finishScan({ clientId, jobId }) {
+export function finishScan({ clientId, jobId, created }) {
     return function (dispatch) {
         dispatch({ type: types.SCAN_STATUS_RESET });
-        ipcRenderer.send("scan:complete", { clientId, jobId });
+        ipcRenderer.send("scan:complete", { clientId, jobId, created });
         ipcRenderer.removeAllListeners("mat:found");
     };
 }

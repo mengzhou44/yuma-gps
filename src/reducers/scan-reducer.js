@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as types from '../actions/types';
 
-const INITIAL_STATE = { clients: [], clientId: -1, jobId: -1, status: 'not-started', mats: 0 };
+const INITIAL_STATE = { clients: [], clientId: -1, jobId: -1, status: 'not-started', created: null, mats: 0 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -14,6 +14,9 @@ export default (state = INITIAL_STATE, action) => {
         case types.JOB_ID_SELECTED:
             return { ...state, jobId: action.payload };
         case types.SCAN_STARTED:
+            if (action.payload) {
+                return { ...state, status: 'started', created: action.payload };
+            }
             return { ...state, status: 'started' };
         case types.SCAN_STOPPED:
             return { ...state, status: 'stopped' };

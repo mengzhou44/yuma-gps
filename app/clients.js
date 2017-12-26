@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const axios = require("axios");
+const _ = require("lodash");
 const { getConfig } = require("./config");
 
 const { environment } = require('./environment');
@@ -20,7 +21,24 @@ function getClients() {
     return JSON.parse(text);
 }
 
-async function download() {
+function getClient(clientId) {
+    const clients = getClients();
+    return _.find(clients, (client) => client.clientId === clientId);
+}
+
+function findClientName(clientId) {
+    const client = getClient(clientId);
+    return client.clientName;
+}
+
+function findJobName(clientId, jobId) {
+    const client = getClient(clientId);
+    const job = _.find(client.jobs, (job) => job.id === jobId);
+    return job.name;
+}
+
+
+async function downloadClients() {
     const { portalUrl } = getConfig();
     const clientsUrl = `${portalUrl}/clients`;
     const res = await axios.get(clientsUrl);
@@ -29,4 +47,4 @@ async function download() {
 }
 
 
-module.exports = { getClients, download };
+module.exports = { getClients, downloadClients, findClientName, findJobName };
