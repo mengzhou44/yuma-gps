@@ -37,6 +37,29 @@ class Clients {
         return job.name;
     }
 
+    addNewClient(clientName) {
+        const clients = this.getClients()
+        const clientId = 0 - (clients.length + 1);
+        const client = {
+            clientName,
+            clientId,
+        };
+        clients.push(client);
+        fs.writeFileSync(this.clientsFile, JSON.stringify(clients, null, 4));
+    }
+
+    addNewJob(clientId, jobName) {
+        const clients = this.getClients();
+        const client = this.getClient(clientId);
+        const jobId = 0 - (client.jobs.length + 1);
+        const job = {
+            id: jobId,
+            name: jobName
+        };
+        client.jobs.push(job);
+        fs.writeFileSync(this.clientsFile, JSON.stringify(clients, null, 4));
+    }
+
     async downloadClients() {
         const { portalUrl } = getConfig();
         const clientsUrl = `${portalUrl}/clients`;

@@ -87,10 +87,19 @@ ipcMain.on("clients:download", (event) => {
     });
 });
 
+ipcMain.on("clients:new-client", (event, clientName) => {
+    new Clients().addNewClient(clientName);
+    mainWindow.webContents.send("clients:new-client");
+});
+
+ipcMain.on("clients:new-job", (event, { clientId, jobName }) => {
+    new Clients().addNewJob(clientId, jobName);
+    mainWindow.webContents.send("clients:new-job");
+});
+
 ipcMain.on("scans:get", (event) => {
     mainWindow.webContents.send("scans:result", new Scans().getScans());
 });
-
 
 ipcMain.on("scans:upload", (event) => {
     const scans = new Scans();
