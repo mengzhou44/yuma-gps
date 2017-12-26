@@ -25,3 +25,33 @@
     display: flex;
     justify-content:  space-between;
 }
+
+.sync-active-link {
+    background-color: $color-orange !important;
+    color: white;
+}
+
+.sync-content {
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 5px;
+    background: white;
+    p {
+      line-height: 150% !important;
+    }
+    min-height: 100% !important; 
+  }
+
+.sync-sidebar {
+  margin-top: 10px;
+  border-radius: 5px;
+  .collection-item {
+    cursor: pointer;
+  }
+}
+
+.sync-upload-content{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;  
+}

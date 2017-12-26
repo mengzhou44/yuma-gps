@@ -27,6 +27,12 @@ body {
   border-radius: 5px;
 }
 
+.error {
+  color: $color-red;
+  text-align:center;
+  padding: 10px; 
+}
+
 .border-test {
   border: 1px solid red;
 }

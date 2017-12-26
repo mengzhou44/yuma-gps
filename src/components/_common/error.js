@@ -2,7 +2,9 @@ import React from 'react';
 
 export default props => {
     if (props.message !== '') {
-        return <p className="error">{props.message}</p>;
+        return <div className="error">
+            <p>{props.message} </p>
+        </div>;
     }
     return <span />;
 };

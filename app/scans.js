@@ -42,7 +42,6 @@ async function uploadScans() {
         if (res.data.success) {
             return true;
         }
-
         return false;
     } catch (ex) {
         return false;
