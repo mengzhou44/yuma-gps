@@ -4,53 +4,52 @@ const axios = require("axios");
 
 const { environment } = require("./environment");
 const { getConfig } = require("./config");
-const { findClientName, findJobName } = require("./clients");
+const Clients = require("./clients");
 
+class Scans {
 
-function getFile() {
-    let scansFile = path.join(__dirname, "data/scans.json");
+    constructor() {
 
-    if (environment === "production") {
-        scansFile = path.join(process.resourcesPath, "scans.json");
-    }
-
-    return scansFile;
-}
-
-function getScans() {
-    var text = fs.readFileSync(getFile(), "utf8");
-    if (text === "") {
-        return [];
-    }
-    return JSON.parse(text);
-}
-
-function addNewScan(scan) {
-    let scans = getScans();
-    scan.clientName = findClientName(scan.clientId);
-    scan.jobName = findJobName(scan.clientId, scan.jobId);
-    scans.push(scan);
-    fs.writeFileSync(getFile(), JSON.stringify(scans, null, 4));
-}
-
-
-async function uploadScans() {
-    const { portalUrl } = getConfig();
-    try {
-        const scans = getScans();
-        const res = await axios.post(`${portalUrl}/scans`, JSON.stringify(scans));
-        if (res.data.success) {
-            return true;
+        this.scansFile = path.join(__dirname, "data/scans.json");
+        if (environment === "production") {
+            this.scansFile = path.join(process.resourcesPath, "scans.json");
         }
-        return false;
-    } catch (ex) {
-        return false;
+    }
+
+    getScans() {
+        var text = fs.readFileSync(this.scansFile, "utf8");
+        if (text === "") {
+            return [];
+        }
+        return JSON.parse(text);
+    }
+
+    addNewScan(scan) {
+        let scans = this.getScans();
+        const clients = new Clients();
+        scan.clientName = clients.findClientName(scan.clientId);
+        scan.jobName = clients.findJobName(scan.clientId, scan.jobId);
+        scans.push(scan);
+        fs.writeFileSync(this.scansFile, JSON.stringify(scans, null, 4));
+    }
+
+    async  uploadScans() {
+        const { portalUrl } = getConfig();
+        try {
+            const scans = this.getScans();
+            const res = await axios.post(`${portalUrl}/scans`, JSON.stringify(scans));
+            if (res.data.success) {
+                return true;
+            }
+            return false;
+        } catch (ex) {
+            return false;
+        }
+    }
+
+    clearScans() {
+        fs.writeFileSync(this.scansFile, JSON.stringify([], null, 4));
     }
 }
 
-
-function clearScans() {
-    fs.writeFileSync(getFile(), JSON.stringify([], null, 4));
-}
-
-module.exports = { getScans, addNewScan, uploadScans, clearScans };
+module.exports = Scans;

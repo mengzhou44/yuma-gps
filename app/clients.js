@@ -6,45 +6,44 @@ const { getConfig } = require("./config");
 
 const { environment } = require('./environment');
 
-function getClientsFile() {
-    let clientsFile = path.join(__dirname, "data/clients.json");
+class Clients {
 
-    if (environment === "production") {
-        clientsFile = path.join(process.resourcesPath, "clients.json");
+    constructor() {
+        this.clientsFile = path.join(__dirname, "data/clients.json");
+
+        if (environment === "production") {
+            this.clientsFile = path.join(process.resourcesPath, "clients.json");
+        }
     }
-    return clientsFile;
 
+    getClients() {
+        var text = fs.readFileSync(this.clientsFile);
+        return JSON.parse(text);
+    }
+
+    getClient(clientId) {
+        const clients = this.getClients();
+        return _.find(clients, (client) => client.clientId === clientId);
+    }
+
+    findClientName(clientId) {
+        const client = this.getClient(clientId);
+        return client.clientName;
+    }
+
+    findJobName(clientId, jobId) {
+        const client = this.getClient(clientId);
+        const job = _.find(client.jobs, (job) => job.id === jobId);
+        return job.name;
+    }
+
+    async downloadClients() {
+        const { portalUrl } = getConfig();
+        const clientsUrl = `${portalUrl}/clients`;
+        const res = await axios.get(clientsUrl);
+
+        fs.writeFileSync(this.clientsFile, JSON.stringify(res.data, null, 4));
+    }
 }
 
-function getClients() {
-    var text = fs.readFileSync(getClientsFile());
-    return JSON.parse(text);
-}
-
-function getClient(clientId) {
-    const clients = getClients();
-    return _.find(clients, (client) => client.clientId === clientId);
-}
-
-function findClientName(clientId) {
-    const client = getClient(clientId);
-    return client.clientName;
-}
-
-function findJobName(clientId, jobId) {
-    const client = getClient(clientId);
-    const job = _.find(client.jobs, (job) => job.id === jobId);
-    return job.name;
-}
-
-
-async function downloadClients() {
-    const { portalUrl } = getConfig();
-    const clientsUrl = `${portalUrl}/clients`;
-    const res = await axios.get(clientsUrl);
-
-    fs.writeFileSync(getClientsFile(), JSON.stringify(res.data, null, 4));
-}
-
-
-module.exports = { getClients, downloadClients, findClientName, findJobName };
+module.exports = Clients;

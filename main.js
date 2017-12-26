@@ -5,10 +5,11 @@ const { app, BrowserWindow, ipcMain } = electron;
 
 const { getYumaServices } = require("./app/yuma/yuma-services-factory");
 const { getReader } = require("./app/reader/reader-factory");
-const { getClients, downloadClients } = require("./app/clients");
-const { addNewScan, getScans, uploadScans, clearScans } = require("./app/scans");
 const { checkPortal } = require("./app/portal");
 const Settings = require("./app/settings/settings");
+
+const Clients = require("./app/clients");
+const Scans = require("./app/scans");
 
 let mainWindow;
 let splashScreen;
@@ -76,26 +77,28 @@ ipcMain.on("devices:check", (event) => {
 });
 
 ipcMain.on("clients:get", (event) => {
-    mainWindow.webContents.send("clients:result", getClients());
+    mainWindow.webContents.send("clients:result", new Clients().getClients());
 });
 
 ipcMain.on("clients:download", (event) => {
-    downloadClients().then(() => {
+    const clients = new Clients();
+    clients.downloadClients().then(() => {
         mainWindow.webContents.send("clients:download");
     });
 });
 
 ipcMain.on("scans:get", (event) => {
-    mainWindow.webContents.send("scans:result", getScans());
+    mainWindow.webContents.send("scans:result", new Scans().getScans());
 });
 
 
 ipcMain.on("scans:upload", (event) => {
-    uploadScans().then((success) => {
-        console.log("upload success", success);
+    const scans = new Scans();
+    scans.uploadScans().then((success) => {
+
         if (success) {
             mainWindow.webContents.send("scans:upload");
-            clearScans();
+            scans.clearScans();
         } else {
             mainWindow.webContents.send("scans:upload", "Error occurred while uploading");
         }
@@ -113,7 +116,8 @@ ipcMain.on("scan:abort", (event) => {
 
 ipcMain.on("scan:complete", (event, scan) => {
     scan.tags = reader.getData();
-    addNewScan(scan);
+    const scans = new Scans();
+    scans.addNewScan(scan);
     reader.clearData();
 });
 
