@@ -5,8 +5,9 @@ const { app, BrowserWindow, ipcMain } = electron;
 
 const { getYumaServices } = require('./app/yuma/yuma-services-factory');
 const { getReader } = require('./app/reader/reader-factory');
-const { getClients } = require('./app/clients');
-const { addNewScan } = require('./app/scans');
+const { getClients, download } = require('./app/clients');
+const { addNewScan, getScans } = require('./app/scans');
+const { checkPortal } = require('./app/portal');
 const Settings = require('./app/settings/settings');
 
 let mainWindow;
@@ -49,6 +50,17 @@ ipcMain.on('gps-data:get', (event) => {
     });
 });
 
+ipcMain.on('settings:get', (event) => {
+    const settings = new Settings();
+    mainWindow.webContents.send('settings:result', settings.fetch());
+
+});
+
+ipcMain.on('portal:check', (event) => {
+    checkPortal().then(available => {
+        mainWindow.webContents.send('portal:result', available);
+    });
+});
 
 ipcMain.on('devices:check', (event) => {
     const devices = {};
@@ -78,6 +90,17 @@ ipcMain.on('settings:save', (event, data) => {
 
 ipcMain.on('clients:get', (event) => {
     mainWindow.webContents.send('clients:result', getClients());
+});
+
+ipcMain.on('scans:get', (event) => {
+    mainWindow.webContents.send('scans:result', getScans());
+});
+
+
+ipcMain.on('clients:download', (event) => {
+    download().then(() => {
+        mainWindow.webContents.send('clients:download');
+    });
 });
 
 

@@ -1,0 +1,24 @@
+
+.check-portal-checking-container {
+    width: 300px; 
+    margin: 200 auto !important; 
+    background-color:  $color-white;
+    height: 100px;  
+}
+
+.check-portal-checking {  
+    height:100%;
+    display: flex !important; 
+    align-items: center;
+    justify-content: center;
+}
+
+.check-portal-checking-text {
+    font-size: 25px; 
+}
+
+.check-portal-not-available {
+    text-align: center; 
+    margin-top: 100px; 
+    
+}

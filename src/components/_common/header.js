@@ -50,10 +50,10 @@ class Header extends Component {
                 } >
                     Scan
                   </li>
-                <li className={this.getLinkClass('/upload')} onClick={() =>
-                    this.goTo('/upload')
+                <li className={this.getLinkClass('/sync')} onClick={() =>
+                    this.goTo('/sync')
                 } >
-                    Upload
+                    Sync
                   </li>
 
                 <li className={this.getLinkClass('/advanced')} onClick={() =>

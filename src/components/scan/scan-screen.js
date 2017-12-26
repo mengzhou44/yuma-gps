@@ -17,7 +17,7 @@ class ScanScreen extends Component {
     }
 
     componentWillUnmount() {
-        this.props.resetCheckStatus();
+        this.props.resetCheckDevicesStatus();
         this.props.resetScanStatus();
     }
 

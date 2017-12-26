@@ -2,7 +2,7 @@ import { ipcRenderer } from 'electron';
 import * as types from './types';
 
 
-export function resetCheckStatus() {
+export function resetCheckDevicesStatus() {
     return ({ type: types.DEVICES_STATUS_RESET });
 }
 

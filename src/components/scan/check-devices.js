@@ -53,7 +53,7 @@ class CheckDevices extends Component {
             return (
                 <div className="devices-status-checking-container">
                     <div className="devices-status-checking">
-                        <div className="devices-status-checking-text"> Check Devices ... </div>
+                        <div className="devices-status-checking-text"> Checking Devices ... </div>
                     </div>
                 </div>
             );
@@ -67,7 +67,7 @@ class CheckDevices extends Component {
                 <button
                     className="btn btn-red width-400 margin-top-10"
                     onClick={() => {
-                        this.props.resetCheckStatus();
+                        this.props.resetCheckDevicesStatus();
                         setTimeout(() => {
                             this.props.checkDevices();
                         }, 1000);

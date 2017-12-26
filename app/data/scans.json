@@ -36,92 +36,32 @@
         ]
     },
     {
-        "clientId": 343444,
-        "jobId": 76652,
+        "clientId": 343449,
+        "jobId": 76650,
         "tags": [
             {
-                "tagNumber": "AAAs7rd",
+                "tagNumber": "AAApusz",
                 "latitude": 45.573,
                 "longitude": -104.323,
-                "timeStamp": 1514224328284
+                "timeStamp": 1514263274097
             },
             {
-                "tagNumber": "AAA4yf0",
+                "tagNumber": "AAA2kml",
                 "latitude": 45.573,
                 "longitude": -104.323,
-                "timeStamp": 1514224329290
+                "timeStamp": 1514263275101
             },
             {
-                "tagNumber": "AAA81cy",
+                "tagNumber": "AAA62k0",
                 "latitude": 45.573,
                 "longitude": -104.323,
-                "timeStamp": 1514224330296
+                "timeStamp": 1514263276103
             },
             {
-                "tagNumber": "AAAxmdx",
+                "tagNumber": "AAApz30",
                 "latitude": 45.573,
                 "longitude": -104.323,
-                "timeStamp": 1514224331301
-            },
-            {
-                "tagNumber": "AAAa83e",
-                "latitude": 45.573,
-                "longitude": -104.323,
-                "timeStamp": 1514224332303
-            },
-            {
-                "tagNumber": "AAAevz1",
-                "latitude": 45.573,
-                "longitude": -104.323,
-                "timeStamp": 1514224333306
-            },
-            {
-                "tagNumber": "AAA9q90",
-                "latitude": 45.573,
-                "longitude": -104.323,
-                "timeStamp": 1514224334312
-            },
-            {
-                "tagNumber": "AAAxl2z",
-                "latitude": 45.573,
-                "longitude": -104.323,
-                "timeStamp": 1514224335314
-            },
-            {
-                "tagNumber": "AAAt1j9",
-                "latitude": 45.573,
-                "longitude": -104.323,
-                "timeStamp": 1514224336318
-            }
-        ]
-    },
-    {
-        "clientId": 343444,
-        "jobId": 76652,
-        "tags": [
-            {
-                "tagNumber": "AAA6kmv",
-                "latitude": 45.573,
-                "longitude": -104.323,
-                "timeStamp": 1514226413002
-            },
-            {
-                "tagNumber": "AAAmvw3",
-                "latitude": 45.573,
-                "longitude": -104.323,
-                "timeStamp": 1514226414007
-            },
-            {
-                "tagNumber": "AAAk56h",
-                "latitude": 45.573,
-                "longitude": -104.323,
-                "timeStamp": 1514226508379
-            },
-            {
-                "tagNumber": "AAAfp89",
-                "latitude": 45.573,
-                "longitude": -104.323,
-                "timeStamp": 1514226509383
+                "timeStamp": 1514263277103
             }
         ]
     }

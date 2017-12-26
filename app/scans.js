@@ -1,7 +1,8 @@
 const path = require("path");
 const fs = require("fs");
 
-const { environment } = require('./environment');
+const { environment } = require("./environment");
+
 
 function getFile() {
     let scansFile = path.join(__dirname, "data/scans.json");
