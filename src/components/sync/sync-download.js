@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { ipcRenderer } from "electron";
 import { Divider } from "semantic-ui-react";
 
 import Error from "../_common/error";
 import MyAlert from "../_common/my-alert";
 
-export default class SyncDownload extends Component {
+class SyncDownload extends Component {
 
     constructor(props) {
         super(props);
@@ -17,7 +18,15 @@ export default class SyncDownload extends Component {
         };
     }
 
-    render() {
+    renderDonwloadContent() {
+        if (this.props.scans.length > 0) {
+            return (
+                <div>
+                    <label className="font-size-16">Scanned data is found. Please upload data first. </label>
+                </div>
+            );
+        }
+
         let downloadButtonText = "Download jobs";
         let downloadButtonDisabled = false;
         if (this.state.inProgress) {
@@ -25,50 +34,68 @@ export default class SyncDownload extends Component {
             downloadButtonDisabled = true;
         }
 
+        return (<div>
+            <button
+                className="btn btn-block btn-green margin-top-100"
+                disabled={downloadButtonDisabled}
+                onClick={() => {
+                    this.setState({
+                        error: "",
+                        inProgress: true
+                    });
+                    ipcRenderer.send("clients:download");
+                    ipcRenderer.once("clients:download", (event, error) => {
+                        if (error) {
+                            this.setState({
+                                inProgress: false,
+                                error
+                            });
+                        } else {
+                            this.setState({
+                                inProgress: false,
+                                showAlert: true,
+                                alertMessage: "Download is complete!"
+                            });
+                        }
+                    })
+                }}
+            >
+                {downloadButtonText}
+            </button>
+            <Error message={this.state.error} />
+
+            <MyAlert
+                showAlert={this.state.showAlert}
+                message={this.state.alertMessage}
+                onClick={() =>
+                    this.setState({
+                        showAlert: false
+                    })
+                }
+            />
+        </div>
+        );
+
+    }
+
+    render() {
+
+
         return (
             <div className="sidebar-content">
                 <h5 className="color-orange">Download</h5>
                 <Divider />
-                <button
-                    className="btn btn-block btn-green margin-top-100"
-                    disabled={downloadButtonDisabled}
-                    onClick={() => {
-                        this.setState({
-                            error: "",
-                            inProgress: true
-                        });
-                        ipcRenderer.send("clients:download");
-                        ipcRenderer.once("clients:download", (event, error) => {
-                            if (error) {
-                                this.setState({
-                                    inProgress: false,
-                                    error
-                                });
-                            } else {
-                                this.setState({
-                                    inProgress: false,
-                                    showAlert: true,
-                                    alertMessage: "Download is complete!"
-                                });
-                            }
-                        })
-                    }}
-                >
-                    {downloadButtonText}
-                </button>
-                <Error message={this.state.error} />
-
-                <MyAlert
-                    showAlert={this.state.showAlert}
-                    message={this.state.alertMessage}
-                    onClick={() =>
-                        this.setState({
-                            showAlert: false
-                        })
-                    }
-                />
+                {this.renderDonwloadContent()}
             </div>
         );
     }
 }
+
+function mapStateToProps({ sync }) {
+    return {
+        scans: sync.scans
+    }
+}
+
+export default connect(mapStateToProps, null)(SyncDownload);
 

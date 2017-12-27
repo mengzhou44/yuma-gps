@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 import { connect } from "react-redux";
 import { ipcRenderer } from "electron";
 import { Divider } from "semantic-ui-react";
@@ -21,6 +22,22 @@ class SyncUpload extends Component {
 
     componentDidMount() {
         this.props.getScans();
+    }
+
+    renderScan(scan) {
+        const jobDate = moment(scan.created).format("MMM DD, YYYY     HH:mm");
+        return (
+            <div
+                className="collection-item"
+                key={scan.created}
+            >
+                <div>{jobDate} </div>
+                <div className="sync-scan-detail">
+                    <div>{scan.clientName} </div>
+                    <div> {scan.jobName} </div>
+                </div>
+            </div>
+        );
     }
 
     render() {
