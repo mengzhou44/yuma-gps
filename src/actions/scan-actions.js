@@ -4,11 +4,14 @@ import moment from "moment";
 import * as types from "./types";
 
 
-export function getClients() {
+export function getClients(callback) {
     return function (dispatch) {
         ipcRenderer.send("clients:get");
-        ipcRenderer.on("clients:result", (event, data) => {
+        ipcRenderer.once("clients:result", (event, data) => {
             dispatch({ type: types.CLIENTS_FETCHED, payload: data });
+            if (callback) {
+                callback();
+            }
         });
     };
 }
@@ -46,7 +49,6 @@ export function resetScanStatus() {
         ipcRenderer.removeAllListeners("mat:found");
     };
 }
-
 
 export function resumeScan() {
     return function (dispatch) {

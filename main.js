@@ -83,20 +83,18 @@ ipcMain.on("clients:get", (event) => {
 ipcMain.on("clients:download", (event) => {
     const clients = new Clients();
     clients.downloadClients().then((error) => {
-        console.log("error", error);
         mainWindow.webContents.send("clients:download", error);
     });
 });
 
 ipcMain.on("clients:new-client", (event, clientName) => {
-    console.log("client name", clientName);
-    new Clients().addNewClient(clientName);
-    mainWindow.webContents.send("clients:new-client");
+    const clientId = new Clients().addNewClient(clientName);
+    mainWindow.webContents.send("clients:new-client", clientId);
 });
 
 ipcMain.on("clients:new-job", (event, { clientId, jobName }) => {
-    new Clients().addNewJob(clientId, jobName);
-    mainWindow.webContents.send("clients:new-job");
+    const jobId = new Clients().addNewJob(clientId, jobName);
+    mainWindow.webContents.send("clients:new-job", jobId);
 });
 
 ipcMain.on("scans:get", (event) => {

@@ -1,0 +1,22 @@
+.sidebar {
+  margin-top: 10px;
+  .collection-item {
+    cursor: pointer;
+  }
+  .active-link {
+    background-color: $color-orange !important;
+    color: white;
+    border-radius: 0px; 
+  }
+}
+
+.sidebar-content {
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 5px;
+    background: white;
+    p {
+      line-height: 150% !important;
+    }
+    min-height: 100% !important; 
+  }

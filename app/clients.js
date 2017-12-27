@@ -38,26 +38,30 @@ class Clients {
     }
 
     addNewClient(clientName) {
-        const clients = this.getClients()
-        const clientId = 0 - (clients.length + 1);
+        const clients = this.getClients();
+        const clientId = 0 - (clients.length + 2);
         const client = {
             clientName,
             clientId,
+            jobs: []
         };
         clients.push(client);
         fs.writeFileSync(this.clientsFile, JSON.stringify(clients, null, 4));
+        return clientId;
     }
 
     addNewJob(clientId, jobName) {
         const clients = this.getClients();
-        const client = this.getClient(clientId);
-        const jobId = 0 - (client.jobs.length + 1);
+        let client = _.find(clients, (client) => client.clientId === clientId);
+
+        const jobId = 0 - (client.jobs.length + 2);
         const job = {
             id: jobId,
             name: jobName
         };
         client.jobs.push(job);
         fs.writeFileSync(this.clientsFile, JSON.stringify(clients, null, 4));
+        return jobId;
     }
 
     async downloadClients() {

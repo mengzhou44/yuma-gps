@@ -31,6 +31,8 @@ export const renderDropdownField = ({
     disabled,
     meta: { touched, error }
   }) => {
+
+    console.log("input.value", input.value);
     return (
         <span>
             <Dropdown

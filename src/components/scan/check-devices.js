@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../../actions";
 
 class CheckDevices extends Component {
 
     componentDidMount() {
-        console.log('check Devices: checkdevices');
         this.props.checkDevices();
     }
 
@@ -27,19 +26,19 @@ class CheckDevices extends Component {
                     <li className="collection-item">
                         Tablet GPS
                         <a href="#!" className="secondary-content">
-                            {this.renderCheckResultIcon('gps')}
+                            {this.renderCheckResultIcon("gps")}
                         </a>
                     </li>
                     <li className="collection-item">
                         WIFI
                            <a href="#!" className="secondary-content">
-                            {this.renderCheckResultIcon('wifi')}
+                            {this.renderCheckResultIcon("wifi")}
                         </a>
                     </li>
                     <li className="collection-item">
                         RFID Reader
                                <a href="#!" className="secondary-content">
-                            {this.renderCheckResultIcon('reader')}
+                            {this.renderCheckResultIcon("reader")}
                         </a>
                     </li>
                 </ul>
@@ -61,7 +60,7 @@ class CheckDevices extends Component {
         }
         else if (this.props.status === "check-fail") {
 
-            return (<div className='align-center'>
+            return (<div className="align-center">
                 {this.renderDevicesStatus()}
 
                 <button

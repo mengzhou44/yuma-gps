@@ -7,28 +7,34 @@ import * as actions from "../../actions";
 
 import Error from "../_common/error";
 
-class AddNewClient extends Component {
+class AddNewJob extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             showModal: false,
-            clientName: "",
+            jobName: "",
             error: ""
         };
     }
 
     render() {
+        let triggerDisabled = false;
+        if (this.props.clientId === -1) {
+            triggerDisabled = true;
+        }
+
         return (
             <Modal
                 open={this.state.showModal}
                 trigger={
                     <a
                         className="waves-effect waves-light  btn btn-orange width-50"
+                        disabled={triggerDisabled}
                         onClick={() => this.setState({
                             showModal: true,
                             error: "",
-                            clientName: ""
+                            jobName: ""
                         })}
                     >
                         <i className="large material-icons">add circle</i> Add
@@ -39,30 +45,31 @@ class AddNewClient extends Component {
                         <div className="height-100">
                             <input
                                 type="text"
-                                value={this.state.clientName}
-                                placeholder="New Client Name"
-                                onChange={e => this.setState({ clientName: e.target.value })}
+                                value={this.state.jobName}
+                                placeholder="New Job Name"
+                                onChange={e => this.setState({ jobName: e.target.value })}
                             />
                             <button
-                                className="btn btn-orange pull-right rounded width-120"
+                                className="btn btn-orange width-120 pull-right"
                                 onClick={() => {
                                     this.setState({
                                         error: ""
                                     });
 
-                                    ipcRenderer.send("clients:new-client", this.state.clientName);
-                                    ipcRenderer.once("clients:new-client", (event, clientId) => {
-
+                                    const job = {
+                                        jobName: this.state.jobName,
+                                        clientId: this.props.clientId
+                                    }
+                                    ipcRenderer.send("clients:new-job", job);
+                                    ipcRenderer.once("clients:new-job", (event, jobId) => {
                                         this.props.getClients(() => {
                                             this.props.resetScanStatus();
-                                            this.props.onClientAdded();
-
+                                            this.props.onJobAdded();
                                         });
+                                    });
 
-                                        this.setState({
-                                            showModal: false
-                                        });
-
+                                    this.setState({
+                                        showModal: false
                                     });
                                 }}
                             >
@@ -86,4 +93,10 @@ class AddNewClient extends Component {
     }
 }
 
-export default connect(null, actions)(AddNewClient);
+function mapStateToProps({ scan }) {
+    return {
+        clientId: scan.clientId
+    };
+}
+
+export default connect(mapStateToProps, actions)(AddNewJob);

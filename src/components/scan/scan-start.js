@@ -8,6 +8,7 @@ import { renderDropdownField } from "../_common/render-field";
 import * as actions from "../../actions";
 import TableRow from "../_common/table-row";
 import AddNewClient from "./add-new-client";
+import AddNewJob from "./add-new-job";
 
 class ScanStart extends Component {
 
@@ -42,7 +43,6 @@ class ScanStart extends Component {
 
         if (this.props.status === "not-started") {
 
-
             let scanButtonDisabled = true;
             if (this.props.jobId !== -1 && this.props.clientId !== -1) {
                 scanButtonDisabled = false;
@@ -70,25 +70,39 @@ class ScanStart extends Component {
                                 />
                             </td>
                             <td>
-                                <AddNewClient />
+                                <AddNewClient onClientAdded={() => {
+                                    console.log("this.props.clientId", this.props.clientId);
+                                    this.forceUpdate();
+                                }} />
                             </td>
                         </tr>
                     </TableRow>
 
                     <div className="height-50" />
 
-                    <Field
-                        name="jobId"
-                        type="text"
-                        placeholder="Please select job ..."
+                    <TableRow>
+                        <tr>
+                            <td className="width-100-100">
+                                <Field
+                                    name="jobId"
+                                    type="text"
+                                    placeholder="Please select job ..."
 
-                        options={this.getJobOptions(this.props.clientId)}
-                        onSelected={(jobId) => {
-                            this.props.selectJobId(jobId);
-                        }
-                        }
-                        component={renderDropdownField}
-                    />
+                                    options={this.getJobOptions(this.props.clientId)}
+                                    onSelected={(jobId) => {
+                                        this.props.selectJobId(jobId);
+                                    }
+                                    }
+                                    component={renderDropdownField}
+                                />
+                            </td>
+                            <td>
+                                <AddNewJob onJobAdded={() => this.forceUpdate()} />
+                            </td>
+                        </tr>
+                    </TableRow>
+
+
 
                     <div className="height-50" />
 

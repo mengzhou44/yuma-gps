@@ -1,130 +1,68 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import _ from 'lodash';
+import React, { Component } from "react";
+import Header from "../_common/header";
+import AdvancedTablet from "./advanced-tablet";
+import AdvancedReader from "./advanced-reader";
 
-import * as actions from '../../actions';
-import Header from '../_common/header';
-import { renderField } from '../_common/render-field';
 
-class AdvancedScreen extends Component {
+export default class AdvancedScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { disabled: true };
+        this.state = { current: "tablet" };
     }
 
-    componentDidMount() {
-        this.props.fetchSettings();
 
-    }
-
-    onSubmit(props) {
-        let settings = {};
-        settings.reader = props;
-        this.props.saveSettings(settings, () => {
-            this.setState({ disabled: true });
-        });
-    }
-
-    renderChangeButton() {
-        if (this.state.disabled) {
-            return <button className="btn btn-orange" onClick={() => this.setState({ disabled: false })}> Change </button>
+    getSideBarLinkClass(link) {
+        if (this.state.current === link) {
+            return "collection-item active-link";
         }
+        return "collection-item";
     }
 
-    renderSaveCancelButtons() {
-        if (this.state.disabled) {
-            return <span />;
-        }
-
+    renderSideBar() {
         return (
-            <div>
-                <button
-                    type='submit'
-                    className='btn btn-primary btn-block btn-red margin-top-10'
-
+            <ul className="collection sidebar">
+                <li
+                    className={this.getSideBarLinkClass("tablet")}
+                    onClick={() => this.setState({ current: "tablet" })}
                 >
-                    Save
-                    </button>
-
-                <button
-                    type='button'
-                    className='btn btn-primary btn-block btn-red margin-top-10'
-                    onClick={() => {
-                        this.props.fetchSettings();
-                        this.state = { disabled: true };
-                    }}
+                    Tablet
+                </li>
+                <li
+                    className={this.getSideBarLinkClass("reader")}
+                    onClick={() => this.setState({ current: "reader" })}
                 >
-                    Cancel
-                    </button>
-
-            </div>
+                    Reader
+                </li>
+            </ul>
         );
     }
 
 
+    renderContent() {
+        switch (this.state.current) {
+            case "tablet":
+                return <AdvancedTablet />;
+            case "reader":
+                return <AdvancedReader />;
+            default:
+                return <AdvancedTablet />
+        }
+    }
+
     render() {
+
         return (
             <div>
                 <Header />
+                <div className="row">
+                    <div className="col s12 m3">{this.renderSideBar()}</div>
+                    <div className="col s12 m9">{this.renderContent()}</div>
+                </div>
+            </div>);
 
-                <form
-                    className='settings-form'
-                    onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}
-                >
-
-                    <Field
-                        name='host'
-                        label='HOST'
-                        component={renderField}
-                        type='text'
-                        disabled={this.state.disabled}
-                    />
-
-                    <Field
-                        name='port'
-                        label='PORT'
-                        component={renderField}
-                        type='text'
-                        disabled={this.state.disabled}
-                    />
-
-                    {this.renderChangeButton()}
-
-                    {this.renderSaveCancelButtons()}
-
-
-                </form>
-            </div>
-        );
     }
 }
-const validate = values => {
-    const errors = {};
 
-    if (!values.host) {
-        errors.host = 'Please enter HOST address.';
-    }
 
-    if (!values.port) {
-        errors.port = 'Please enter port number.';
-    }
-
-    return errors;
-};
-
-function mapStateToProps({ settings }) {
-    console.log('reader', settings.data.reader);
-    return {
-        initialValues: settings.data.reader
-    };
-}
-
-export default connect(mapStateToProps, actions)(
-    reduxForm({
-        form: 'settings-form',
-        enableReinitialize: true,
-        validate
-    })(AdvancedScreen));
 
