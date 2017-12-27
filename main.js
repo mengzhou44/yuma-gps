@@ -1,6 +1,7 @@
 const electron = require("electron");
 const _ = require("lodash");
 const path = require("path");
+
 const { app, BrowserWindow, ipcMain } = electron;
 
 const { getYumaServices } = require("./app/yuma/yuma-services-factory");
@@ -10,6 +11,7 @@ const Settings = require("./app/settings/settings");
 
 const Clients = require("./app/clients");
 const Scans = require("./app/scans");
+const Tablet = require("./app/tablet");
 
 let mainWindow;
 let splashScreen;
@@ -47,7 +49,8 @@ ipcMain.on("system:initialized", (event) => {
 
 ipcMain.on("settings:get", (event) => {
     const settings = new Settings();
-    mainWindow.webContents.send("settings:result", settings.fetch());
+    const result = settings.fetch();
+    mainWindow.webContents.send("settings:result", result);
 
 });
 
@@ -58,11 +61,27 @@ ipcMain.on("settings:save", (event, data) => {
 
 });
 
+ipcMain.on("tablet:register", (event, macAddress) => {
+    new Tablet().register().then(result => {
+        mainWindow.webContents.send("tablet:register", result);
+    });
+});
+
+ipcMain.on("tablet:mac", (event) => {
+    new Tablet().getMacAddress((macAddress) => {
+        mainWindow.webContents.send("tablet:mac", macAddress);
+    }
+    );
+});
+
+
 ipcMain.on("portal:check", (event) => {
     checkPortal().then(available => {
         mainWindow.webContents.send("portal:result", available);
     });
 });
+
+
 
 ipcMain.on("devices:check", (event) => {
     const devices = {};
@@ -97,9 +116,13 @@ ipcMain.on("clients:new-job", (event, { clientId, jobName }) => {
     mainWindow.webContents.send("clients:new-job", jobId);
 });
 
+
+
+
 ipcMain.on("scans:get", (event) => {
     mainWindow.webContents.send("scans:result", new Scans().getScans());
 });
+
 
 ipcMain.on("scans:upload", (event) => {
     const scans = new Scans();

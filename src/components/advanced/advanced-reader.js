@@ -27,7 +27,7 @@ class AdvancedReader extends Component {
 
     renderChangeButton() {
         if (this.state.disabled) {
-            return <button className="btn btn-orange" onClick={() => this.setState({ disabled: false })}> Change </button>
+            return <button className="btn btn-green btn-block" onClick={() => this.setState({ disabled: false })}> Change </button>
         }
     }
 
@@ -40,17 +40,17 @@ class AdvancedReader extends Component {
             <div>
                 <button
                     type="submit"
-                    className="btn btn-primary btn-block btn-red margin-top-10"
+                    className="btn btn-primary btn-block btn-green margin-top-10"
                 >
                     Save
                 </button>
 
                 <button
                     type="button"
-                    className="btn btn-primary btn-block btn-red margin-top-10"
+                    className="btn btn-primary btn-block btn-green margin-top-10"
                     onClick={() => {
                         this.props.fetchSettings();
-                        this.state = { disabled: true };
+                        this.setState({ disabled: true })
                     }}
                 >
                     Cancel

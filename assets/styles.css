@@ -7335,6 +7335,11 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   100% {
     color: white;
     background-color: #f58426; } }
+.advanced-tablet-registered {
+  display: flex;
+  justify-content: flex-start;
+  color: #00a98f; }
+
 .splash {
   height: 100%;
   display: flex;
