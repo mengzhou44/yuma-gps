@@ -36,15 +36,5 @@
                 "name": "GEMS-2017 Q224ES"
             }
         ]
-    },
-    {
-        "clientName": "canadian alberta",
-        "clientId": -5,
-        "jobs": [
-            {
-                "id": -2,
-                "name": "ab 1234"
-            }
-        ]
     }
 ]

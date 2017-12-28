@@ -1,3 +1,13 @@
+.scan-stop-summary {
+  display: flex; 
+  justify-content: space-between;
+  align-items:  center;
+  border: 1px solid $color-gray;
+  border-radius: 5px; 
+  padding: 10px; 
+}
+
+
 .scan-stop-mats {
   color:  $color-green;
   font-size: 75px;

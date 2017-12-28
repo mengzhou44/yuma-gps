@@ -22,6 +22,7 @@ class ScanStart extends Component {
         }
     }
 
+
     getClients() {
         ipcRenderer.send("clients:get");
         ipcRenderer.once("clients:result", (event, data) => {
@@ -76,6 +77,7 @@ class ScanStart extends Component {
                         <tr>
                             <td className="width-100-100">
                                 <Select
+
                                     clearable={false}
                                     value={this.state.clientId}
                                     placeholder="Please select client ..."
@@ -138,14 +140,20 @@ class ScanStart extends Component {
                     <button
                         disabled={scanButtonDisabled}
                         className="btn btn-primary btn-block btn-green margin-top-10"
-                        onClick={() =>
+                        onClick={() => {
                             this.props.startScan(
                                 {
-                                    clientId: parseInt(this.state.clientId),
-                                    jobId: parseInt(this.state.jobId)
+                                    clients: this.state.clients,
+                                    clientId: this.state.clientId,
+                                    jobId: this.state.jobId,
                                 }
-                            )
-                        }
+                            );
+
+                            this.setState({
+                                clientId: "-1",
+                                jobId: "-1"
+                            });
+                        }}
                     >
                         Scan
                  </button>
@@ -154,27 +162,12 @@ class ScanStart extends Component {
         }
     }
 
-    renderSelected() {
-
-        if (this.props.status !== "not-started") {
-            const client = _.find(this.state.clients, (client) => client.clientId === this.state.clientId);
-            const job = _.find(client.jobs, (job) => job.id === this.state.jobId);
-            return (
-
-                <div className="scan-start-summary">
-                    <div><h4>{client.clientName}</h4></div>
-                    <div>{job.name} </div>
-                </div>
-            );
-        }
-    }
 
     render() {
 
         return (
             <div>
                 {this.renderForm()}
-                {this.renderSelected()}
             </div>
         );
     }
@@ -182,8 +175,7 @@ class ScanStart extends Component {
 
 function mapStateToProps({ scan }) {
     return {
-        status: scan.status,
-        mats: scan.mats
+        status: scan.status
     };
 }
 

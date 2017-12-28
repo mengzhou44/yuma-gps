@@ -1,12 +1,16 @@
 .sidebar {
   margin-top: 10px;
+  
   .collection-item {
+    background-color: $color-whitesmoke !important;
+    color:  $color-gray !important; 
     cursor: pointer;
   }
   .active-link {
-    background-color: $color-orange !important;
-    color: white;
+    background-color: $color-white !important;
+    color: $color-orange !important;
     border-radius: 0px; 
+     
   }
 }
 
@@ -14,7 +18,8 @@
     margin-top: 10px;
     padding: 20px;
     border-radius: 5px;
-    background: white;
+    background: $color-white;
+   
     p {
       line-height: 150% !important;
     }

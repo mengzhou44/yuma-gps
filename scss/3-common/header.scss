@@ -1,17 +1,15 @@
 .active-link-0 {
-    color: $color-blue;
+    color: $color-orange;
     background-color: $color-whitesmoke;
     border-top-right-radius:  5px;
 }
 
 .active-link {
-    color: $color-blue;
+    color: $color-orange;
     background-color: $color-whitesmoke;
     border-top-left-radius:  5px;
     border-top-right-radius:  5px;
 }
-
-
 
 .header-menu-item {
     display: inline-block;
@@ -21,7 +19,7 @@
 }
 
 .header-menu {
-    background-color: $color-blue;
+    background-color: $color-orange;
     color: $color-white;
     font-size: 20px;
     margin-top: 0px !important;

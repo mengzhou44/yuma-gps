@@ -16,6 +16,15 @@
   padding-top: 3px !important;
 }
 
+%btn-small-base {
+  color: $color-white !important;
+  border-width: 0 !important;
+  font-size: 20px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center;
+}
+
 %btn-base-border {
   background-color: $color-white !important;
   border-width: 1px !important;

@@ -21,16 +21,19 @@ export default class AddNewClient extends Component {
             <Modal
                 open={this.state.showModal}
                 trigger={
-                    <a
-                        className="waves-effect waves-light  btn btn-orange width-50"
+                    <button
+                        className="btn add-new-client-button"
                         onClick={() => this.setState({
                             showModal: true,
                             error: "",
                             clientName: ""
                         })}
                     >
-                        <i className="large material-icons">add circle</i> Add
-                </a>}
+                        <div className="add-new-client-button-icon">
+                            +
+                        </div>
+
+                    </button>}
             >
                 <Modal.Content>
                     <Modal.Description>
@@ -42,7 +45,7 @@ export default class AddNewClient extends Component {
                                 onChange={e => this.setState({ clientName: e.target.value })}
                             />
                             <button
-                                className="btn btn-orange pull-right rounded width-120"
+                                className="btn btn-orange pull-right rounded"
                                 onClick={() => {
                                     this.setState({
                                         error: ""

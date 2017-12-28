@@ -26,8 +26,8 @@ export default class AddNewJob extends Component {
             <Modal
                 open={this.state.showModal}
                 trigger={
-                    <a
-                        className="waves-effect waves-light  btn btn-orange width-50"
+                    <div
+                        className="btn add-new-job-button"
                         disabled={triggerDisabled}
                         onClick={() => this.setState({
                             showModal: true,
@@ -35,8 +35,8 @@ export default class AddNewJob extends Component {
                             jobName: ""
                         })}
                     >
-                        <i className="large material-icons">add circle</i> Add
-                </a>}
+                        +
+                </div>}
             >
                 <Modal.Content>
                     <Modal.Description>

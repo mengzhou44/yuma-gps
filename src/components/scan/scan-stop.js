@@ -34,7 +34,7 @@ class ScanStop extends Component {
             <div>
                 <button
                     className="btn btn-block btn-green"
-                    onClick={() => this.props.resumeScan()}
+                    onClick={() => this.props.resumeScan(this.props.mats)}
                 >
                     Resume
             </button>
@@ -61,7 +61,14 @@ class ScanStop extends Component {
                             showConfirm: true,
                             confirmMessage: "Are you sure you want to finish this scan?",
                             onConfirm: () => {
-                                this.props.finishScan(this.props.scan);
+                                const { clientId, jobId, created } = this.props;
+                                this.props.finishScan(
+                                    {
+                                        clientId: parseInt(clientId),
+                                        jobId: parseInt(jobId),
+                                        created
+                                    }
+                                );
                             }
                         })
                     }}
@@ -74,6 +81,22 @@ class ScanStop extends Component {
 
 
     }
+
+    renderSelected() {
+
+        if (this.props.status !== "not-started") {
+            const client = _.find(this.props.clients, (client) => client.clientId === this.props.clientId);
+            const job = _.find(client.jobs, (job) => job.id === this.props.jobId);
+            return (
+
+                <div className="scan-stop-summary">
+                    <div><h4>{client.clientName}</h4></div>
+                    <div>{job.name} </div>
+                </div>
+            );
+        }
+    }
+
     render() {
         if (this.props.status === "not-started") {
             return <span />;
@@ -81,7 +104,7 @@ class ScanStop extends Component {
 
         return (
             <div>
-
+                {this.renderSelected()}
                 <div className="height-30" />
 
                 <div className="align-center">
@@ -106,7 +129,10 @@ class ScanStop extends Component {
 
 function mapStateToProps({ scan }) {
     return {
-        scan,
+        clients: scan.clients,
+        clientId: scan.clientId,
+        jobId: scan.jobId,
+        created: scan.created,
         status: scan.status,
         mats: scan.mats,
     }

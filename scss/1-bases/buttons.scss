@@ -7,7 +7,11 @@
   background-color: $color-red !important;
   @extend %btn-base;
 }
-
+ 
+.btn-small-orange{
+  background-color: $color-orange !important;
+  @extend %btn-small-base;
+}
 .btn-blue {
   background-color: $color-blue !important;
   @extend %btn-base;

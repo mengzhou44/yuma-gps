@@ -4,11 +4,12 @@ import moment from "moment";
 import * as types from "./types";
 
 
-export function startScan({ clientId, jobId }) {
+export function startScan({ clients, clientId, jobId }) {
     return function (dispatch) {
         ipcRenderer.send("scan:start");
 
         const payload = {
+            clients,
             clientId,
             jobId,
             created: Math.floor(Date.now())
@@ -22,9 +23,10 @@ export function startScan({ clientId, jobId }) {
     };
 }
 
-export function stopScan(mats) {
+export function stopScan() {
     return function (dispatch) {
         ipcRenderer.send("scan:stop");
+        ipcRenderer.removeAllListeners("mat:found");
         dispatch({ type: types.SCAN_STOPPED });
     };
 }
@@ -36,9 +38,13 @@ export function resetScanStatus() {
     };
 }
 
-export function resumeScan() {
+export function resumeScan(mats) {
     return function (dispatch) {
         ipcRenderer.send("scan:start");
+        ipcRenderer.on("mat:found", (event) => {
+            mats++;
+            dispatch({ type: types.MAT_FOUND, payload: mats });
+        });
         dispatch({ type: types.SCAN_RESUMED });
 
     };
