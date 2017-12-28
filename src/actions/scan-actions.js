@@ -4,31 +4,17 @@ import moment from "moment";
 import * as types from "./types";
 
 
-export function getClients(callback) {
-    return function (dispatch) {
-        ipcRenderer.send("clients:get");
-        ipcRenderer.once("clients:result", (event, data) => {
-            dispatch({ type: types.CLIENTS_FETCHED, payload: data });
-            if (callback) {
-                callback();
-            }
-        });
-    };
-}
-
-export function selectClientId(clientId) {
-    return { type: types.CLIENT_ID_SELECTED, payload: clientId };
-}
-
-export function selectJobId(jobId) {
-    return { type: types.JOB_ID_SELECTED, payload: jobId };
-}
-
-export function startScan(mats) {
+export function startScan({ clientId, jobId }) {
     return function (dispatch) {
         ipcRenderer.send("scan:start");
 
-        dispatch({ type: types.SCAN_STARTED, payload: Math.floor(Date.now()) });
+        const payload = {
+            clientId,
+            jobId,
+            created: Math.floor(Date.now())
+        };
+        dispatch({ type: types.SCAN_STARTED, payload });
+        let mats = 0;
         ipcRenderer.on("mat:found", (event) => {
             mats++;
             dispatch({ type: types.MAT_FOUND, payload: mats });
@@ -53,7 +39,7 @@ export function resetScanStatus() {
 export function resumeScan() {
     return function (dispatch) {
         ipcRenderer.send("scan:start");
-        dispatch({ type: types.SCAN_STARTED });
+        dispatch({ type: types.SCAN_RESUMED });
 
     };
 }

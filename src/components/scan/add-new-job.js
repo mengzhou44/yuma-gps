@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+
 import { ipcRenderer } from "electron";
 import { Button, Modal } from "semantic-ui-react";
 
-import * as actions from "../../actions";
-
 import Error from "../_common/error";
 
-class AddNewJob extends Component {
+export default class AddNewJob extends Component {
 
     constructor(props) {
         super(props);
@@ -20,7 +18,7 @@ class AddNewJob extends Component {
 
     render() {
         let triggerDisabled = false;
-        if (this.props.clientId === -1) {
+        if (this.props.clientId === "-1") {
             triggerDisabled = true;
         }
 
@@ -58,14 +56,11 @@ class AddNewJob extends Component {
 
                                     const job = {
                                         jobName: this.state.jobName,
-                                        clientId: this.props.clientId
+                                        clientId: parseInt(this.props.clientId)
                                     }
                                     ipcRenderer.send("clients:new-job", job);
                                     ipcRenderer.once("clients:new-job", (event, jobId) => {
-                                        this.props.getClients(() => {
-                                            this.props.resetScanStatus();
-                                            this.props.onJobAdded();
-                                        });
+                                        this.props.onJobAdded();
                                     });
 
                                     this.setState({
@@ -92,11 +87,3 @@ class AddNewJob extends Component {
         );
     }
 }
-
-function mapStateToProps({ scan }) {
-    return {
-        clientId: scan.clientId
-    };
-}
-
-export default connect(mapStateToProps, actions)(AddNewJob);

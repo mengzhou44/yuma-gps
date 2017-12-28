@@ -81,8 +81,6 @@ ipcMain.on("portal:check", (event) => {
     });
 });
 
-
-
 ipcMain.on("devices:check", (event) => {
     const devices = {};
     const promise1 = yumaServices.checkGPS();

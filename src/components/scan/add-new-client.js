@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+
 import { ipcRenderer } from "electron";
 import { Button, Modal } from "semantic-ui-react";
 
-import * as actions from "../../actions";
-
 import Error from "../_common/error";
 
-class AddNewClient extends Component {
+export default class AddNewClient extends Component {
 
     constructor(props) {
         super(props);
@@ -52,13 +50,7 @@ class AddNewClient extends Component {
 
                                     ipcRenderer.send("clients:new-client", this.state.clientName);
                                     ipcRenderer.once("clients:new-client", (event, clientId) => {
-
-                                        this.props.getClients(() => {
-                                            this.props.resetScanStatus();
-                                            this.props.onClientAdded();
-
-                                        });
-
+                                        this.props.onClientAdded();
                                         this.setState({
                                             showModal: false
                                         });
@@ -81,9 +73,7 @@ class AddNewClient extends Component {
                     </Modal.Description>
                 </Modal.Content>
             </Modal>
-
         );
     }
 }
 
-export default connect(null, actions)(AddNewClient);

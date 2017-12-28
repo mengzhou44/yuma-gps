@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import { ipcRenderer } from "electron";
 import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
+import Select from "react-select";
+
 import _ from "lodash";
 
-import { renderDropdownField } from "../_common/render-field";
 
 import * as actions from "../../actions";
 import TableRow from "../_common/table-row";
@@ -12,68 +13,90 @@ import AddNewJob from "./add-new-job";
 
 class ScanStart extends Component {
 
-    componentDidMount() {
-        this.props.getClients();
+    constructor(props) {
+        super(props);
+        this.state = {
+            clients: [],
+            clientId: "-1",
+            jobId: "-1"
+        }
     }
 
+    getClients() {
+        ipcRenderer.send("clients:get");
+        ipcRenderer.once("clients:result", (event, data) => {
+            _.map(data, client => {
+                client.clientId = client.clientId.toString();
+                _.map(client.jobs, job => {
+                    job.id = job.id.toString();
+                })
+            });
+            this.setState({ clients: data })
+        });
+    }
+
+    componentDidMount() {
+        this.getClients();
+    }
 
     getClientOptions() {
         const options = [];
-        _.map(this.props.clients, client => {
-            const key = client.clientId;
-            options.push({ value: client.clientId, key, text: client.clientName });
+        _.map(this.state.clients, client => {
+            options.push({ value: client.clientId, label: client.clientName });
         });
-
-        return _.sortBy(options, "text");
+        return _.sortBy(options, "label");
     }
 
     getJobOptions() {
-        if (this.props.clientId === -1) return [];
-        const client = _.find(this.props.clients, (client) => client.clientId === this.props.clientId);
+        if (this.state.clientId === "-1") return [];
+        const client = _.find(this.state.clients, (client) => client.clientId === this.state.clientId);
         const options = [];
         _.map(client.jobs, job => {
-            const key = job.id;
-            options.push({ value: job.id, key, text: job.name });
+            options.push({ value: job.id, label: job.name });
         });
 
-        return _.sortBy(options, "text");
+        return _.sortBy(options, "label");
     }
 
     renderForm() {
-
         if (this.props.status === "not-started") {
 
             let scanButtonDisabled = true;
-            if (this.props.jobId !== -1 && this.props.clientId !== -1) {
+            if (this.state.jobId !== "-1" && this.state.clientId !== "-1") {
                 scanButtonDisabled = false;
             }
 
             return (
 
-                <form
+                <div
                     className="margin-top-100"
                 >
+
                     <TableRow>
                         <tr>
                             <td className="width-100-100">
-                                <Field
-
-                                    name="clientId"
-                                    type="text"
+                                <Select
+                                    clearable={false}
+                                    value={this.state.clientId}
                                     placeholder="Please select client ..."
                                     options={this.getClientOptions()}
-                                    onSelected={(clientId) => {
-                                        this.props.selectClientId(clientId);
-                                        this.props.selectJobId(-1);
-                                    }}
-                                    component={renderDropdownField}
+                                    onChange={option =>
+                                        this.setState({
+                                            clientId: option.value,
+                                            jobId: "-1"
+                                        })}
                                 />
                             </td>
                             <td>
                                 <AddNewClient onClientAdded={() => {
-                                    console.log("this.props.clientId", this.props.clientId);
-                                    this.forceUpdate();
-                                }} />
+                                    this.getClients();
+                                    this.setState({
+                                        clientId: "-1",
+                                        jobId: "-1"
+                                    });
+                                }
+                                } />
+
                             </td>
                         </tr>
                     </TableRow>
@@ -83,38 +106,50 @@ class ScanStart extends Component {
                     <TableRow>
                         <tr>
                             <td className="width-100-100">
-                                <Field
-                                    name="jobId"
+                                <Select
                                     type="text"
+                                    clearable={false}
+                                    value={this.state.jobId}
                                     placeholder="Please select job ..."
-
-                                    options={this.getJobOptions(this.props.clientId)}
-                                    onSelected={(jobId) => {
-                                        this.props.selectJobId(jobId);
-                                    }
-                                    }
-                                    component={renderDropdownField}
+                                    options={this.getJobOptions(this.state.clientId)}
+                                    onChange={option =>
+                                        this.setState({
+                                            jobId: option.value
+                                        })}
                                 />
                             </td>
                             <td>
-                                <AddNewJob onJobAdded={() => this.forceUpdate()} />
+                                <AddNewJob
+                                    clientId={this.state.clientId}
+                                    onJobAdded={() => {
+                                        this.getClients();
+                                        this.setState({
+                                            clientId: "-1",
+                                            jobId: "-1"
+                                        });
+                                    }
+                                    } />
                             </td>
                         </tr>
                     </TableRow>
-
-
 
                     <div className="height-50" />
 
                     <button
                         disabled={scanButtonDisabled}
                         className="btn btn-primary btn-block btn-green margin-top-10"
-                        onClick={() => this.props.startScan(this.props.mats)}
+                        onClick={() =>
+                            this.props.startScan(
+                                {
+                                    clientId: parseInt(this.state.clientId),
+                                    jobId: parseInt(this.state.jobId)
+                                }
+                            )
+                        }
                     >
                         Scan
                  </button>
-
-                </form>
+                </div>
             );
         }
     }
@@ -122,8 +157,8 @@ class ScanStart extends Component {
     renderSelected() {
 
         if (this.props.status !== "not-started") {
-            const client = _.find(this.props.clients, (client) => client.clientId === this.props.clientId);
-            const job = _.find(client.jobs, (job) => job.id === this.props.jobId);
+            const client = _.find(this.state.clients, (client) => client.clientId === this.state.clientId);
+            const job = _.find(client.jobs, (job) => job.id === this.state.jobId);
             return (
 
                 <div className="scan-start-summary">
@@ -147,24 +182,13 @@ class ScanStart extends Component {
 
 function mapStateToProps({ scan }) {
     return {
-        clients: scan.clients,
-        clientId: scan.clientId,
-        jobId: scan.jobId,
         status: scan.status,
         mats: scan.mats
     };
 }
 
-const validate = (values) => {
-    const errors = {};
 
-    return errors;
-}
 
-export default connect(mapStateToProps, actions)(reduxForm({
-    form: "scan-form",
-    enableReinitialize: true,
-    validate
-})(ScanStart));
+export default connect(mapStateToProps, actions)(ScanStart);
 
 

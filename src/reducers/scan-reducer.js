@@ -1,25 +1,19 @@
-import _ from 'lodash';
-import * as types from '../actions/types';
+import _ from "lodash";
+import * as types from "../actions/types";
 
-const INITIAL_STATE = { clients: [], clientId: -1, jobId: -1, status: 'not-started', created: null, mats: 0 };
+const INITIAL_STATE = { status: "not-started", clientId: -1, jobId: -1, created: null, mats: 0 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case types.SCAN_STATUS_RESET:
-            return { ...state, clientId: -1, jobId: -1, status: 'not-started', mats: 0 };
-        case types.CLIENTS_FETCHED:
-            return { ...INITIAL_STATE, clients: action.payload };
-        case types.CLIENT_ID_SELECTED:
-            return { ...state, clientId: action.payload };
-        case types.JOB_ID_SELECTED:
-            return { ...state, jobId: action.payload };
+            return { ...INITIAL_STATE };
         case types.SCAN_STARTED:
-            if (action.payload) {
-                return { ...state, status: 'started', created: action.payload };
-            }
-            return { ...state, status: 'started' };
+            const { created, clientId, jobId } = action.payload;
+            return { ...state, status: "started", created, clientId, jobId };
+        case types.SCAN_RESUMED:
+            return { ...state, status: "started" };
         case types.SCAN_STOPPED:
-            return { ...state, status: 'stopped' };
+            return { ...state, status: "stopped" };
         case types.MAT_FOUND:
             return { ...state, mats: action.payload };
         default:
