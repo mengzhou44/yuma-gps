@@ -59,7 +59,6 @@ class ScanStart extends Component {
     }
 
     render() {
-
         const visible = this.props.status === "not-started";
         let scanButtonDisabled = true;
         if (this.state.jobId !== "-1" && this.state.clientId !== "-1") {

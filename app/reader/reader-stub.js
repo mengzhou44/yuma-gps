@@ -9,9 +9,6 @@ class ReaderStub {
         this.timer = null;
     }
 
-    check() {
-        return true;
-    }
 
     createRandomString(length) {
         var str = "";
@@ -35,7 +32,7 @@ class ReaderStub {
                     };
 
                     this.tags.push(tag);
-                    this.mainWindow.webContents.send('mat:found');
+                    this.mainWindow.webContents.send('mat:found', { processed: this.tags.length });
 
                 }
             });
@@ -53,6 +50,7 @@ class ReaderStub {
 
     stop() {
         clearInterval(this.timer);
+        this.timer = null;
     }
 }
 

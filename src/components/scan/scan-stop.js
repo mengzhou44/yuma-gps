@@ -6,6 +6,7 @@ import _ from "lodash";
 import MyTransition from "../_common/my-transition";
 import * as actions from "../../actions";
 import MyConfirm from '../_common/my-confirm';
+import ScanProgress from './scan-progress';
 
 class ScanStop extends Component {
 
@@ -36,7 +37,7 @@ class ScanStop extends Component {
             <div>
                 <button
                     className="btn btn-block btn-green"
-                    onClick={() => this.props.resumeScan(this.props.mats)}
+                    onClick={() => this.props.resumeScan()}
                 >
                     Resume
             </button>
@@ -101,15 +102,13 @@ class ScanStop extends Component {
 
     render() {
         const visible = this.props.status !== "not-started";
+
+
         return (
             <MyTransition visible={visible}>
                 <div>
                     {this.renderSelected()}
-
-                    <div className="scan-stop-mats-container">
-                        <span className="scan-stop-mats">{this.props.mats}</span>
-                        <span className="scan-stop-mats-found">&nbsp;Mats Found</span>
-                    </div>
+                    <ScanProgress />
                     <div className="scan-stop-buttons">
                         {this.renderButtons()}
                     </div>
@@ -134,7 +133,7 @@ function mapStateToProps({ scan }) {
         jobId: scan.jobId,
         created: scan.created,
         status: scan.status,
-        mats: scan.mats,
+        progress: scan.progress,
     }
 }
 

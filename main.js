@@ -5,7 +5,7 @@ const path = require("path");
 const { app, BrowserWindow, ipcMain } = electron;
 
 const { getYumaServices } = require("./app/yuma/yuma-services-factory");
-const { getReader } = require("./app/reader/reader-factory");
+const { getReader, getBatchReader, checkReader } = require("./app/reader/reader-factory");
 const { checkPortal } = require("./app/portal");
 const Settings = require("./app/settings/settings");
 
@@ -37,7 +37,6 @@ app.on("ready", () => {
     });
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
-    reader = getReader(mainWindow, yumaServices);
 });
 
 
@@ -84,7 +83,7 @@ ipcMain.on("portal:check", (event) => {
 ipcMain.on("devices:check", (event) => {
     const devices = {};
     const promise1 = yumaServices.checkGPS();
-    const promise2 = reader.check();
+    const promise2 = checkReader();
     Promise.all([promise1, promise2]).then(values => {
         devices.gps = values[0];
         devices.reader = values[1];
@@ -114,29 +113,44 @@ ipcMain.on("clients:new-job", (event, { clientId, jobName }) => {
     mainWindow.webContents.send("clients:new-job", jobId);
 });
 
-
-
-
 ipcMain.on("scans:get", (event) => {
     mainWindow.webContents.send("scans:result", new Scans().getScans());
 });
 
-
 ipcMain.on("scans:upload", (event) => {
-    const scans = new Scans();
-    scans.uploadScans().then((success) => {
-
+    new Scans().uploadScans().then((success) => {
         if (success) {
             mainWindow.webContents.send("scans:upload");
             scans.clearScans();
         } else {
             mainWindow.webContents.send("scans:upload", "Error occurred while uploading");
         }
-
     });
 });
 
 ipcMain.on("scan:start", (event) => {
+    reader = getReader(mainWindow, yumaServices);
+    reader.start();
+});
+
+ipcMain.on("contamination-scan:start", (event) => {
+    const { contamination } = new Settings().fetch();
+    const batchSize = contamination.batchSize;
+    reader = getBatchReader(mainWindow, yumaServices, batchSize);
+    reader.start();
+});
+
+
+ipcMain.on("batch:process", (event, data) => {
+    const result = reder.processBatch(data);
+    mainWindow.webContents.send("batch:process", result);
+});
+
+ipcMain.on("scan:stop", (event) => {
+    reader.stop();
+});
+
+ipcMain.on("scan:resume", (event) => {
     reader.start();
 });
 
@@ -150,9 +164,4 @@ ipcMain.on("scan:complete", (event, scan) => {
     scans.addNewScan(scan);
     reader.clearData();
 });
-
-ipcMain.on("scan:stop", (event) => {
-    reader.stop();
-});
-
 

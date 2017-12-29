@@ -7419,6 +7419,19 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   text-align: center;
   margin-top: 100px; }
 
+.scan-progress-mats-container {
+  margin-top: 50px !important;
+  text-align: center; }
+
+.scan-progress-mats {
+  color: #00a98f;
+  font-size: 75px;
+  text-decoration-line: underline; }
+
+.scan-progress-mats-found {
+  color: #000000;
+  font-size: 25px; }
+
 .scan-dropdown-row {
   display: flex;
   justify-content: space-between; }
@@ -7435,19 +7448,6 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   border: 1px solid #e0e0e0;
   border-radius: 5px;
   padding: 10px; }
-
-.scan-stop-mats-container {
-  margin-top: 50px !important;
-  text-align: center; }
-
-.scan-stop-mats {
-  color: #00a98f;
-  font-size: 75px;
-  text-decoration-line: underline; }
-
-.scan-stop-mats-found {
-  color: #000000;
-  font-size: 25px; }
 
 .scan-stop-buttons {
   margin-top: 100px; }

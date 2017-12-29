@@ -7,18 +7,33 @@ import * as types from "./types";
 export function startScan({ clients, clientId, jobId }) {
     return function (dispatch) {
         ipcRenderer.send("scan:start");
-
         const payload = {
             clients,
             clientId,
             jobId,
-            created: Math.floor(Date.now())
+            created: Math.floor(Date.now()),
+            contaminationJob: false
         };
         dispatch({ type: types.SCAN_STARTED, payload });
-        let mats = 0;
-        ipcRenderer.on("mat:found", (event) => {
-            mats++;
-            dispatch({ type: types.MAT_FOUND, payload: mats });
+        ipcRenderer.on("mat:found", (event, progress) => {
+            dispatch({ type: types.MAT_FOUND, payload: progress });
+        });
+    };
+}
+
+export function startContaminationScan({ clients, clientId, jobId }) {
+    return function (dispatch) {
+        ipcRenderer.send("contamination-scan:start");
+        const payload = {
+            clients,
+            clientId,
+            jobId,
+            created: Math.floor(Date.now()),
+            contaminationJob: false
+        };
+        dispatch({ type: types.SCAN_STARTED, payload });
+        ipcRenderer.on("mat:found", (event, progress) => {
+            dispatch({ type: types.MAT_FOUND, payload: progress });
         });
     };
 }
@@ -38,12 +53,11 @@ export function resetScanStatus() {
     };
 }
 
-export function resumeScan(mats) {
+export function resumeScan() {
     return function (dispatch) {
-        ipcRenderer.send("scan:start");
-        ipcRenderer.on("mat:found", (event) => {
-            mats++;
-            dispatch({ type: types.MAT_FOUND, payload: mats });
+        ipcRenderer.send("scan:resume");
+        ipcRenderer.on("mat:found", (event, progress) => {
+            dispatch({ type: types.MAT_FOUND, payload: progress });
         });
         dispatch({ type: types.SCAN_RESUMED });
 

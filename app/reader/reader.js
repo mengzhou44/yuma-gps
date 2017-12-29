@@ -4,7 +4,6 @@ var { Socket } = require('net');
 const Settings = require('../settings/settings');
 
 
-
 class Reader {
 
     constructor(mainWindow, yumaServices) {
@@ -17,11 +16,9 @@ class Reader {
         const fields = line.toString().split(",");
         if (fields.length === 5) {
             const tagNumber = fields[1];
-
-            this.yumaServices.getGPSData().then(location => {
-
-                const found = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
-                if (!found) {
+            const found = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
+            if (!found) {
+                this.yumaServices.getGPSData().then(location => {
                     const timeStamp = Math.floor(Date.now());
                     const tag = {
                         tagNumber,
@@ -31,29 +28,17 @@ class Reader {
                     };
 
                     this.tags.push(tag);
-                    this.mainWindow.webContents.send('mat:found');
-                }
-            });
+                    this.mainWindow.webContents.send('mat:found', { processed: this.tags.length });
+                });
+            }
         }
     }
-
 
     getReaderSetting() {
         const settings = new Settings();
         const { reader } = settings.fetch();
         return reader;
     }
-
-
-    check() {
-        const readerSetting = this.getReaderSetting();
-        return new Promise(resolve => {
-            tcpp.probe(readerSetting.host, readerSetting.port, function (err, available) {
-                resolve(available);
-            });
-        });
-    }
-
 
 
     onData(data) {
@@ -64,7 +49,6 @@ class Reader {
     }
 
     onError(error) {
-
         this.mainWindow.webContents.send('mat:found', {
             error
         });
