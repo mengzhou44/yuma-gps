@@ -7423,6 +7423,11 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   display: flex;
   justify-content: space-between; }
 
+.scan-start-button-container {
+  margin-top: 10px;
+  padding-left: 5px;
+  padding-right: 5px; }
+
 .scan-stop-summary {
   display: flex;
   justify-content: space-between;
@@ -7430,6 +7435,10 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   border: 1px solid #e0e0e0;
   border-radius: 5px;
   padding: 10px; }
+
+.scan-stop-mats-container {
+  margin-top: 50px !important;
+  text-align: center; }
 
 .scan-stop-mats {
   color: #00a98f;
@@ -7444,12 +7453,9 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   margin-top: 100px; }
 
 .sync-download {
-  padding: 10px;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 40px; }
+  height: 200px;
+  display: flex;
+  align-items: center; }
 
 .sync-upload {
   padding: 10px;

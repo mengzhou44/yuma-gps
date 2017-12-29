@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { ipcRenderer } from "electron";
 import { connect } from "react-redux";
 import Select from "react-select";
-
 import _ from "lodash";
 
-
+import MyTransition from "../_common/my-transition";
 import * as actions from "../../actions";
 import TableRow from "../_common/table-row";
 import AddNewClient from "./add-new-client";
@@ -59,19 +58,17 @@ class ScanStart extends Component {
         return _.sortBy(options, "label");
     }
 
-    renderForm() {
-        if (this.props.status === "not-started") {
+    render() {
 
-            let scanButtonDisabled = true;
-            if (this.state.jobId !== "-1" && this.state.clientId !== "-1") {
-                scanButtonDisabled = false;
-            }
+        const visible = this.props.status === "not-started";
+        let scanButtonDisabled = true;
+        if (this.state.jobId !== "-1" && this.state.clientId !== "-1") {
+            scanButtonDisabled = false;
+        }
 
-            return (
-
-                <div
-                    className="margin-top-100"
-                >
+        return (
+            <MyTransition visible={visible} >
+                <div className="margin-top-100">
 
                     <TableRow>
                         <tr>
@@ -136,39 +133,30 @@ class ScanStart extends Component {
                     </TableRow>
 
                     <div className="height-50" />
+                    <div className="scan-start-button-container">
+                        <button
+                            disabled={scanButtonDisabled}
+                            className="btn btn-primary btn-block btn-green scan-start-button"
+                            onClick={() => {
+                                this.props.startScan(
+                                    {
+                                        clients: this.state.clients,
+                                        clientId: this.state.clientId,
+                                        jobId: this.state.jobId,
+                                    }
+                                );
 
-                    <button
-                        disabled={scanButtonDisabled}
-                        className="btn btn-primary btn-block btn-green margin-top-10"
-                        onClick={() => {
-                            this.props.startScan(
-                                {
-                                    clients: this.state.clients,
-                                    clientId: this.state.clientId,
-                                    jobId: this.state.jobId,
-                                }
-                            );
-
-                            this.setState({
-                                clientId: "-1",
-                                jobId: "-1"
-                            });
-                        }}
-                    >
-                        Scan
+                                this.setState({
+                                    clientId: "-1",
+                                    jobId: "-1"
+                                });
+                            }}
+                        >
+                            Scan
                  </button>
+                    </div>
                 </div>
-            );
-        }
-    }
-
-
-    render() {
-
-        return (
-            <div>
-                {this.renderForm()}
-            </div>
+            </MyTransition>
         );
     }
 }

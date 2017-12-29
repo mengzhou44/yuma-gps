@@ -39,17 +39,6 @@ export default class AdvancedScreen extends Component {
     }
 
 
-    renderContent() {
-        switch (this.state.current) {
-            case "tablet":
-                return <AdvancedTablet />;
-            case "reader":
-                return <AdvancedReader />;
-            default:
-                return <AdvancedTablet />
-        }
-    }
-
     render() {
 
         return (
@@ -57,7 +46,10 @@ export default class AdvancedScreen extends Component {
                 <Header />
                 <div className="row">
                     <div className="col s12 m3">{this.renderSideBar()}</div>
-                    <div className="col s12 m9">{this.renderContent()}</div>
+                    <div className="col s12 m9">
+                        <AdvancedTablet current={this.state.current} />
+                        <AdvancedReader current={this.state.current} />
+                    </div>
                 </div>
             </div>);
 

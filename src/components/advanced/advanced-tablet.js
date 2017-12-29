@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Divider } from "semantic-ui-react";
 
 import CheckPortal from "../_common/check-portal";
+import MyTransition from "../_common/my-transition";
 import Error from "../_common/error";
 import * as actions from "../../actions";
 
@@ -78,16 +79,22 @@ class AdvancedTablet extends Component {
 
     }
 
-
-
     render() {
-        return <div className="sidebar-content">
-            <h5 className="color-orange">Tablet</h5>
-            <Divider />
-            <label>Mac Address</label>
-            <p>{this.state.macAddress}</p>
-            {this.renderRegisterContent()}
-        </div>;
+
+        const visible = this.props.current === "tablet";
+
+        return (
+            <MyTransition visible={visible}>
+                <div className="sidebar-content">
+                    <h5 className="color-orange">Tablet</h5>
+                    <Divider />
+                    <label>Mac Address</label>
+                    <p>{this.state.macAddress}</p>
+                    {this.renderRegisterContent()}
+                </div>
+            </MyTransition>
+        );
+
     }
 }
 

@@ -1,10 +1,7 @@
 .sync-download {
-   padding: 10px; 
-   border: 1px solid $color-gray;
-   border-radius: 5px; 
-   margin-left: 10px; 
-   margin-right: 10px; 
-   margin-bottom: 40px; 
+    height: 200px;
+    display: flex; 
+    align-items: center;  
 }
 
 .sync-upload {

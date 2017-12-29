@@ -36,10 +36,11 @@ class ReaderStub {
 
                     this.tags.push(tag);
                     this.mainWindow.webContents.send('mat:found');
+
                 }
             });
 
-        }, 1000);
+        }, 2000);
     }
 
     getData() {

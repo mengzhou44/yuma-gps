@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import _ from "lodash";
+
+import MyTransition from "../_common/my-transition";
 import * as actions from "../../actions";
 import MyConfirm from '../_common/my-confirm';
 
@@ -55,7 +57,7 @@ class ScanStop extends Component {
             </button>
                 <div className="height-30" />
                 <button
-                    className="btn btn-block btn-blue"
+                    className="btn btn-block btn-orange"
                     onClick={() => {
                         this.setState({
                             showConfirm: true,
@@ -98,31 +100,29 @@ class ScanStop extends Component {
     }
 
     render() {
-        if (this.props.status === "not-started") {
-            return <span />;
-        }
-
+        const visible = this.props.status !== "not-started";
         return (
-            <div>
-                {this.renderSelected()}
-                <div className="height-30" />
+            <MyTransition visible={visible}>
+                <div>
+                    {this.renderSelected()}
 
-                <div className="align-center">
-                    <span className="scan-stop-mats">{this.props.mats}</span>
-                    <span className="scan-stop-mats-found">&nbsp;Mats Found</span>
+                    <div className="scan-stop-mats-container">
+                        <span className="scan-stop-mats">{this.props.mats}</span>
+                        <span className="scan-stop-mats-found">&nbsp;Mats Found</span>
+                    </div>
+                    <div className="scan-stop-buttons">
+                        {this.renderButtons()}
+                    </div>
+                    <MyConfirm
+                        showConfirm={this.state.showConfirm}
+                        message={this.state.confirmMessage}
+                        onCancel={this.state.onCancel}
+                        onConfirm={this.state.onConfirm}
+                        cancelButtonText="No"
+                        confirmButtonText="Yes"
+                    />
                 </div>
-                <div className="scan-stop-buttons">
-                    {this.renderButtons()}
-                </div>
-                <MyConfirm
-                    showConfirm={this.state.showConfirm}
-                    message={this.state.confirmMessage}
-                    onCancel={this.state.onCancel}
-                    onConfirm={this.state.onConfirm}
-                    cancelButtonText="No"
-                    confirmButtonText="Yes"
-                />
-            </div>
+            </MyTransition>
         );
     }
 }

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { ipcRenderer } from "electron";
 import { Divider } from "semantic-ui-react";
 
+import MyTransition from "../_common/my-transition";
 import Error from "../_common/error";
 import MyAlert from "../_common/my-alert";
 
@@ -34,59 +35,62 @@ class SyncDownload extends Component {
             downloadButtonDisabled = true;
         }
 
-        return (<div>
-            <button
-                className="btn btn-block btn-green margin-top-100"
-                disabled={downloadButtonDisabled}
-                onClick={() => {
-                    this.setState({
-                        error: "",
-                        inProgress: true
-                    });
-                    ipcRenderer.send("clients:download");
-                    ipcRenderer.once("clients:download", (event, error) => {
-                        if (error) {
-                            this.setState({
-                                inProgress: false,
-                                error
-                            });
-                        } else {
-                            this.setState({
-                                inProgress: false,
-                                showAlert: true,
-                                alertMessage: "Download is complete!"
-                            });
-                        }
-                    })
-                }}
-            >
-                {downloadButtonText}
-            </button>
-            <Error message={this.state.error} />
+        return (<div className="sync-download">
+            <div className="width-100-100">
+                <button
+                    className="btn btn-block btn-green"
+                    disabled={downloadButtonDisabled}
+                    onClick={() => {
+                        this.setState({
+                            error: "",
+                            inProgress: true
+                        });
+                        ipcRenderer.send("clients:download");
+                        ipcRenderer.once("clients:download", (event, error) => {
+                            if (error) {
+                                this.setState({
+                                    inProgress: false,
+                                    error
+                                });
+                            } else {
+                                this.setState({
+                                    inProgress: false,
+                                    showAlert: true,
+                                    alertMessage: "Download is complete!"
+                                });
+                            }
+                        })
+                    }}
+                >
+                    {downloadButtonText}
+                </button>
+                <Error message={this.state.error} />
 
-            <MyAlert
-                showAlert={this.state.showAlert}
-                message={this.state.alertMessage}
-                onClick={() =>
-                    this.setState({
-                        showAlert: false
-                    })
-                }
-            />
+                <MyAlert
+                    showAlert={this.state.showAlert}
+                    message={this.state.alertMessage}
+                    onClick={() =>
+                        this.setState({
+                            showAlert: false
+                        })
+                    }
+                />
+            </div>
         </div>
         );
 
     }
 
     render() {
-
-
+        const visible = this.props.current === "download";
         return (
-            <div className="sidebar-content">
-                <h5 className="color-orange">Download</h5>
-                <Divider />
-                {this.renderDonwloadContent()}
-            </div>
+            <MyTransition visible={visible}>
+                <div className="sidebar-content">
+                    <h5 className="color-orange">Download</h5>
+                    <Divider />
+                    {this.renderDonwloadContent()}
+                </div>
+            </MyTransition>
         );
     }
 }

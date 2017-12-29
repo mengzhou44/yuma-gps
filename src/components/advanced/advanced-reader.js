@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { Divider } from "semantic-ui-react";
 import { connect } from "react-redux";
+import MyTransition from "../_common/my-transition";
 import { renderField } from "../_common/render-field";
 import * as actions from "../../actions";
 
@@ -62,39 +63,44 @@ class AdvancedReader extends Component {
 
 
     render() {
+
+        const visible = this.props.current === "reader";
+
         return (
-            <div className="sidebar-content">
-                <h5 className="color-orange">Reader</h5>
-                <Divider />
+            <MyTransition visible={visible}>
+                <div className="sidebar-content">
+                    <h5 className="color-orange">Reader</h5>
+                    <Divider />
 
-                <form
-                    className="settings-form"
-                    onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}
-                >
+                    <form
+                        className="settings-form"
+                        onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}
+                    >
 
-                    <Field
-                        name="host"
-                        label="HOST"
-                        component={renderField}
-                        type="text"
-                        disabled={this.state.disabled}
-                    />
+                        <Field
+                            name="host"
+                            label="HOST"
+                            component={renderField}
+                            type="text"
+                            disabled={this.state.disabled}
+                        />
 
-                    <Field
-                        name="port"
-                        label="PORT"
-                        component={renderField}
-                        type="text"
-                        disabled={this.state.disabled}
-                    />
+                        <Field
+                            name="port"
+                            label="PORT"
+                            component={renderField}
+                            type="text"
+                            disabled={this.state.disabled}
+                        />
 
-                    {this.renderChangeButton()}
+                        {this.renderChangeButton()}
 
-                    {this.renderSaveCancelButtons()}
+                        {this.renderSaveCancelButtons()}
 
 
-                </form>
-            </div>
+                    </form>
+                </div>
+            </MyTransition>
         );
     }
 }

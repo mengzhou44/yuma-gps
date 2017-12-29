@@ -6,6 +6,7 @@ import * as actions from '../../actions';
 import Error from '../_common/error';
 import Header from '../_common/header';
 
+
 import CheckDevices from './check-devices';
 import ScanContent from './scan-content';
 
@@ -15,7 +16,6 @@ class ScanScreen extends Component {
     componentDidMount() {
         ipcRenderer.send("system:initialized");
     }
-
 
     renderContent() {
         if (this.props.checkDevicesStatus === "check-passed") {
