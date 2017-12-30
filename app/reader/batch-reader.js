@@ -62,7 +62,7 @@ class BatchReader {
         if (fields.length === 5) {
             const tagNumber = fields[1];
             const existed = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
-            if (existed) return; // ignore the tag that  is already picked.
+            if (existed) return; // ignore the tag that is already picked.
             const found = _.find(this.batchTags, (tag) => tag.tagNumber === tagNumber);
 
             if (!found) {

@@ -129,13 +129,20 @@ ipcMain.on("scans:upload", (event) => {
 });
 
 ipcMain.on("scan:start", (event) => {
+    if (reader) {
+        reader.stop();
+    }
     reader = getReader(mainWindow, yumaServices);
     reader.start();
 });
 
 ipcMain.on("contamination-scan:start", (event) => {
+    if (reader) {
+        reader.stop();
+    }
     const { contamination } = new Settings().fetch();
     const batchSize = contamination.batchSize;
+
     reader = getBatchReader(mainWindow, yumaServices, batchSize);
     reader.start();
 });

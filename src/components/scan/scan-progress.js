@@ -15,9 +15,43 @@ class ScanProgress extends Component {
         </div>);
     }
 
+    renderContaminationButtons() {
+        if (this.props.propgress.batchFull) {
+            return (
+                <div>
+                    <button className="btn btn-green" >
+                        Uncontaminated
+                </button>
+                    <button className="btn btn-red" >
+                        Contaminated
+                </button>
+                </div>
+            );
+        }
+    }
 
     renderContaminationProgress() {
-        return <div> Contamination Progress </div>;
+        let processed = 0;
+        let mats = 0;
+        if (this.props.progress.processed) {
+            processed = this.props.progress.processed;
+        }
+        if (this.props.progress.batch) {
+            mats = this.props.progress.batch;
+        }
+
+
+        return (<div className="scan-progress-mats-container">
+            <div>
+                <span className="scan-progress-processed">{processed}</span>
+                <span className="scan-progress-processed-found">&nbsp;Mats Processed</span>
+            </div>
+            <div>
+                <span className="scan-progress-mats">{mats}</span>
+                <span className="scan-progress-mats-found">&nbsp;Mats Found</span>
+            </div>
+            {this.renderContaminationButtons()}
+        </div>);
     }
 
     render() {
@@ -27,7 +61,6 @@ class ScanProgress extends Component {
 
         return this.renderContaminationProgress();
     }
-
 }
 
 function mapStateToProps({ scan }) {

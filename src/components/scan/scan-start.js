@@ -137,13 +137,26 @@ class ScanStart extends Component {
                             disabled={scanButtonDisabled}
                             className="btn btn-primary btn-block btn-green scan-start-button"
                             onClick={() => {
-                                this.props.startScan(
-                                    {
-                                        clients: this.state.clients,
-                                        clientId: this.state.clientId,
-                                        jobId: this.state.jobId,
-                                    }
-                                );
+                                if (this.state.jobId !== "76652") {
+                                    console.log("step1", this.state.jobId);
+                                    this.props.startScan(
+                                        {
+                                            clients: this.state.clients,
+                                            clientId: this.state.clientId,
+                                            jobId: this.state.jobId,
+                                        }
+                                    );
+                                } else {
+                                    console.log("step2", this.state.jobId);
+                                    this.props.startContaminationScan(
+                                        {
+                                            clients: this.state.clients,
+                                            clientId: this.state.clientId,
+                                            jobId: this.state.jobId,
+                                        }
+                                    );
+                                }
+
 
                                 this.setState({
                                     clientId: "-1",

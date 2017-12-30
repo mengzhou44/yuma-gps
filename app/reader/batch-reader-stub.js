@@ -12,12 +12,6 @@ class BatchReaderStub {
         this.tags = [];
     }
 
-    createRandomString(length) {
-        var str = "";
-        for (; str.length < length; str += Math.random().toString(36).substr(2));
-        return str.substr(0, length);
-    }
-
 
     getData() {
         return this.tags;
@@ -32,14 +26,21 @@ class BatchReaderStub {
         this.timer = null;
     }
 
+    createRandomString(length) {
+        var str = "";
+        for (; str.length < length; str += Math.random().toString(36).substr(2));
+        return str.substr(0, length);
+    }
 
     start() {
         this.timer = setInterval(() => {
             const tagNumber = "AAA" + this.createRandomString(4);
             this.yumaServices.getGPSData().then(location => {
-
+                console.log("batch-reader-stub:step1");
                 const found = _.find(this.batchTags, (tag) => tag.tagNumber === tagNumber);
+                console.log("batch-reader-stub:step2");
                 if (!found) {
+                    console.log("batch-reader-stub:step3");
                     const timeStamp = Math.floor(Date.now());
                     const tag = {
                         tagNumber,
@@ -49,7 +50,13 @@ class BatchReaderStub {
                     };
 
                     this.batchTags.push(tag);
-                    this.mainWindow.webContents.send('mat:found', { processed: this.tags.length, batch: this.batchTags.length });
+                    const result = {
+                        processed: this.tags.length,
+                        batch: this.batchTags.length,
+                        batchFull: this.batchTags.length === this.batchSize
+                    };
+                    console.log("batch-reader-stub: mat-found");
+                    this.mainWindow.webContents.send('mat:found', result);
 
                 }
             });

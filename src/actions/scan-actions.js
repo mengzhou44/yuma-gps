@@ -33,6 +33,7 @@ export function startContaminationScan({ clients, clientId, jobId }) {
         };
         dispatch({ type: types.SCAN_STARTED, payload });
         ipcRenderer.on("mat:found", (event, progress) => {
+            console.log("mat:found", JSON.stringify(progress, null, 4));
             dispatch({ type: types.MAT_FOUND, payload: progress });
         });
     };
