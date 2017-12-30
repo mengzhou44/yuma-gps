@@ -7432,6 +7432,28 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   color: #000000;
   font-size: 25px; }
 
+.scan-progress-contamination {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 30px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px; }
+
+.scan-progress-contamination-processed {
+  font-size: 20px;
+  margin-bottom: 30px;
+  text-align: right;
+  clear: both; }
+
+.scan-progress-contamination-mats {
+  text-align: center;
+  clear: both;
+  margin-bottom: 30px; }
+
+.scan-progress-contamination-buttons {
+  display: flex;
+  justify-content: space-around; }
+
 .scan-dropdown-row {
   display: flex;
   justify-content: space-between; }

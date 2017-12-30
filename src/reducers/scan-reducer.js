@@ -17,7 +17,7 @@ export default (state = INITIAL_STATE, action) => {
             return { ...INITIAL_STATE };
         case types.SCAN_STARTED:
             const { clients, created, clientId, jobId, contaminationJob } = action.payload;
-            return { ...state, status: "started", clients, created, clientId, jobId };
+            return { ...state, status: "started", clients, created, clientId, jobId, contaminationJob };
         case types.SCAN_RESUMED:
             return { ...state, status: "started" };
         case types.SCAN_STOPPED:

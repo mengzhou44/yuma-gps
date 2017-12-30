@@ -15,3 +15,32 @@
      font-size: 25px;
  }
  
+ .scan-progress-contamination {
+    margin-top:20px;
+    margin-bottom: 20px; 
+    padding: 30px 10px; 
+    border: 1px solid $color-gray; 
+    border-radius: 5px; 
+ }
+ 
+ .scan-progress-contamination-processed {
+    font-size: 20px; 
+    margin-bottom: 30px; 
+    text-align: right;
+    clear: both;
+  }
+ 
+  
+  .scan-progress-contamination-mats {
+     text-align: center;
+     clear: both;
+     margin-bottom: 30px; 
+  }
+ 
+  
+  .scan-progress-contamination-buttons {
+     display: flex;
+     justify-content: space-around; 
+
+  }
+  

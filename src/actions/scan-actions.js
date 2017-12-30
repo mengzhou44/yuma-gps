@@ -29,7 +29,7 @@ export function startContaminationScan({ clients, clientId, jobId }) {
             clientId,
             jobId,
             created: Math.floor(Date.now()),
-            contaminationJob: false
+            contaminationJob: true
         };
         dispatch({ type: types.SCAN_STARTED, payload });
         ipcRenderer.on("mat:found", (event, progress) => {

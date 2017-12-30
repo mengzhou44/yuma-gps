@@ -36,11 +36,11 @@ class BatchReaderStub {
         this.timer = setInterval(() => {
             const tagNumber = "AAA" + this.createRandomString(4);
             this.yumaServices.getGPSData().then(location => {
-                console.log("batch-reader-stub:step1");
+
                 const found = _.find(this.batchTags, (tag) => tag.tagNumber === tagNumber);
-                console.log("batch-reader-stub:step2");
+
                 if (!found) {
-                    console.log("batch-reader-stub:step3");
+
                     const timeStamp = Math.floor(Date.now());
                     const tag = {
                         tagNumber,
@@ -49,15 +49,16 @@ class BatchReaderStub {
                         timeStamp
                     };
 
-                    this.batchTags.push(tag);
-                    const result = {
-                        processed: this.tags.length,
-                        batch: this.batchTags.length,
-                        batchFull: this.batchTags.length === this.batchSize
-                    };
-                    console.log("batch-reader-stub: mat-found");
-                    this.mainWindow.webContents.send('mat:found', result);
+                    if (this.batchTags.length < this.batchSize) {
+                        this.batchTags.push(tag);
+                        const result = {
+                            processed: this.tags.length,
+                            batch: this.batchTags.length,
+                            batchFull: this.batchTags.length === this.batchSize
+                        };
 
+                        this.mainWindow.webContents.send('mat:found', result);
+                    }
                 }
             });
 

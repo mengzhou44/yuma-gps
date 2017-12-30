@@ -16,9 +16,9 @@ class ScanProgress extends Component {
     }
 
     renderContaminationButtons() {
-        if (this.props.propgress.batchFull) {
+        if (this.props.progress.batchFull) {
             return (
-                <div>
+                <div className="scan-progress-contamination-buttons">
                     <button className="btn btn-green" >
                         Uncontaminated
                 </button>
@@ -41,12 +41,12 @@ class ScanProgress extends Component {
         }
 
 
-        return (<div className="scan-progress-mats-container">
-            <div>
+        return (<div className="scan-progress-contamination">
+            <div className="scan-progress-contamination-processed">
                 <span className="scan-progress-processed">{processed}</span>
                 <span className="scan-progress-processed-found">&nbsp;Mats Processed</span>
             </div>
-            <div>
+            <div className="scan-progress-contamination-mats">
                 <span className="scan-progress-mats">{mats}</span>
                 <span className="scan-progress-mats-found">&nbsp;Mats Found</span>
             </div>
@@ -55,6 +55,7 @@ class ScanProgress extends Component {
     }
 
     render() {
+        console.log("this.props.contaminationJob", this.props.contaminationJob);
         if (this.props.contaminationJob === false) {
             return this.renderProgress();
         }
