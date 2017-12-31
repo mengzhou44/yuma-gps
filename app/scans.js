@@ -48,7 +48,11 @@ class Scans {
     }
 
     clearScans() {
-        fs.writeFileSync(this.scansFile, JSON.stringify([], null, 4));
+        try {
+            fs.writeFileSync(this.scansFile, JSON.stringify([], null, 4));
+        } catch (ex) {
+            console.log("Error occured whrn clearing scans...", ex);
+        }
     }
 }
 

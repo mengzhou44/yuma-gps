@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { ipcRenderer } from "electron";
 
 class ScanProgress extends Component {
+
 
     renderProgress() {
         let mats = 0;
@@ -17,12 +19,24 @@ class ScanProgress extends Component {
 
     renderContaminationButtons() {
         if (this.props.progress.batchFull) {
+
             return (
                 <div className="scan-progress-contamination-buttons">
-                    <button className="btn btn-green" >
+                    <button
+                        className="btn btn-green"
+                        onClick={() => {
+                            ipcRenderer.send("batch:process", { contaminated: true });
+                        }}
+
+                    >
                         Uncontaminated
                 </button>
-                    <button className="btn btn-red" >
+                    <button
+                        className="btn btn-red"
+                        onClick={() => {
+                            ipcRenderer.send("batch:process", { contaminated: false });
+                        }}
+                    >
                         Contaminated
                 </button>
                 </div>
@@ -40,7 +54,6 @@ class ScanProgress extends Component {
             mats = this.props.progress.batch;
         }
 
-
         return (<div className="scan-progress-contamination">
             <div className="scan-progress-contamination-processed">
                 <span className="scan-progress-processed">{processed}</span>
@@ -55,7 +68,6 @@ class ScanProgress extends Component {
     }
 
     render() {
-        console.log("this.props.contaminationJob", this.props.contaminationJob);
         if (this.props.contaminationJob === false) {
             return this.renderProgress();
         }

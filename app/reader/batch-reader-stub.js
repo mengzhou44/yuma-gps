@@ -65,21 +65,30 @@ class BatchReaderStub {
         }, 2000);
     }
 
-
-    processBatch(contaminated) {
-        stop();
+    processBatch(data) {
         if (this.batchTags.length !== this.batchSize) {
-            start();
-            return { error: `Error occurred when processing batch .. ` };
+            return;
         }
+        this.stop();
         _.map(this.batchTags, tag => {
-            tag.contaminated = contaminated;
+            for (var prop in data) {
+                if (data.hasOwnProperty(prop)) {
+                    tag[prop] = data[prop];
+                }
+            }
             this.tags.push(tag);
         });
         this.batchTags = [];
 
-        start();
-        return {};
+        const result = {
+            processed: this.tags.length,
+            batch: this.batchTags.length,
+            batchFull: this.batchTags.length === this.batchSize
+        };
+
+        this.mainWindow.webContents.send('mat:found', result);
+
+        this.start();
     }
 
 }

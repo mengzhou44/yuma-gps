@@ -118,7 +118,8 @@ ipcMain.on("scans:get", (event) => {
 });
 
 ipcMain.on("scans:upload", (event) => {
-    new Scans().uploadScans().then((success) => {
+    const scans = new Scans();
+    scans.uploadScans().then((success) => {
         if (success) {
             mainWindow.webContents.send("scans:upload");
             scans.clearScans();
@@ -149,8 +150,7 @@ ipcMain.on("contamination-scan:start", (event) => {
 
 
 ipcMain.on("batch:process", (event, data) => {
-    const result = reder.processBatch(data);
-    mainWindow.webContents.send("batch:process", result);
+    reader.processBatch(data);
 });
 
 ipcMain.on("scan:stop", (event) => {
