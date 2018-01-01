@@ -1,36 +1,15 @@
 const _ = require('lodash');
-const { ReaderStub } = require("./batch-reader");
+const ReaderStub = require("./reader-stub");
 
-class BatchReaderStub {
+class BatchReaderStub extends ReaderStub {
 
     constructor(mainWindow, yumaServices, batchSize) {
-        this.mainWindow = mainWindow;
-        this.yumaServices = yumaServices;
-        this.timer = null;
+        super(mainWindow, yumaServices);
         this.batchSize = batchSize;
         this.batchTags = [];
-        this.tags = [];
     }
 
 
-    getData() {
-        return this.tags;
-    }
-
-    clearData() {
-        this.tags = [];
-    }
-
-    stop() {
-        clearInterval(this.timer);
-        this.timer = null;
-    }
-
-    createRandomString(length) {
-        var str = "";
-        for (; str.length < length; str += Math.random().toString(36).substr(2));
-        return str.substr(0, length);
-    }
 
     start() {
         this.timer = setInterval(() => {

@@ -5,56 +5,12 @@ const Settings = require('../settings/settings');
 const Reader = require("./reader");
 
 
-class BatchReader {
+class BatchReader extends Reader {
 
     constructor(mainWindow, yumaServices, batchSize) {
-        this.mainWindow = mainWindow;
-        this.yumaServices = yumaServices;
+        super(mainWindow, yumaServices);
         this.batchSize = batchSize;
         this.batchTags = [];
-        this.tags = [];
-    }
-
-    getReaderSetting() {
-        const settings = new Settings();
-        const { reader } = settings.fetch();
-        return reader;
-    }
-
-
-    onData(data) {
-        const lines = data.toString().split("\n");
-        _.each(lines, line => {
-            this.processTag(line);
-        });
-    }
-
-    onError(error) {
-        this.mainWindow.webContents.send('mat:found', {
-            error
-        });
-    }
-
-    start() {
-        this.tcpClient = new Socket();
-        this.tcpClient.on('error', this.onError.bind(this));
-        this.tcpClient.on('data', this.onData.bind(this));
-        const readerSetting = this.getReaderSetting();
-        this.tcpClient.connect(readerSetting.port, readerSetting.host);
-    }
-
-
-    stop() {
-        this.tcpClient.destroy();
-        this.tcpClient = null;
-    }
-
-    getData() {
-        return this.tags;
-    }
-
-    clearData() {
-        this.tags = [];
     }
 
     processTag(line) {
@@ -86,13 +42,7 @@ class BatchReader {
         }
     }
 
-    onData(data) {
-        this.batchTags = [];
-        const lines = data.toString().split("\n");
-        _.each(lines, line => {
-            this.processTag(line);
-        });
-    }
+
 
     processBatch(data) {
         if (this.batchTags.length !== this.batchSize) {

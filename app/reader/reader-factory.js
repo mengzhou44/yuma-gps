@@ -4,6 +4,7 @@ const ReaderStub = require('./reader-stub');
 const BatchReader = require('./batch-reader');
 const BatchReaderStub = require('./batch-reader-stub');
 
+
 let useStub = true;
 
 function getReader(mainWindow, yumaServices) {
