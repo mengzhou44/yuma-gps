@@ -6,7 +6,7 @@ import MyTransition from "../_common/my-transition";
 import { renderField } from "../_common/render-field";
 import * as actions from "../../actions";
 
-class AdvancedReader extends Component {
+class AdvancedContamination extends Component {
 
     constructor(props) {
         super(props);
@@ -20,7 +20,7 @@ class AdvancedReader extends Component {
 
     onSubmit(props) {
         let { settings } = this.props;
-        settings.reader = props;
+        settings.contamination = props;
         this.props.saveSettings(settings, () => {
             this.setState({ disabled: true });
         });
@@ -64,12 +64,12 @@ class AdvancedReader extends Component {
 
     render() {
 
-        const visible = this.props.current === "reader";
+        const visible = this.props.current === "contamination";
 
         return (
             <MyTransition visible={visible}>
                 <div className="sidebar-content">
-                    <h5 className="color-orange">Reader</h5>
+                    <h5 className="color-orange">Contamination</h5>
                     <Divider />
 
                     <form
@@ -78,16 +78,16 @@ class AdvancedReader extends Component {
                     >
 
                         <Field
-                            name="host"
-                            label="HOST"
+                            name="batchSize"
+                            label="Batch Size"
                             component={renderField}
                             type="text"
                             disabled={this.state.disabled}
                         />
 
                         <Field
-                            name="port"
-                            label="PORT"
+                            name="rssiThreshold"
+                            label="RSSI Threshold"
                             component={renderField}
                             type="text"
                             disabled={this.state.disabled}
@@ -108,12 +108,12 @@ class AdvancedReader extends Component {
 const validate = values => {
     const errors = {};
 
-    if (!values.host) {
-        errors.host = "Please enter HOST address.";
+    if (!values.batchSize) {
+        errors.host = "Please enter Batch Size.";
     }
 
-    if (!values.port) {
-        errors.port = "Please enter Port number.";
+    if (!values.rssiThreshold) {
+        errors.port = "Please enter RSSI Threshold.";
     }
 
     return errors;
@@ -122,7 +122,7 @@ const validate = values => {
 
 function mapStateToProps({ settings }) {
     return {
-        initialValues: settings.data.reader,
+        initialValues: settings.data.contamination,
         settings: settings.data
     };
 }
@@ -130,8 +130,8 @@ function mapStateToProps({ settings }) {
 
 export default connect(mapStateToProps, actions)(
     reduxForm({
-        form: "reader-form",
+        form: "contamination-form",
         enableReinitialize: true,
         validate
-    })(AdvancedReader));
+    })(AdvancedContamination));
 

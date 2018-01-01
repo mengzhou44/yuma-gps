@@ -7472,7 +7472,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   padding: 10px; }
 
 .scan-stop-buttons {
-  margin-top: 100px; }
+  margin-top: 30px; }
 
 .sync-download {
   height: 200px;

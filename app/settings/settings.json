@@ -1,12 +1,1 @@
-{
-    "reader": {
-        "host": "169.254.100.20",
-        "port": 14250
-    },
-    "contamination": {
-        "batchSize": 4
-    },
-    "tablet": {
-        "token": "DD23FJSSS-09892"
-    }
-}
+{"contamination":{"batchSize":4,"rssiThreshold":"39"},"reader":{"host":"169.254.100.20","port":14250},"tablet":{"token":"DD23FJSSS-09892"}}
