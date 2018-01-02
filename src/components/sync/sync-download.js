@@ -45,8 +45,8 @@ class SyncDownload extends Component {
                             error: "",
                             inProgress: true
                         });
-                        ipcRenderer.send("clients:download");
-                        ipcRenderer.once("clients:download", (event, error) => {
+                        ipcRenderer.send("portal:download");
+                        ipcRenderer.once("portal:download", (event, error) => {
                             if (error) {
                                 this.setState({
                                     inProgress: false,

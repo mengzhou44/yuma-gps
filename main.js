@@ -10,6 +10,7 @@ const { checkPortal } = require("./app/portal");
 const Settings = require("./app/settings/settings");
 
 const Clients = require("./app/clients");
+const Tags = require("./app/tags");
 const Scans = require("./app/scans");
 const Tablet = require("./app/tablet");
 
@@ -92,16 +93,26 @@ ipcMain.on("devices:check", (event) => {
     });
 });
 
+ipcMain.on("portal:download", (event) => {
+    const promise1 = new Clients().downloadClients();
+    const promise2 = new Tags().downloadTags();
+    Promise.all([promise1, promise2]).then(values => {
+        if (values[0]) {
+            mainWindow.webContents.send("portal:download", values[0]);
+        } else if (values[1]) {
+            mainWindow.webContents.send("portal:download", values[1]);
+        }
+        else {
+            mainWindow.webContents.send("portal:download", "");
+        }
+    });
+
+});
+
 ipcMain.on("clients:get", (event) => {
     mainWindow.webContents.send("clients:result", new Clients().getClients());
 });
 
-ipcMain.on("clients:download", (event) => {
-    const clients = new Clients();
-    clients.downloadClients().then((error) => {
-        mainWindow.webContents.send("clients:download", error);
-    });
-});
 
 ipcMain.on("clients:new-client", (event, clientName) => {
     const clientId = new Clients().addNewClient(clientName);

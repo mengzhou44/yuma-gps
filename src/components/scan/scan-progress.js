@@ -2,8 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ipcRenderer } from "electron";
 
+import * as actions from "../../actions";
+
 class ScanProgress extends Component {
 
+
+    componentDidMount() {
+        this.props.fetchSettings();
+    }
 
     renderProgress() {
         let mats = 0;
@@ -45,6 +51,7 @@ class ScanProgress extends Component {
     }
 
     renderContaminationProgress() {
+
         let processed = 0;
         let mats = 0;
         if (this.props.progress.processed) {
@@ -54,6 +61,11 @@ class ScanProgress extends Component {
             mats = this.props.progress.batch;
         }
 
+        let rssiThreshold = 0;
+        if (this.props.settings.contamination) {
+            rssiThreshold = this.props.settings.contamination.rssiThreshold;
+        }
+
         return (<div className="scan-progress-contamination">
             <div className="scan-progress-contamination-processed">
                 <span className="scan-progress-processed">{processed}</span>
@@ -61,7 +73,7 @@ class ScanProgress extends Component {
             </div>
             <div className="scan-progress-contamination-mats">
                 <span className="scan-progress-mats">{mats}</span>
-                <span className="scan-progress-mats-found">&nbsp;Mats Found</span>
+                <span className="scan-progress-mats-found">&nbsp;Mats Found (rssi > {rssiThreshold})</span>
             </div>
             {this.renderContaminationButtons()}
         </div>);
@@ -76,11 +88,14 @@ class ScanProgress extends Component {
     }
 }
 
-function mapStateToProps({ scan }) {
+function mapStateToProps({ scan, settings }) {
+    console.log("settings", settings);
     return {
         progress: scan.progress,
-        contaminationJob: scan.contaminationJob
+        contaminationJob: scan.contaminationJob,
+        settings: settings.data
     }
 }
 
-export default connect(mapStateToProps, null)(ScanProgress);
+
+export default connect(mapStateToProps, actions)(ScanProgress);

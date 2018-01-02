@@ -138,7 +138,6 @@ class ScanStart extends Component {
                             className="btn btn-primary btn-block btn-green scan-start-button"
                             onClick={() => {
                                 if (this.state.jobId !== "76652") {
-                                    console.log("step1", this.state.jobId);
                                     this.props.startScan(
                                         {
                                             clients: this.state.clients,
@@ -147,7 +146,6 @@ class ScanStart extends Component {
                                         }
                                     );
                                 } else {
-                                    console.log("step2", this.state.jobId);
                                     this.props.startContaminationScan(
                                         {
                                             clients: this.state.clients,

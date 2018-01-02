@@ -27,6 +27,10 @@
       {
         "from": "app/data/scans.json",
         "to": "scans.json"
+      },
+      {
+        "from": "app/data/tags.json",
+        "to": "tags.json"
       }
     ],
     "win": {

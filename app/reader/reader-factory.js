@@ -1,28 +1,28 @@
-const Reader = require('./reader');
-const ReaderStub = require('./reader-stub');
-
-const BatchReader = require('./batch-reader');
-const BatchReaderStub = require('./batch-reader-stub');
+const Reader = require("./reader");
+const ReaderStub = require("./reader-stub");
 
 
-let useStub = true;
+const BatchReader = require("./batch-reader");
+const BatchReaderStub = require("./batch-reader-stub");
+const { getConfig } = require("../config");
+
 
 function getReader(mainWindow, yumaServices) {
-    if (useStub) {
+    if (getConfig().useStub) {
         return new ReaderStub(mainWindow, yumaServices);
     }
     return new Reader(mainWindow, yumaServices);
 }
 
 function getBatchReader(mainWindow, yumaServices, batchSize) {
-    if (useStub) {
+    if (getConfig().useStub) {
         return new BatchReaderStub(mainWindow, yumaServices, batchSize);
     }
     return new BatchReader(mainWindow, yumaServices, batchSize);
 }
 
 function checkReader() {
-    if (useStub) {
+    if (getConfig().useStub) {
         return true;
     }
 

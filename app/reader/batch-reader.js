@@ -3,6 +3,7 @@ const _ = require('lodash');
 var { Socket } = require('net');
 const Settings = require('../settings/settings');
 const Reader = require("./reader");
+const Tags = require("../tags");
 
 
 class BatchReader extends Reader {
@@ -11,12 +12,17 @@ class BatchReader extends Reader {
         super(mainWindow, yumaServices);
         this.batchSize = batchSize;
         this.batchTags = [];
+        this.knownTags = new Tags().getTags();
     }
 
     processTag(line) {
         const fields = line.toString().split(",");
         if (fields.length === 5) {
             const tagNumber = fields[1];
+
+            const isUnknown = new Tags().checkIfTagIsUnknown(this.knownTags, tagNumber);
+            if (isUnknown === true) return;
+
             const existed = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
             if (existed) return; // ignore the tag that is already picked.
             const found = _.find(this.batchTags, (tag) => tag.tagNumber === tagNumber);
