@@ -1,31 +1,22 @@
-.sync-download {
-    height: 200px;
+.sync-content {
+    margin-top: 50px; 
+    padding: 10px;
+}
+
+.sync-button-container {
     display: flex; 
-    align-items: center;  
+    justify-content: center;
+    align-items: center;
+    height: 200px;
 }
 
-.sync-upload {
-    padding: 10px; 
-    border: 1px solid $color-gray;
+.sync-progress-container {
+    display: flex; 
+    justify-content: center;
+
+}
+
+.sync-progress {
+    width: 400px; 
     border-radius: 5px; 
-    margin-left: 10px; 
-    margin-right: 10px;  
-}
-
-.sync-title {
-    font-size: 25px;
-    font-weight: 600;
-}
-
-.sync-scan-detail {
-    margin-top: 10px; 
-    display: flex;
-    justify-content:  space-between;
-}
-
-
-.sync-upload-content{
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;  
 }

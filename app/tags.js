@@ -34,14 +34,12 @@ class Tags {
     async downloadTags() {
         const { portalUrl } = getConfig();
         const tagsUrl = `${portalUrl}/tags`;
-        console.log(tagsUrl);
         try {
             const res = await axios.get(tagsUrl);
             fs.writeFileSync(this.tagsFile, JSON.stringify(res.data, null, 4));
-            return "";
+            return { success: true };
         } catch (error) {
-
-            return "Error occurred when downloading tags.";
+            return { success: false };
         }
 
     }

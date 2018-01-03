@@ -37,13 +37,17 @@ class Scans {
         const { portalUrl } = getConfig();
         try {
             const scans = this.getScans();
+            if (scans.length === 0) {
+                return { success: true };
+            }
             const res = await axios.post(`${portalUrl}/scans`, JSON.stringify(scans));
             if (res.data.success) {
-                return true;
+                this.clearScans();
+                return { success: true };
             }
-            return false;
+            return { success: false };
         } catch (ex) {
-            return false;
+            return { success: false };
         }
     }
 

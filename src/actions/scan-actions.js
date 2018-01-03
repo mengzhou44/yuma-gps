@@ -65,13 +65,6 @@ export function resumeScan() {
     };
 }
 
-export function abortScan() {
-    return function (dispatch) {
-        dispatch({ type: types.SCAN_STATUS_RESET });
-        ipcRenderer.send("scan:abort");
-        ipcRenderer.removeAllListeners("mat:found");
-    };
-}
 
 export function finishScan({ clientId, jobId, created }) {
     return function (dispatch) {

@@ -41,21 +41,7 @@ class ScanStop extends Component {
                 >
                     Resume
             </button>
-                <div className="height-30" />
-                <button
-                    className="btn btn-block btn-red"
-                    onClick={() => {
-                        this.setState({
-                            showConfirm: true,
-                            confirmMessage: "Are you sure you want to abort this scan?",
-                            onConfirm: () => {
-                                this.props.abortScan();
-                            }
-                        })
-                    }}
-                >
-                    Abort
-            </button>
+
                 <div className="height-30" />
                 <button
                     className="btn btn-block btn-orange"

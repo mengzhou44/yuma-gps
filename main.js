@@ -93,21 +93,36 @@ ipcMain.on("devices:check", (event) => {
     });
 });
 
-ipcMain.on("portal:download", (event) => {
-    const promise1 = new Clients().downloadClients();
-    const promise2 = new Tags().downloadTags();
-    Promise.all([promise1, promise2]).then(values => {
-        if (values[0]) {
-            mainWindow.webContents.send("portal:download", values[0]);
-        } else if (values[1]) {
-            mainWindow.webContents.send("portal:download", values[1]);
-        }
-        else {
-            mainWindow.webContents.send("portal:download", "");
+
+ipcMain.on("sync", (event) => {
+
+    new Scans().uploadScans().then(({ success }) => {
+        if (success) {
+            mainWindow.webContents.send("sync:progress", { data: { "uploadScans": true } });
+
+        } else {
+            mainWindow.webContents.send("sync:progress", { error: "Error occurred when uploading scans." });
         }
     });
 
+    new Clients().downloadClients().then(({ success }) => {
+        if (success) {
+            mainWindow.webContents.send("sync:progress", { data: { "downloadClients": true } });
+
+        } else {
+            mainWindow.webContents.send("sync:progress", { error: "Error occurred when downloading clients." });
+        }
+    });
+
+    new Tags().downloadTags().then(({ success }) => {
+        if (success) {
+            mainWindow.webContents.send("sync:progress", { data: { "downloadTags": true } });
+        } else {
+            mainWindow.webContents.send("sync:progress", { error: "Error occurred when downloading tags." });
+        }
+    });
 });
+
 
 ipcMain.on("clients:get", (event) => {
     mainWindow.webContents.send("clients:result", new Clients().getClients());
@@ -124,21 +139,6 @@ ipcMain.on("clients:new-job", (event, { clientId, jobName }) => {
     mainWindow.webContents.send("clients:new-job", jobId);
 });
 
-ipcMain.on("scans:get", (event) => {
-    mainWindow.webContents.send("scans:result", new Scans().getScans());
-});
-
-ipcMain.on("scans:upload", (event) => {
-    const scans = new Scans();
-    scans.uploadScans().then((success) => {
-        if (success) {
-            mainWindow.webContents.send("scans:upload");
-            scans.clearScans();
-        } else {
-            mainWindow.webContents.send("scans:upload", "Error occurred while uploading");
-        }
-    });
-});
 
 ipcMain.on("scan:start", (event) => {
     if (reader) {
@@ -170,10 +170,6 @@ ipcMain.on("scan:stop", (event) => {
 
 ipcMain.on("scan:resume", (event) => {
     reader.start();
-});
-
-ipcMain.on("scan:abort", (event) => {
-    reader.clearData();
 });
 
 ipcMain.on("scan:complete", (event, scan) => {

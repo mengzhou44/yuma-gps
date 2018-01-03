@@ -70,9 +70,9 @@ class Clients {
         try {
             const res = await axios.get(clientsUrl);
             fs.writeFileSync(this.clientsFile, JSON.stringify(res.data, null, 4));
-            return "";
+            return { success: true };
         } catch (error) {
-            return "Error occurred when downloading clients.";
+            return { success: false };
         }
 
     }
