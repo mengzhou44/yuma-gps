@@ -6,11 +6,6 @@ import * as actions from "../../actions";
 
 class ScanProgress extends Component {
 
-
-    componentDidMount() {
-        this.props.fetchSettings();
-    }
-
     renderProgress() {
         let mats = 0;
         if (this.props.progress.processed) {
@@ -24,7 +19,9 @@ class ScanProgress extends Component {
     }
 
     renderContaminationButtons() {
-        if (this.props.progress.batchFull) {
+        const { overflow, batch } = this.props.progress;
+
+        if (overflow === false && batch > 0) {
 
             return (
                 <div className="scan-progress-contamination-buttons">
@@ -61,10 +58,6 @@ class ScanProgress extends Component {
             mats = this.props.progress.batch;
         }
 
-        let rssiThreshold = 0;
-        if (this.props.settings.contamination) {
-            rssiThreshold = this.props.settings.contamination.rssiThreshold;
-        }
 
         return (<div className="scan-progress-contamination">
             <div className="scan-progress-contamination-processed">
@@ -73,7 +66,7 @@ class ScanProgress extends Component {
             </div>
             <div className="scan-progress-contamination-mats">
                 <span className="scan-progress-mats">{mats}</span>
-                <span className="scan-progress-mats-found">&nbsp;Mats Found (rssi > {rssiThreshold})</span>
+                <span className="scan-progress-mats-found">&nbsp;Mats Found</span>
             </div>
             {this.renderContaminationButtons()}
         </div>);
@@ -92,8 +85,7 @@ function mapStateToProps({ scan, settings }) {
 
     return {
         progress: scan.progress,
-        contaminationJob: scan.contaminationJob,
-        settings: settings.data
+        contaminationJob: scan.contaminationJob
     }
 }
 

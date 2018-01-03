@@ -45,7 +45,6 @@ class Reader {
 
 
     onData(data) {
-        console.log("onData", data);
         const lines = data.toString().split("\n");
         _.each(lines, line => {
             this.processTag(line);

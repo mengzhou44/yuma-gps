@@ -6,10 +6,10 @@ import ScanStop from './scan-stop';
 class ScanContent extends Component {
     render() {
         return (
-            <div className="height-100-100">
+            <div>
                 <ScanStart />
                 <div className='height-20' />
-                <ScanStop />
+                <ScanStop className="scan-stop" />
             </div>
         );
     }

@@ -21,6 +21,15 @@ class ScanStart extends Component {
         }
     }
 
+    isJobOfContamination() {
+        const client = _.find(this.state.clients, (client) => client.clientId === this.state.clientId);
+        const job = _.find(client.jobs, (job) => job.id === this.state.jobId);
+
+        const jobTypeId = job.name.split("-")[2];
+
+        return jobTypeId === "05";
+
+    }
 
     getClients() {
         ipcRenderer.send("clients:get");
@@ -38,6 +47,8 @@ class ScanStart extends Component {
     componentDidMount() {
         this.getClients();
     }
+
+
 
     getClientOptions() {
         const options = [];
@@ -137,16 +148,17 @@ class ScanStart extends Component {
                             disabled={scanButtonDisabled}
                             className="btn btn-primary btn-block btn-green scan-start-button"
                             onClick={() => {
-                                if (this.state.jobId !== "76652") {
-                                    this.props.startScan(
+                                if (this.isJobOfContamination()) {
+                                    this.props.startContaminationScan(
                                         {
                                             clients: this.state.clients,
                                             clientId: this.state.clientId,
                                             jobId: this.state.jobId,
                                         }
                                     );
+
                                 } else {
-                                    this.props.startContaminationScan(
+                                    this.props.startScan(
                                         {
                                             clients: this.state.clients,
                                             clientId: this.state.clientId,

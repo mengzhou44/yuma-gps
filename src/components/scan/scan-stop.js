@@ -24,17 +24,19 @@ class ScanStop extends Component {
     renderButtons() {
         if (this.props.status === "started") {
             return (
-                <button
-                    className="btn btn-block btn-green"
-                    onClick={() => this.props.stopScan()}
-                >
-                    Stop
+                <div className="scan-stop-buttons-container">
+                    <button
+                        className="btn btn-block btn-green"
+                        onClick={() => this.props.stopScan()}
+                    >
+                        Stop
                 </button>
+                </div>
             );
         }
 
         return (
-            <div>
+            <div className="scan-stop-buttons-container">
                 <button
                     className="btn btn-block btn-green"
                     onClick={() => this.props.resumeScan()}
@@ -94,10 +96,11 @@ class ScanStop extends Component {
             <MyTransition visible={visible}>
                 <div>
                     {this.renderSelected()}
-                    <ScanProgress />
-                    <div className="scan-stop-buttons">
+                    <div className="scan-stop">
+                        <ScanProgress />
                         {this.renderButtons()}
                     </div>
+
                     <MyConfirm
                         showConfirm={this.state.showConfirm}
                         message={this.state.confirmMessage}

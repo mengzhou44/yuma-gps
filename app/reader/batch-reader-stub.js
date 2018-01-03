@@ -28,16 +28,18 @@ class BatchReaderStub extends ReaderStub {
                         timeStamp
                     };
 
-                    if (this.batchTags.length < this.batchSize) {
+                    if (this.batchTags.length <= this.batchSize) {
                         this.batchTags.push(tag);
-                        const result = {
-                            processed: this.tags.length,
-                            batch: this.batchTags.length,
-                            batchFull: this.batchTags.length === this.batchSize
-                        };
-
-                        this.mainWindow.webContents.send('mat:found', result);
                     }
+
+                    const result = {
+                        processed: this.tags.length,
+                        batch: this.batchTags.length,
+                        overflow: this.batchTags.length > this.batchSize
+                    };
+
+                    this.mainWindow.webContents.send('mat:found', result);
+
                 }
             });
 
@@ -45,9 +47,7 @@ class BatchReaderStub extends ReaderStub {
     }
 
     processBatch(data) {
-        if (this.batchTags.length !== this.batchSize) {
-            return;
-        }
+
         this.stop();
         _.map(this.batchTags, tag => {
             for (var prop in data) {
@@ -62,7 +62,7 @@ class BatchReaderStub extends ReaderStub {
         const result = {
             processed: this.tags.length,
             batch: this.batchTags.length,
-            batchFull: this.batchTags.length === this.batchSize
+            overflow: false
         };
 
         this.mainWindow.webContents.send('mat:found', result);

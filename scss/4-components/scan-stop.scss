@@ -7,7 +7,15 @@
   padding: 10px; 
 }
 
-
-.scan-stop-buttons  {
-   margin-top: 30px; 
+.scan-stop {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  height: 400px;
 }
+
+.scan-stop-buttons-container {
+   align-self: flex-end; 
+   width: 100% !important;
+}
+ 
