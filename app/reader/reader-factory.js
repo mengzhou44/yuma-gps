@@ -1,10 +1,12 @@
+const tcpp = require('tcp-ping');
+
+const Settings = require('../settings/settings');
+const { getConfig } = require("../config");
+
 const Reader = require("./reader");
 const ReaderStub = require("./reader-stub");
-
-
 const BatchReader = require("./batch-reader");
 const BatchReaderStub = require("./batch-reader-stub");
-const { getConfig } = require("../config");
 
 
 function getReader(mainWindow, yumaServices) {

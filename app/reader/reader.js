@@ -1,4 +1,3 @@
-const tcpp = require('tcp-ping');
 const _ = require('lodash');
 var { Socket } = require('net');
 const Settings = require('../settings/settings');
@@ -46,6 +45,7 @@ class Reader {
 
 
     onData(data) {
+        console.log("onData", data);
         const lines = data.toString().split("\n");
         _.each(lines, line => {
             this.processTag(line);
@@ -68,7 +68,10 @@ class Reader {
     }
 
     stop() {
-        this.tcpClient.destroy();
+        if (this.tcpClient) {
+            this.tcpClient.destroy();
+        }
+
         this.tcpClient = null;
     }
 

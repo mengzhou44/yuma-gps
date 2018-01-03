@@ -89,7 +89,7 @@ class ScanProgress extends Component {
 }
 
 function mapStateToProps({ scan, settings }) {
-    console.log("settings", settings);
+
     return {
         progress: scan.progress,
         contaminationJob: scan.contaminationJob,

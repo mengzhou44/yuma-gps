@@ -13,7 +13,7 @@ function getConfig() {
     return {
         portalUrl: "http://localhost:3000",
         useStub: true,
-        checkKnownTags: true
+        checkKnownTags: false
     }
 }
 

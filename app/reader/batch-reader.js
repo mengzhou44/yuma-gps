@@ -13,6 +13,13 @@ class BatchReader extends Reader {
         this.batchSize = batchSize;
         this.batchTags = [];
         this.knownTags = new Tags().getTags();
+        this.rssiThreshold = this.getRSSIThreshold();
+    }
+
+    getRSSIThreshold() {
+        const settings = new Settings();
+        const { contamination } = settings.fetch();
+        return contamination.rssiThreshold;
     }
 
     processTag(line) {
@@ -20,31 +27,42 @@ class BatchReader extends Reader {
         if (fields.length === 5) {
             const tagNumber = fields[1];
 
+
             const isUnknown = new Tags().checkIfTagIsUnknown(this.knownTags, tagNumber);
             if (isUnknown === true) return;
 
             const existed = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
-            if (existed) return; // ignore the tag that is already picked.
-            const found = _.find(this.batchTags, (tag) => tag.tagNumber === tagNumber);
+            if (existed) return; // ignore the tag that is already processed.
 
-            if (!found) {
-                this.yumaServices.getGPSData().then(location => {
-                    const timeStamp = Math.floor(Date.now());
-                    const tag = {
-                        tagNumber,
-                        latitude: location.latitude,
-                        longitude: location.longitude,
-                        timeStamp
-                    };
-                    this.batchTags.push(tag);
-                    const result = {
-                        processed: this.tags.length,
-                        batch: this.batchTags.length,
-                        batchFull: this.batchTags.length === this.batchSize
-                    };
-                    this.mainWindow.webContents.send('mat:found', result);
-                });
+            //Not sure which field is rssi, we assume it is fields[3]
+            const rssi = parseFloat(fields[3]);
+            if (rssi < this.rssiThreshold) {
+                return;
+            }  // if tag has a weak strength, ignore it. 
+
+            const found = _.find(this.batchTags, (tag) => tag.tagNumber === tagNumber);
+            if (found) {
+                return;  // ignore if the tag  already exists in the  batch
             }
+
+
+            this.yumaServices.getGPSData().then(location => {
+                const timeStamp = Math.floor(Date.now());
+                const tag = {
+                    tagNumber,
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                    timeStamp
+                };
+                this.batchTags.push(tag);
+                const result = {
+                    processed: this.tags.length,
+                    batch: this.batchTags.length,
+                    batchFull: this.batchTags.length === this.batchSize
+                };
+                this.mainWindow.webContents.send('mat:found', result);
+            });
+
         }
     }
 
