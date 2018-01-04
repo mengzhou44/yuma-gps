@@ -66,10 +66,10 @@ export function resumeScan() {
 }
 
 
-export function finishScan({ clientId, jobId, created }) {
+export function finishScan({ clientId, clientName, jobId, jobName, created }) {
     return function (dispatch) {
         dispatch({ type: types.SCAN_STATUS_RESET });
-        ipcRenderer.send("scan:complete", { clientId, jobId, created });
+        ipcRenderer.send("scan:complete", { clientId, jobId, clientName, jobName, created });
         ipcRenderer.removeAllListeners("mat:found");
     };
 }

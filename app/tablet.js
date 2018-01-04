@@ -6,11 +6,20 @@ const axios = require("axios");
 
 class Tablet {
 
-    getMacAddress(callback) {
-        getMac(function (err, macAddress) {
-            callback(macAddress);
-        })
+    getMacAddress() {
+        return new Promise((resolve, reject) => {
+            getMac(function (err, macAddress) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(macAddress)
+                }
+            })
+
+        });
     }
+
+
 
     async register(macAddress) {
         const { portalUrl } = getConfig();

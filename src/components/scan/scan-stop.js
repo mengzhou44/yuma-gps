@@ -55,8 +55,10 @@ class ScanStop extends Component {
                                 const { clientId, jobId, created } = this.props;
                                 this.props.finishScan(
                                     {
-                                        clientId: parseInt(clientId),
-                                        jobId: parseInt(jobId),
+                                        clientId: clientId > 0 ? parseInt(clientId) : 0,
+                                        jobId: jobId > 0 ? parseInt(jobId) : 0,
+                                        clientName: this.findClientName(),
+                                        jobName: this.findJobName(),
                                         created
                                     }
                                 );
@@ -69,20 +71,27 @@ class ScanStop extends Component {
 
             </div>
         );
+    }
 
+    findClientName() {
+        const client = _.find(this.props.clients, (client) => client.clientId === this.props.clientId);
+        return client.clientName;
+    }
 
+    findJobName() {
+        const client = _.find(this.props.clients, (client) => client.clientId === this.props.clientId);
+        const job = _.find(client.jobs, (job) => job.id === this.props.jobId);
+        return job.name;
     }
 
     renderSelected() {
 
         if (this.props.status !== "not-started") {
-            const client = _.find(this.props.clients, (client) => client.clientId === this.props.clientId);
-            const job = _.find(client.jobs, (job) => job.id === this.props.jobId);
             return (
 
                 <div className="scan-stop-summary">
-                    <div><h4>{client.clientName}</h4></div>
-                    <div>{job.name} </div>
+                    <div><h4>{this.findClientName()}</h4></div>
+                    <div>{this.findJobName()} </div>
                 </div>
             );
         }
@@ -90,8 +99,6 @@ class ScanStop extends Component {
 
     render() {
         const visible = this.props.status !== "not-started";
-
-
         return (
             <MyTransition visible={visible}>
                 <div>

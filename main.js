@@ -68,10 +68,9 @@ ipcMain.on("tablet:register", (event, macAddress) => {
 });
 
 ipcMain.on("tablet:mac", (event) => {
-    new Tablet().getMacAddress((macAddress) => {
+    new Tablet().getMacAddress().then(macAddress => {
         mainWindow.webContents.send("tablet:mac", macAddress);
-    }
-    );
+    });
 });
 
 

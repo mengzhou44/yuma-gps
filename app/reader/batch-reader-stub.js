@@ -23,8 +23,7 @@ class BatchReaderStub extends ReaderStub {
                     const timeStamp = Math.floor(Date.now());
                     const tag = {
                         tagNumber,
-                        latitude: location.latitude,
-                        longitude: location.longitude,
+                        gps: [location.latitude, location.longitude],
                         timeStamp
                     };
 

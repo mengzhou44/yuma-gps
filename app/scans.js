@@ -5,6 +5,7 @@ const axios = require("axios");
 const { environment } = require("./environment");
 const { getConfig } = require("./config");
 const Clients = require("./clients");
+const Tablet = require("./tablet");
 
 class Scans {
 
@@ -24,11 +25,11 @@ class Scans {
         return JSON.parse(text);
     }
 
-    addNewScan(scan) {
+    async addNewScan(scan) {
+        let tablet = new Tablet();
+        const macAddress = await tablet.getMacAddress();
+        scan.deviceId = macAddress;
         let scans = this.getScans();
-        const clients = new Clients();
-        scan.clientName = clients.findClientName(scan.clientId);
-        scan.jobName = clients.findJobName(scan.clientId, scan.jobId);
         scans.push(scan);
         fs.writeFileSync(this.scansFile, JSON.stringify(scans, null, 4));
     }
