@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 
 import { ipcRenderer } from "electron";
 import { Button, Modal } from "semantic-ui-react";
@@ -14,6 +15,42 @@ export default class AddNewJob extends Component {
             jobName: "",
             error: ""
         };
+    }
+
+    isNormalInteger(str) {
+        var n = Math.floor(Number(str));
+        return String(n) === str && n >= 0;
+    }
+
+    validateJobName(jobName) {
+        const year = moment().format("YY");
+        const monthday = moment().format("MMDD");
+        const temp = jobName.split("-");
+
+        if (temp.length !== 4) {
+            return false;
+        }
+        if (temp[0] !== year) {
+            return false;
+        }
+        if (temp[3] !== monthday) {
+            return false;
+        }
+
+        if (!this.isNormalInteger(temp[1])) {
+            return false;
+        }
+
+        if (temp[2] !== "01" &&
+            temp[2] !== "02" &&
+            temp[2] !== "03" &&
+            temp[2] !== "04" &&
+            temp[2] !== "05" &&
+            temp[2] !== "06") {
+            return false;
+        }
+
+        return true;
     }
 
     render() {
@@ -50,9 +87,12 @@ export default class AddNewJob extends Component {
                             <button
                                 className="btn btn-orange width-120 pull-right"
                                 onClick={() => {
-                                    this.setState({
-                                        error: ""
-                                    });
+                                    const valid = this.validateJobName(this.state.jobName);
+                                    if (valid === false) {
+                                        this.setState({ error: "Job name is invalid." });
+                                        return;
+                                    }
+                                    this.setState({ error: "" });
 
                                     const job = {
                                         jobName: this.state.jobName,

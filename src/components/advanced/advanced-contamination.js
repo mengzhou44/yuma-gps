@@ -13,7 +13,6 @@ class AdvancedContamination extends Component {
         this.state = { disabled: true };
     }
 
-
     componentDidMount() {
         this.props.fetchSettings();
     }
@@ -85,14 +84,6 @@ class AdvancedContamination extends Component {
                             disabled={this.state.disabled}
                         />
 
-                        <Field
-                            name="rssiThreshold"
-                            label="RSSI Threshold"
-                            component={renderField}
-                            type="text"
-                            disabled={this.state.disabled}
-                        />
-
                         {this.renderChangeButton()}
 
                         {this.renderSaveCancelButtons()}
@@ -110,10 +101,6 @@ const validate = values => {
 
     if (!values.batchSize) {
         errors.host = "Please enter Batch Size.";
-    }
-
-    if (!values.rssiThreshold) {
-        errors.port = "Please enter RSSI Threshold.";
     }
 
     return errors;

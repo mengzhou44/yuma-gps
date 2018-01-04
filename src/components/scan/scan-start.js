@@ -27,7 +27,7 @@ class ScanStart extends Component {
 
         const jobTypeId = job.name.split("-")[2];
 
-        return jobTypeId === "05";
+        return jobTypeId === "06";
 
     }
 
