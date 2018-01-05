@@ -1,19 +1,28 @@
 .scan-progress-mats-container {
-    margin-top: 50px !important;
-    text-align: center; 
-
+    height: 150px; 
+    display: flex; 
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
  }
  
  .scan-progress-mats {
    color:  $color-green;
-   font-size: 75px;
+   font-size: 50px;
    text-decoration-line: underline;
  }
  
  .scan-progress-mats-found  {
      color:  $color-black;
-     font-size: 25px;
+     font-size: 20px;
  }
+
+ .scan-progress-mats-inrange {
+  color:  $color-orange;
+  font-size: 50px;
+  text-decoration-line: underline;
+}
+
  
  .scan-progress-contamination {
     margin-top:20px;
@@ -29,7 +38,6 @@
     text-align: right;
     clear: both;
   }
- 
  
   
   .scan-progress-contamination-mats {

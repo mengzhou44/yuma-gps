@@ -5,15 +5,13 @@ function getConfig() {
     if (environment === "production") {
         return {
             portalUrl: "http://smartmat.ca/api",
-            useStub: false,
-            checkKnownTags: true
+            useStub: false
         };
     }
 
     return {
         portalUrl: "http://localhost:3000",
-        useStub: true,
-        checkKnownTags: false
+        useStub: false
     }
 }
 

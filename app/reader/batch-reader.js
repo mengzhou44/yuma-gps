@@ -10,16 +10,14 @@ class BatchReader extends Reader {
     constructor(mainWindow, yumaServices, batchSize) {
         super(mainWindow, yumaServices);
         this.batchSize = batchSize;
-        this.batchTags = [];
-        this.knownTags = new Tags().getTags();
-
+        this.batchMats = [];
     }
 
 
-    removeExpiredTags() {
-        this.batchTags = _.filter(this.batchTags, (tag) => {
+    removeExpiredMats() {
+        this.batchMats = _.filter(this.batchMats, (mat) => {
             const timeStamp = Math.floor(Date.now());
-            return timeStamp < (tag.timeStamp + 2000)
+            return timeStamp < (mat.timeStamp + 2000)
         });
     }
 
@@ -28,35 +26,34 @@ class BatchReader extends Reader {
         if (fields.length === 5) {
             const tagNumber = fields[1];
 
-            const isUnknown = new Tags().checkIfTagIsUnknown(this.knownTags, tagNumber);
-            if (isUnknown === true) return;
+            const matId = new Tags().findMatId(this.knownTags, tagNumber);
+            if (matId === "-1") return;
 
+            const existed = _.find(this.mats, (mat) => mat.matId === matId);
+            if (existed) return; // ignore the  mat that is already processed.
 
-            const existed = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
-            if (existed) return; // ignore the tag that is already processed.
+            this.removeExpiredMats();
 
-            this.removeExpiredTags();
-
-            const found = _.find(this.batchTags, (tag) => tag.tagNumber === tagNumber);
+            const found = _.find(this.batchMats, (mat) => mat.matId === matId);
             if (found) {
                 found.timeStamp = Math.floor(Date.now()); // update timestemp 
             } else {
                 this.yumaServices.getGPSData().then(location => {
                     const timeStamp = Math.floor(Date.now());
-                    const tag = {
-                        tagNumber,
-                        gps: [location.latitude, location.longitude],
+                    const mat = {
+                        matId,
+                        gps: `${location.latitude},${location.longitude}`,
                         timeStamp
                     };
-                    this.batchTags.push(tag);
+                    this.batchMats.push(mat);
 
                 });
             }
 
             const result = {
-                processed: this.tags.length,
-                batch: this.batchTags.length,
-                overflow: this.batchTags.length > this.batchSize
+                processed: this.mats.length,
+                batch: this.batchMats.length,
+                overflow: this.batchMats.length > this.batchSize
             };
             this.mainWindow.webContents.send('mat:found', result);
 
@@ -64,25 +61,25 @@ class BatchReader extends Reader {
     }
 
     processBatch(data) {
-        if (this.batchTags.length > this.batchSize) {
+        if (this.batchMats.length > this.batchSize) {
             return;
         }
         this.stop();
 
-        _.map(this.batchTags, tag => {
+        _.map(this.batchMats, mat => {
 
             for (var prop in data) {
                 if (data.hasOwnProperty(prop)) {
-                    tag[prop] = data[prop];
+                    mat[prop] = data[prop];
                 }
             }
-            this.tags.push(tag);
+            this.mats.push(mat);
         });
-        this.batchTags = [];
+        this.batchMats = [];
 
         const result = {
-            processed: this.tags.length,
-            batch: this.batchTags.length,
+            processed: this.mats.length,
+            batch: this.batchMats.length,
             overflow: false
         };
 

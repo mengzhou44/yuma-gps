@@ -18,6 +18,13 @@
     padding: 7px 10px;
 }
 
+.header-menu-item-disabled {
+    display: inline-block;
+    margin-right: 30px; 
+    padding: 7px 10px;
+    color: $color-gray; 
+}
+
 .header-menu {
     background-color: $color-orange;
     color: $color-white;

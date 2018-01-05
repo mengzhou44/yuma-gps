@@ -7299,6 +7299,12 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   cursor: pointer;
   padding: 7px 10px; }
 
+.header-menu-item-disabled {
+  display: inline-block;
+  margin-right: 30px;
+  padding: 7px 10px;
+  color: #e0e0e0; }
+
 .header-menu {
   background-color: #f58426;
   color: white;
@@ -7423,17 +7429,25 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   margin-top: 100px; }
 
 .scan-progress-mats-container {
-  margin-top: 50px !important;
-  text-align: center; }
+  height: 150px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center; }
 
 .scan-progress-mats {
   color: #00a98f;
-  font-size: 75px;
+  font-size: 50px;
   text-decoration-line: underline; }
 
 .scan-progress-mats-found {
   color: #000000;
-  font-size: 25px; }
+  font-size: 20px; }
+
+.scan-progress-mats-inrange {
+  color: #f58426;
+  font-size: 50px;
+  text-decoration-line: underline; }
 
 .scan-progress-contamination {
   margin-top: 20px;

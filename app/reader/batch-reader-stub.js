@@ -6,35 +6,34 @@ class BatchReaderStub extends ReaderStub {
     constructor(mainWindow, yumaServices, batchSize) {
         super(mainWindow, yumaServices);
         this.batchSize = batchSize;
-        this.batchTags = [];
+        this.batchMats = [];
     }
-
 
 
     start() {
         this.timer = setInterval(() => {
-            const tagNumber = "AAA" + this.createRandomString(4);
+            const matId = "MAT" + this.createRandomString(12);
             this.yumaServices.getGPSData().then(location => {
 
-                const found = _.find(this.batchTags, (tag) => tag.tagNumber === tagNumber);
+                const found = _.find(this.batchMats, (mat) => mat.matId === matId);
 
                 if (!found) {
 
                     const timeStamp = Math.floor(Date.now());
-                    const tag = {
-                        tagNumber,
-                        gps: [location.latitude, location.longitude],
+                    const mat = {
+                        matId,
+                        gps: `${location.latitude},${location.longitude}`,
                         timeStamp
                     };
 
-                    if (this.batchTags.length <= this.batchSize) {
-                        this.batchTags.push(tag);
+                    if (this.batchMats.length <= this.batchSize) {
+                        this.batchMats.push(mat);
                     }
 
                     const result = {
-                        processed: this.tags.length,
-                        batch: this.batchTags.length,
-                        overflow: this.batchTags.length > this.batchSize
+                        processed: this.mats.length,
+                        batch: this.batchMats.length,
+                        overflow: this.batchMats.length > this.batchSize
                     };
 
                     this.mainWindow.webContents.send('mat:found', result);
@@ -48,19 +47,19 @@ class BatchReaderStub extends ReaderStub {
     processBatch(data) {
 
         this.stop();
-        _.map(this.batchTags, tag => {
+        _.map(this.batchMats, mat => {
             for (var prop in data) {
                 if (data.hasOwnProperty(prop)) {
-                    tag[prop] = data[prop];
+                    mat[prop] = data[prop];
                 }
             }
-            this.tags.push(tag);
+            this.mats.push(mat);
         });
-        this.batchTags = [];
+        this.batchMats = [];
 
         const result = {
-            processed: this.tags.length,
-            batch: this.batchTags.length,
+            processed: this.mats.length,
+            batch: this.batchMats.length,
             overflow: false
         };
 

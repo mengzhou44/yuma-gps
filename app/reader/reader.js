@@ -8,31 +8,69 @@ class Reader {
     constructor(mainWindow, yumaServices) {
         this.mainWindow = mainWindow;
         this.yumaServices = yumaServices;
-        this.tags = [];
+        this.mats = [];
+        this.matsInRange = [];
         this.knownTags = new Tags().getTags();
     }
 
+    updateMatsInRange(matId) {
+        let found = _.find(this.matsInRange, (mat) => mat.matId === matId);
+        if (found) {
+            found.timeStamp = Math.floor(Date.now());
+        } else {
+            const timeStamp = Math.floor(Date.now());
+            const mat = {
+                matId,
+                timeStamp
+            };
+            this.matsInRange.push(mat);
+        }
+
+        this.matsInRange = _.filter(this.matsInRange, (mat) => {
+            const timeStamp = Math.floor(Date.now());
+            return timeStamp < (mat.timeStamp + 2000)
+        });
+    }
+
     processTag(line) {
+
         const fields = line.toString().split(",");
         if (fields.length === 5) {
             const tagNumber = fields[1];
-            const isUnknown = new Tags().checkIfTagIsUnknown(this.knownTags, tagNumber);
-            if (isUnknown) return;
+            if (tagNumber.length > 12) {
+                console.log("exception: ", line);
+                return;
+            }
+            const matId = new Tags().findMatId(this.knownTags, tagNumber);
+            if (matId === "-1") return;
 
-            const found = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
+            this.updateMatsInRange(matId);
+
+            let found = _.find(this.mats, (mat) => mat.matId === matId);
             if (!found) {
                 this.yumaServices.getGPSData().then(location => {
                     const timeStamp = Math.floor(Date.now());
-                    const tag = {
-                        tagNumber,
-                        gps: [location.latitude, location.longitude],
+                    const mat = {
+                        matId,
+                        gps: `${location.latitude},${location.longitude}`,
                         timeStamp
                     };
-
-                    this.tags.push(tag);
-                    this.mainWindow.webContents.send('mat:found', { processed: this.tags.length });
+                    this.mats.push(mat);
+                    this.mainWindow.webContents.send('mat:found',
+                        {
+                            processed: this.mats.length,
+                            inRange: this.matsInRange.length
+                        });
                 });
+            } else {
+                found.timeStamp = Math.floor(Date.now());
+                this.mainWindow.webContents.send('mat:found',
+                    {
+                        processed: this.mats.length,
+                        inRange: this.matsInRange.length
+                    });
             }
+
         }
     }
 
@@ -74,11 +112,12 @@ class Reader {
     }
 
     getData() {
-        return this.tags;
+        return this.mats;
     }
 
     clearData() {
-        this.tags = [];
+        this.mats = [];
+        this.matsInRange = [];
     }
 }
 

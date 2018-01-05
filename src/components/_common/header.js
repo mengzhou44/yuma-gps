@@ -1,16 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from 'react-router';
+import { withRouter } from "react-router";
 
 class Header extends Component {
     getLinkClass(path) {
         if (this.isCurrentPath(path)) {
             if (path === "/") {
-                return 'active-link-0 header-menu-item';
+                return "active-link-0 header-menu-item";
             }
-            return 'active-link header-menu-item';
+            return "active-link header-menu-item";
         }
-        return 'header-menu-item';
+        else if (this.props.scanStatus !== "not-started") {
+            return "header-menu-item-disabled";
+        }
+        return "header-menu-item";
     }
 
     isCurrentPath(path) {
@@ -23,47 +26,38 @@ class Header extends Component {
         }
     }
 
-    renderScanStarted() {
-
-    }
-
-
     render() {
 
-        if (this.props.scanStatus !== "not-started") {
-            return (
-                <ul className="header-menu">
-                    <li className={this.getLinkClass('/')} onClick={() =>
-                        this.goTo('/')
-                    } >
-                        Scan
-                  </li>
-                </ul>
-            );
-        }
-
-
+        const disabled = (this.props.scanStatus !== "not-started");
         return (
             <ul className="header-menu">
-                <li className={this.getLinkClass('/')} onClick={() =>
-                    this.goTo('/')
+                <li className={this.getLinkClass("/")} onClick={() =>
+                    this.goTo("/")
                 } >
                     Scan
                   </li>
-                <li className={this.getLinkClass('/sync')} onClick={() =>
-                    this.goTo('/sync')
-                } >
+                <li className={this.getLinkClass("/sync")} onClick={() => {
+                    if (disabled === false) {
+                        this.goTo("/sync");
+                    }
+                }} >
                     Sync
                   </li>
 
-                <li className={this.getLinkClass('/advanced')} onClick={() =>
-                    this.goTo('/advanced')
-                } >
+                <li className={this.getLinkClass("/advanced")} onClick={() => {
+                    if (disabled === false) {
+                        this.goTo("/advanced");
+                    }
+                }} >
                     Advanced
                 </li>
 
-                <li className={this.getLinkClass('/help')} onClick={() =>
-                    this.goTo('/help')
+                <li className={this.getLinkClass("/help")} disabled={disabled} onClick={() => {
+                    if (disabled === false) {
+                        this.goTo("/help");
+                    }
+                }
+
                 } >
                     Help
                 </li>

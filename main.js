@@ -172,7 +172,7 @@ ipcMain.on("scan:resume", (event) => {
 });
 
 ipcMain.on("scan:complete", (event, scan) => {
-    scan.tags = reader.getData();
+    scan.mats = reader.getData();
     const scans = new Scans();
     scans.addNewScan(scan);
     reader.clearData();

@@ -8,10 +8,8 @@ const { environment } = require('./environment');
 
 class Tags {
 
-
     constructor() {
         this.tagsFile = path.join(__dirname, "data/tags.json");
-
         if (environment === "production") {
             this.tagsFile = path.join(process.resourcesPath, "tags.json");
         }
@@ -22,13 +20,11 @@ class Tags {
         return JSON.parse(text);
     }
 
-    checkIfTagIsUnknown(tags, tag) {
-        if (getConfig().checkKnownTags === true) {
-            const found = _.find(tags, (tagNumber) => tagNumber === tag);
-            if (found) return false;
-            return true;
+    findMatId(table, tagNumber) {
+        if (table[tagNumber]) {
+            return table[tagNumber];
         }
-        return false;
+        return "-1";
     }
 
     async downloadTags() {
@@ -41,7 +37,6 @@ class Tags {
         } catch (error) {
             return { success: false };
         }
-
     }
 }
 

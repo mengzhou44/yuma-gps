@@ -8,13 +8,23 @@ class ScanProgress extends Component {
 
     renderProgress() {
         let mats = 0;
+        let matsInRange = 0;
         if (this.props.progress.processed) {
             mats = this.props.progress.processed;
         }
 
+        if (this.props.progress.inRange) {
+            matsInRange = this.props.progress.inRange;
+        }
         return (<div className="scan-progress-mats-container">
-            <span className="scan-progress-mats">{mats}</span>
-            <span className="scan-progress-mats-found">&nbsp;Mats Found</span>
+            <div>
+                <span className="scan-progress-mats">{mats}</span>
+                <span className="scan-progress-mats-found">&nbsp;Mats Scanned</span>
+            </div>
+            <div>
+                <span className="scan-progress-mats-inrange">{matsInRange}</span>
+                <span className="scan-progress-mats-found">&nbsp;Mats In Range</span>
+            </div>
         </div>);
     }
 
@@ -28,7 +38,7 @@ class ScanProgress extends Component {
                     <button
                         className="btn btn-green"
                         onClick={() => {
-                            ipcRenderer.send("batch:process", { contaminated: true });
+                            ipcRenderer.send("batch:process", { contaminated: false });
                         }}
 
                     >
@@ -37,7 +47,7 @@ class ScanProgress extends Component {
                     <button
                         className="btn btn-red"
                         onClick={() => {
-                            ipcRenderer.send("batch:process", { contaminated: false });
+                            ipcRenderer.send("batch:process", { contaminated: true });
                         }}
                     >
                         Contaminated
@@ -57,7 +67,6 @@ class ScanProgress extends Component {
         if (this.props.progress.batch) {
             mats = this.props.progress.batch;
         }
-
 
         return (<div className="scan-progress-contamination">
             <div className="scan-progress-contamination-processed">

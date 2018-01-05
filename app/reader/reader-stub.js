@@ -5,8 +5,9 @@ class ReaderStub {
     constructor(mainWindow, yumaServices) {
         this.mainWindow = mainWindow;
         this.yumaServices = yumaServices;
-        this.tags = [];
+        this.mats = [];
         this.timer = null;
+        this.matsInRange = [];
     }
 
 
@@ -16,35 +17,63 @@ class ReaderStub {
         return str.substr(0, length);
     }
 
+
+    updateMatsInRange(matId) {
+        let found = _.find(this.matsInRange, (mat) => mat.matId === matId);
+        if (found) {
+            found.timeStamp = Math.floor(Date.now());
+        } else {
+            const timeStamp = Math.floor(Date.now());
+            const mat = {
+                matId,
+                timeStamp
+            };
+            this.matsInRange.push(mat);
+        }
+
+        this.matsInRange = _.filter(this.matsInRange, (mat) => {
+            const timeStamp = Math.floor(Date.now());
+            return timeStamp < (mat.timeStamp + 3000)
+        });
+    }
+
+
     start() {
         this.timer = setInterval(() => {
-            const tagNumber = "AAA" + this.createRandomString(4);
+            const matId = "MAT" + this.createRandomString(12);
+            this.updateMatsInRange(matId);
             this.yumaServices.getGPSData().then(location => {
 
-                const found = _.find(this.tags, (tag) => tag.tagNumber === tagNumber);
-                if (!found) {
+                const found = _.find(this.mats, (mat) => mat.matId === matId);
+                if (found) {
+                    found.timeStamp = Math.floor(Date.now());
+                } else {
                     const timeStamp = Math.floor(Date.now());
-                    const tag = {
-                        tagNumber,
-                        gps: [location.latitude, location.longitude],
+                    const mat = {
+                        matId,
+                        gps: `${location.latitude},${location.longitude}`,
                         timeStamp
                     };
-
-                    this.tags.push(tag);
-                    this.mainWindow.webContents.send('mat:found', { processed: this.tags.length });
-
+                    this.mats.push(mat);
                 }
+
+                this.mainWindow.webContents.send('mat:found',
+                    {
+                        processed: this.mats.length,
+                        inRange: this.matsInRange.length
+                    });
             });
 
         }, 2000);
     }
 
     getData() {
-        return this.tags;
+        return this.mats;
     }
 
     clearData() {
-        this.tags = [];
+        this.mats = [];
+        this.matsInRange = [];
     }
 
     stop() {
