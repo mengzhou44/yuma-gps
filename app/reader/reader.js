@@ -66,7 +66,7 @@ class Reader {
                 found.timeStamp = Math.floor(Date.now());
                 this.mainWindow.webContents.send('mat:found',
                     {
-                        processed: this.mats.length,
+                        found: this.mats.length,
                         inRange: this.matsInRange.length
                     });
             }
