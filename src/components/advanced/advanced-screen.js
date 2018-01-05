@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Header from "../_common/header";
 import AdvancedTablet from "./advanced-tablet";
 import AdvancedReader from "./advanced-reader";
-import AdvancedContamination from "./advanced-contamination";
 
 
 export default class AdvancedScreen extends Component {
@@ -35,12 +34,7 @@ export default class AdvancedScreen extends Component {
                 >
                     Reader
                 </li>
-                <li
-                    className={this.getSideBarLinkClass("contamination")}
-                    onClick={() => this.setState({ current: "contamination" })}
-                >
-                    Contamination
-                </li>
+
             </ul>
         );
     }
@@ -56,7 +50,6 @@ export default class AdvancedScreen extends Component {
                     <div className="col s12 m9">
                         <AdvancedTablet current={this.state.current} />
                         <AdvancedReader current={this.state.current} />
-                        <AdvancedContamination current={this.state.current} />
                     </div>
                 </div>
             </div>);

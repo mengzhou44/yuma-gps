@@ -77,7 +77,7 @@ class Reader {
     processBatch(data) {
         this.stop();
         _.map(this.matsInRange, mat => {
-            const found = _.find(this.mats, (item) => item.matId === mat.Id);
+            const found = _.find(this.mats, (item) => item.matId === mat.matId);
             for (var prop in data) {
                 if (data.hasOwnProperty(prop)) {
                     found[prop] = data[prop];
@@ -92,7 +92,7 @@ class Reader {
         };
 
         this.mainWindow.webContents.send('mat:found', result);
-        this.setTimeout(() => {
+        setTimeout(() => {
             this.start();
         }, 500);
     }

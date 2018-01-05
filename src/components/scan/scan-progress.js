@@ -17,7 +17,7 @@ class ScanProgress extends Component {
             matsInRange = this.props.progress.inRange;
         }
         return (<div className="scan-progress">
-            <div>
+            <div className="scan-progress-mats-container">
                 <span className="scan-progress-mats">{mats}</span>
                 <span className="scan-progress-mats-found">&nbsp;Mats Found</span>
             </div>
@@ -27,23 +27,27 @@ class ScanProgress extends Component {
                     <span className="scan-progress-mats-found">&nbsp;Mats In Range</span>
                 </div>
                 <div className="scan-progress-buttons">
-                    <button
-                        className="btn btn-green"
-                        onClick={() => {
-                            ipcRenderer.send("batch:process", { contaminated: false });
-                        }}
+                    <div className="margin-20">
+                        <button
+                            className="btn btn-green"
+                            onClick={() => {
+                                ipcRenderer.send("batch:process", { contaminated: false });
+                            }}
 
-                    >
-                        Decontaminated
+                        >
+                            Decontaminated
+                   </button>
+                    </div>
+                    <div className="margin-20">
+                        <button
+                            className="btn btn-red"
+                            onClick={() => {
+                                ipcRenderer.send("batch:process", { contaminated: true });
+                            }}
+                        >
+                            Contaminated
                 </button>
-                    <button
-                        className="btn btn-red"
-                        onClick={() => {
-                            ipcRenderer.send("batch:process", { contaminated: true });
-                        }}
-                    >
-                        Contaminated
-                </button>
+                    </div>
                 </div>
             </div>
         </div>

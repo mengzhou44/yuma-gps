@@ -7428,12 +7428,15 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   text-align: center;
   margin-top: 100px; }
 
-.scan-progress-mats-container {
-  height: 150px;
+.scan-progress {
+  height: 200px;
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
-  align-items: center; }
+  justify-content: space-between; }
+
+.scan-progress-mats-container {
+  align-self: flex-end;
+  margin-bottom: 10px; }
 
 .scan-progress-mats {
   color: #00a98f;
@@ -7444,32 +7447,24 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   color: #000000;
   font-size: 20px; }
 
-.scan-progress-mats-inrange {
-  color: #f58426;
+.scan-progress-inrange {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 20px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center; }
+
+.scan-progress-inrange-mats {
+  color: #00a98f;
   font-size: 50px;
   text-decoration-line: underline; }
 
-.scan-progress-contamination {
+.scan-progress-buttons {
   margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 30px 10px;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px; }
-
-.scan-progress-contamination-processed {
-  font-size: 20px;
-  margin-bottom: 30px;
-  text-align: right;
-  clear: both; }
-
-.scan-progress-contamination-mats {
-  text-align: center;
-  clear: both;
-  margin-bottom: 30px; }
-
-.scan-progress-contamination-buttons {
   display: flex;
-  justify-content: space-around; }
+  justify-content: space-between; }
 
 .scan-dropdown-row {
   display: flex;

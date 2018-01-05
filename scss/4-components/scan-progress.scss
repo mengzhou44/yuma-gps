@@ -1,55 +1,45 @@
+.scan-progress {
+  height:  200px; 
+  display: flex; 
+  flex-flow: column;
+  justify-content: space-between;
+}
+
 .scan-progress-mats-container {
-    height: 150px; 
-    display: flex; 
-    flex-flow: column;
-    justify-content: space-between;
-    align-items: center;
- }
+   align-self: flex-end;
+   margin-bottom: 10px; 
+}
  
+
  .scan-progress-mats {
    color:  $color-green;
    font-size: 50px;
    text-decoration-line: underline;
  }
- 
- .scan-progress-mats-found  {
+
+ .scan-progress-mats-found  { 
      color:  $color-black;
      font-size: 20px;
  }
 
- .scan-progress-mats-inrange {
-  color:  $color-orange;
+.scan-progress-inrange {
+   border: 1px solid $color-gray;
+   border-radius: 5px;  
+   padding: 20px; 
+   display: flex; 
+   flex-flow: column;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.scan-progress-inrange-mats {
+  color:  $color-green;
   font-size: 50px;
   text-decoration-line: underline;
 }
 
- 
- .scan-progress-contamination {
-    margin-top:20px;
-    margin-bottom: 20px; 
-    padding: 30px 10px; 
-    border: 1px solid $color-gray; 
-    border-radius: 5px; 
- }
- 
- .scan-progress-contamination-processed {
-    font-size: 20px; 
-    margin-bottom: 30px; 
-    text-align: right;
-    clear: both;
-  }
- 
-  
-  .scan-progress-contamination-mats {
-     text-align: center;
-     clear: both;
-     margin-bottom: 30px; 
-  }
- 
-  
-  .scan-progress-contamination-buttons {
-     display: flex;
-     justify-content: space-around; 
-
-  }
-  
+.scan-progress-buttons {
+  margin-top: 20px; 
+   display: flex; 
+   justify-content:  space-between;
+}
