@@ -17,40 +17,10 @@ export default class AddNewJob extends Component {
         };
     }
 
-    isNormalInteger(str) {
-        var n = Math.floor(Number(str));
-        return String(n) === str && n >= 0;
-    }
 
-    validateJobName(jobName) {
-        const year = moment().format("YY");
-        const monthday = moment().format("MMDD");
-        const temp = jobName.split("-");
-
-        if (temp.length !== 4) {
-            return false;
-        }
-        if (temp[0] !== year) {
-            return false;
-        }
-        if (temp[3] !== monthday) {
-            return false;
-        }
-
-        if (!this.isNormalInteger(temp[1])) {
-            return false;
-        }
-
-        if (temp[2] !== "01" &&
-            temp[2] !== "02" &&
-            temp[2] !== "03" &&
-            temp[2] !== "04" &&
-            temp[2] !== "05" &&
-            temp[2] !== "06") {
-            return false;
-        }
-
-        return true;
+    isEmpty(text) {
+        const trimmed = text.trim();
+        return (!trimmed || trimmed.length === 0);
     }
 
     render() {
@@ -87,9 +57,9 @@ export default class AddNewJob extends Component {
                             <button
                                 className="btn btn-orange width-120 pull-right"
                                 onClick={() => {
-                                    const valid = this.validateJobName(this.state.jobName);
-                                    if (valid === false) {
-                                        this.setState({ error: "Job name is invalid." });
+
+                                    if (this.isEmpty(this.state.jobName)) {
+                                        this.setState({ error: "Job name is required." });
                                         return;
                                     }
                                     this.setState({ error: "" });

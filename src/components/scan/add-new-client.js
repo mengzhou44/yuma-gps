@@ -16,6 +16,11 @@ export default class AddNewClient extends Component {
         };
     }
 
+    isEmpty(text) {
+        const trimmed = text.trim();
+        return (!trimmed || trimmed.length === 0);
+    }
+
     render() {
         return (
             <Modal
@@ -47,6 +52,12 @@ export default class AddNewClient extends Component {
                             <button
                                 className="btn btn-orange pull-right rounded"
                                 onClick={() => {
+                                    if (this.isEmpty(this.state.clientName)) {
+                                        this.setState({
+                                            error: "Client name is required"
+                                        });
+                                        return;
+                                    }
                                     this.setState({
                                         error: ""
                                     });

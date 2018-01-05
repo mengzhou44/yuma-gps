@@ -92,23 +92,13 @@ function checkDevices() {
         devices.wifi = yumaServices.checkWifi();
         mainWindow.webContents.send("devices:status", devices);
     });
-    console.log("checkDevices");
 }
 
 ipcMain.on("devices:check", (event) => {
     checkDevices();
 });
 
-ipcMain.on("sync", (event) => {
-
-    new Scans().uploadScans().then(({ success }) => {
-        if (success) {
-            mainWindow.webContents.send("sync:progress", { data: { "uploadScans": true } });
-
-        } else {
-            mainWindow.webContents.send("sync:progress", { error: "Error occurred when uploading scans." });
-        }
-    });
+function downloadClients() {
 
     new Clients().downloadClients().then(({ success }) => {
         if (success) {
@@ -119,11 +109,27 @@ ipcMain.on("sync", (event) => {
         }
     });
 
+}
+
+function downloadTags() {
     new Tags().downloadTags().then(({ success }) => {
         if (success) {
             mainWindow.webContents.send("sync:progress", { data: { "downloadTags": true } });
         } else {
             mainWindow.webContents.send("sync:progress", { error: "Error occurred when downloading tags." });
+        }
+    });
+}
+
+ipcMain.on("sync", (event) => {
+
+    new Scans().uploadScans().then(({ success }) => {
+        if (success) {
+            mainWindow.webContents.send("sync:progress", { data: { "uploadScans": true } });
+            downloadClients();
+            downloadTags();
+        } else {
+            mainWindow.webContents.send("sync:progress", { error: "Error occurred when uploading scans." });
         }
     });
 });
