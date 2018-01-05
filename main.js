@@ -5,7 +5,7 @@ const path = require("path");
 const { app, BrowserWindow, ipcMain } = electron;
 
 const { getYumaServices } = require("./app/yuma/yuma-services-factory");
-const { getReader, getBatchReader, checkReader } = require("./app/reader/reader-factory");
+const { getReader, checkReader } = require("./app/reader/reader-factory");
 const { checkPortal } = require("./app/portal");
 const Settings = require("./app/settings/settings");
 
@@ -161,17 +161,6 @@ ipcMain.on("scan:start", (event) => {
     checkDevicesTimer = setInterval(() => {
         checkDevices();
     }, 10000);
-});
-
-ipcMain.on("contamination-scan:start", (event) => {
-    if (reader) {
-        reader.stop();
-    }
-    const { contamination } = new Settings().fetch();
-    const batchSize = contamination.batchSize;
-
-    reader = getBatchReader(mainWindow, yumaServices, batchSize);
-    reader.start();
 });
 
 

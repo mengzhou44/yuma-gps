@@ -5,22 +5,12 @@ const { getConfig } = require("../config");
 
 const Reader = require("./reader");
 const ReaderStub = require("./reader-stub");
-const BatchReader = require("./batch-reader");
-const BatchReaderStub = require("./batch-reader-stub");
-
 
 function getReader(mainWindow, yumaServices) {
     if (getConfig().useStub) {
         return new ReaderStub(mainWindow, yumaServices);
     }
     return new Reader(mainWindow, yumaServices);
-}
-
-function getBatchReader(mainWindow, yumaServices, batchSize) {
-    if (getConfig().useStub) {
-        return new BatchReaderStub(mainWindow, yumaServices, batchSize);
-    }
-    return new BatchReader(mainWindow, yumaServices, batchSize);
 }
 
 function checkReader() {
@@ -36,4 +26,4 @@ function checkReader() {
     });
 }
 
-module.exports = { getReader, getBatchReader, checkReader };
+module.exports = { getReader, checkReader };

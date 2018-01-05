@@ -58,7 +58,7 @@ class Reader {
                     this.mats.push(mat);
                     this.mainWindow.webContents.send('mat:found',
                         {
-                            processed: this.mats.length,
+                            found: this.mats.length,
                             inRange: this.matsInRange.length
                         });
                 });
@@ -70,8 +70,31 @@ class Reader {
                         inRange: this.matsInRange.length
                     });
             }
-
         }
+    }
+
+
+    processBatch(data) {
+        this.stop();
+        _.map(this.matsInRange, mat => {
+            const found = _.find(this.mats, (item) => item.matId === mat.Id);
+            for (var prop in data) {
+                if (data.hasOwnProperty(prop)) {
+                    found[prop] = data[prop];
+                }
+            }
+        });
+        this.matsInRange = [];
+
+        const result = {
+            found: this.mats.length,
+            inRange: this.matsInRange.length
+        };
+
+        this.mainWindow.webContents.send('mat:found', result);
+        this.setTimeout(() => {
+            this.start();
+        }, 500);
     }
 
     getReaderSetting() {
@@ -93,7 +116,6 @@ class Reader {
             error
         });
     }
-
 
     start() {
         this.tcpClient = new Socket();

@@ -59,12 +59,35 @@ class ReaderStub {
 
                 this.mainWindow.webContents.send('mat:found',
                     {
-                        processed: this.mats.length,
+                        found: this.mats.length,
                         inRange: this.matsInRange.length
                     });
             });
 
         }, 2000);
+    }
+
+    processBatch(data) {
+        this.stop();
+        _.map(this.matsInRange, mat => {
+            const found = _.find(this.mats, (item) => item.matId === mat.Id);
+            for (var prop in data) {
+                if (data.hasOwnProperty(prop)) {
+                    found[prop] = data[prop];
+                }
+            }
+
+        });
+        this.matsInRange = [];
+        const result = {
+            found: this.mats.length,
+            inRange: this.matsInRange.length,
+        };
+
+        this.mainWindow.webContents.send('mat:found', result);
+        this.setTimeout(() => {
+            this.start();
+        }, 500);
     }
 
     getData() {

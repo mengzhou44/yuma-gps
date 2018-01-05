@@ -11,29 +11,10 @@ export function startScan({ clients, clientId, jobId }) {
             clients,
             clientId,
             jobId,
-            created: Math.floor(Date.now()),
-            contaminationJob: false
+            created: Math.floor(Date.now())
         };
         dispatch({ type: types.SCAN_STARTED, payload });
         ipcRenderer.on("mat:found", (event, progress) => {
-            dispatch({ type: types.MAT_FOUND, payload: progress });
-        });
-    };
-}
-
-export function startContaminationScan({ clients, clientId, jobId }) {
-    return function (dispatch) {
-        ipcRenderer.send("contamination-scan:start");
-        const payload = {
-            clients,
-            clientId,
-            jobId,
-            created: Math.floor(Date.now()),
-            contaminationJob: true
-        };
-        dispatch({ type: types.SCAN_STARTED, payload });
-        ipcRenderer.on("mat:found", (event, progress) => {
-
             dispatch({ type: types.MAT_FOUND, payload: progress });
         });
     };
@@ -61,10 +42,8 @@ export function resumeScan() {
             dispatch({ type: types.MAT_FOUND, payload: progress });
         });
         dispatch({ type: types.SCAN_RESUMED });
-
     };
 }
-
 
 export function finishScan({ clientId, clientName, jobId, jobName, created }) {
     return function (dispatch) {
@@ -74,13 +53,6 @@ export function finishScan({ clientId, clientName, jobId, jobName, created }) {
     };
 }
 
-export function getGPSLocation() {
-    return function (dispatch) {
-        ipcRenderer.send("gps-data:get");
-        ipcRenderer.on("gps-data:result", (event, location) => {
-            dispatch({ type: types.LOCATION_FETCHED, payload: location });
-        });
-    };
-}
+
 
 

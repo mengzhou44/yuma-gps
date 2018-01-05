@@ -6,35 +6,27 @@ import * as actions from "../../actions";
 
 class ScanProgress extends Component {
 
-    renderProgress() {
+    render() {
         let mats = 0;
         let matsInRange = 0;
-        if (this.props.progress.processed) {
-            mats = this.props.progress.processed;
+        if (this.props.progress.found) {
+            mats = this.props.progress.found;
         }
 
         if (this.props.progress.inRange) {
             matsInRange = this.props.progress.inRange;
         }
-        return (<div className="scan-progress-mats-container">
+        return (<div className="scan-progress">
             <div>
                 <span className="scan-progress-mats">{mats}</span>
-                <span className="scan-progress-mats-found">&nbsp;Mats Scanned</span>
+                <span className="scan-progress-mats-found">&nbsp;Mats Found</span>
             </div>
-            <div>
-                <span className="scan-progress-mats-inrange">{matsInRange}</span>
-                <span className="scan-progress-mats-found">&nbsp;Mats In Range</span>
-            </div>
-        </div>);
-    }
-
-    renderContaminationButtons() {
-        const { overflow, batch } = this.props.progress;
-
-        if (overflow === false && batch > 0) {
-
-            return (
-                <div className="scan-progress-contamination-buttons">
+            <div className="scan-progress-inrange">
+                <div>
+                    <span className="scan-progress-inrange-mats">{matsInRange}</span>
+                    <span className="scan-progress-mats-found">&nbsp;Mats In Range</span>
+                </div>
+                <div className="scan-progress-buttons">
                     <button
                         className="btn btn-green"
                         onClick={() => {
@@ -42,7 +34,7 @@ class ScanProgress extends Component {
                         }}
 
                     >
-                        Uncontaminated
+                        Decontaminated
                 </button>
                     <button
                         className="btn btn-red"
@@ -53,48 +45,15 @@ class ScanProgress extends Component {
                         Contaminated
                 </button>
                 </div>
-            );
-        }
-    }
-
-    renderContaminationProgress() {
-
-        let processed = 0;
-        let mats = 0;
-        if (this.props.progress.processed) {
-            processed = this.props.progress.processed;
-        }
-        if (this.props.progress.batch) {
-            mats = this.props.progress.batch;
-        }
-
-        return (<div className="scan-progress-contamination">
-            <div className="scan-progress-contamination-processed">
-                <span className="scan-progress-processed">{processed}</span>
-                <span className="scan-progress-processed-found">&nbsp;Mats Processed</span>
             </div>
-            <div className="scan-progress-contamination-mats">
-                <span className="scan-progress-mats">{mats}</span>
-                <span className="scan-progress-mats-found">&nbsp;Mats Found</span>
-            </div>
-            {this.renderContaminationButtons()}
-        </div>);
-    }
-
-    render() {
-        if (this.props.contaminationJob === false) {
-            return this.renderProgress();
-        }
-
-        return this.renderContaminationProgress();
+        </div>
+        );
     }
 }
 
-function mapStateToProps({ scan, settings }) {
-
+function mapStateToProps({ scan }) {
     return {
-        progress: scan.progress,
-        contaminationJob: scan.contaminationJob
+        progress: scan.progress
     }
 }
 

@@ -21,16 +21,6 @@ class ScanStart extends Component {
         }
     }
 
-    isJobOfContamination() {
-        const client = _.find(this.state.clients, (client) => client.clientId === this.state.clientId);
-        const job = _.find(client.jobs, (job) => job.id === this.state.jobId);
-
-        const jobTypeId = job.name.split("-")[2];
-
-        return jobTypeId === "06";
-
-    }
-
     getClients() {
         ipcRenderer.send("clients:get");
         ipcRenderer.once("clients:result", (event, data) => {
@@ -148,25 +138,14 @@ class ScanStart extends Component {
                             disabled={scanButtonDisabled}
                             className="btn btn-primary btn-block btn-green scan-start-button"
                             onClick={() => {
-                                if (this.isJobOfContamination()) {
-                                    this.props.startContaminationScan(
-                                        {
-                                            clients: this.state.clients,
-                                            clientId: this.state.clientId,
-                                            jobId: this.state.jobId,
-                                        }
-                                    );
 
-                                } else {
-                                    this.props.startScan(
-                                        {
-                                            clients: this.state.clients,
-                                            clientId: this.state.clientId,
-                                            jobId: this.state.jobId,
-                                        }
-                                    );
-                                }
-
+                                this.props.startScan(
+                                    {
+                                        clients: this.state.clients,
+                                        clientId: this.state.clientId,
+                                        jobId: this.state.jobId,
+                                    }
+                                );
 
                                 this.setState({
                                     clientId: "-1",
