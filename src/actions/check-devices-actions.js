@@ -19,6 +19,9 @@ export function checkDevices() {
             else {
                 payload.status = "check-fail";
             }
+
+            console.log("devices:status");
+
             dispatch({ type: types.DEVICES_STATUS_FETCHED, payload });
         });
     };

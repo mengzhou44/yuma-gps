@@ -11,7 +11,7 @@ function getConfig() {
 
     return {
         portalUrl: "http://localhost:3000",
-        useStub: false
+        useStub: true
     }
 }
 

@@ -17,6 +17,7 @@ const Tablet = require("./app/tablet");
 let mainWindow;
 let splashScreen;
 let reader;
+let checkDevicesTimer;
 let yumaServices = getYumaServices();
 
 app.on("close", () => {
@@ -24,6 +25,7 @@ app.on("close", () => {
     if (reader) {
         reader.stop();
     }
+
 });
 
 
@@ -80,7 +82,7 @@ ipcMain.on("portal:check", (event) => {
     });
 });
 
-ipcMain.on("devices:check", (event) => {
+function checkDevices() {
     const devices = {};
     const promise1 = yumaServices.checkGPS();
     const promise2 = checkReader();
@@ -90,8 +92,12 @@ ipcMain.on("devices:check", (event) => {
         devices.wifi = yumaServices.checkWifi();
         mainWindow.webContents.send("devices:status", devices);
     });
-});
+    console.log("checkDevices");
+}
 
+ipcMain.on("devices:check", (event) => {
+    checkDevices();
+});
 
 ipcMain.on("sync", (event) => {
 
@@ -145,6 +151,10 @@ ipcMain.on("scan:start", (event) => {
     }
     reader = getReader(mainWindow, yumaServices);
     reader.start();
+
+    checkDevicesTimer = setInterval(() => {
+        checkDevices();
+    }, 10000);
 });
 
 ipcMain.on("contamination-scan:start", (event) => {
@@ -176,5 +186,6 @@ ipcMain.on("scan:complete", (event, scan) => {
     const scans = new Scans();
     scans.addNewScan(scan);
     reader.clearData();
+    checkDevicesTimer = null;
 });
 
