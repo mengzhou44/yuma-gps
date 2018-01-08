@@ -35,22 +35,22 @@ class Scans {
     }
 
     async  uploadScans() {
-
-        const { portalUrl } = getConfig();
-        try {
-            const scans = this.getScans();
-            if (scans.length === 0) {
-                return { success: true };
-            }
-            const res = await axios.post(`${portalUrl}/scans`, JSON.stringify(scans));
-            if (res.data.success) {
-                this.clearScans();
-                return { success: true };
-            }
-            return { success: false };
-        } catch (ex) {
-            return { success: false };
-        }
+        return { success: true };
+        /*  const { portalUrl } = getConfig();
+         try {
+             const scans = this.getScans();
+             if (scans.length === 0) {
+                 return { success: true };
+             }
+             const res = await axios.post(`${portalUrl}/scans`, JSON.stringify(scans));
+             if (res.data.success) {
+                 this.clearScans();
+                 return { success: true };
+             }
+             return { success: false };
+         } catch (ex) {
+             return { success: false };
+         } */
     }
 
     clearScans() {
