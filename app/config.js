@@ -10,8 +10,10 @@ function getConfig() {
     }
 
     return {
-        portalUrl: "http://localhost:3000",
-        useStub: false
+        // portalUrl: "http://localhost:5000",
+        // portalUrl: "http://empirelinux.com:9000",
+        portalUrl: "https://services.lunchpad123.com",
+        useStub: true
     }
 }
 

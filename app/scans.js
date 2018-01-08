@@ -35,6 +35,7 @@ class Scans {
     }
 
     async  uploadScans() {
+
         const { portalUrl } = getConfig();
         try {
             const scans = this.getScans();

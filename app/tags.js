@@ -32,7 +32,14 @@ class Tags {
         const tagsUrl = `${portalUrl}/tags`;
         try {
             const res = await axios.get(tagsUrl);
-            fs.writeFileSync(this.tagsFile, JSON.stringify(res.data, null, 4));
+            res.data;
+            let temp = {};
+
+            _.map(res.data, (item) => {
+                temp[item[0]] = item[1];
+            });
+
+            fs.writeFileSync(this.tagsFile, JSON.stringify(temp, null, 4));
             return { success: true };
         } catch (error) {
             return { success: false };
