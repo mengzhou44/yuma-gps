@@ -46,7 +46,6 @@ class ReaderStub {
     start() {
         this.timer = setInterval(() => {
             const tagNumber = this.getRandomTagNumber();
-            console.log("tag number:", tagNumber);
             const matId = new Tags().findMatId(this.knownTags, tagNumber);
             this.updateMatsInRange(matId);
             this.yumaServices.getGPSData().then(location => {

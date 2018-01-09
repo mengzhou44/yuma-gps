@@ -75,13 +75,13 @@ class Scans {
             if (scans.length === 0) {
                 return { success: true };
             }
-            const res = await axios.post(`${portalUrl}/field-data`, JSON.stringify(scans));
-            console.log("upload scann response", res.data);
-            if (res.data.success) {
-                this.clearScans();
-                return { success: true };
-            }
-            return { success: false };
+            _.map(scans, async (scan) => {
+                const res = await axios.post(`${portalUrl}/field-data`, JSON.stringify(scan));
+                console.log("upload scan response", res.data);
+            });
+            this.clearScans();
+            return { success: true };
+
         } catch (ex) {
             console.log("upload scann error", ex);
             return { success: false };
