@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Header from "../_common/header";
 import AdvancedTablet from "./advanced-tablet";
 import AdvancedReader from "./advanced-reader";
+import AdvancedPortal from "./advanced-portal";
 
 
 export default class AdvancedScreen extends Component {
@@ -34,6 +35,13 @@ export default class AdvancedScreen extends Component {
                 >
                     Reader
                 </li>
+                <li
+                    className={this.getSideBarLinkClass("portal")}
+                    onClick={() => this.setState({ current: "portal" })}
+                >
+                    Portal
+                </li>
+
 
             </ul>
         );
@@ -50,6 +58,7 @@ export default class AdvancedScreen extends Component {
                     <div className="col s12 m9">
                         <AdvancedTablet current={this.state.current} />
                         <AdvancedReader current={this.state.current} />
+                        <AdvancedPortal current={this.state.current} />
                     </div>
                 </div>
             </div>);

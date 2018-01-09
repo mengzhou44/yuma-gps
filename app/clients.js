@@ -64,14 +64,26 @@ class Clients {
         return jobId;
     }
 
+    convertToLowerCamelCase(clients) {
+        return _.map(clients, (client) => {
+            client.clientName = client.clientname;
+            client.clientId = client.clientid;
+            delete client.clientname;
+            delete client.clientid;
+            return client;
+        })
+    }
+
     async downloadClients() {
         const { portalUrl } = getConfig();
         const clientsUrl = `${portalUrl}/clients`;
         try {
             const res = await axios.get(clientsUrl);
-            fs.writeFileSync(this.clientsFile, JSON.stringify(res.data, null, 4));
+            const clients = this.convertToLowerCamelCase(res.data);
+            fs.writeFileSync(this.clientsFile, JSON.stringify(clients, null, 4));
             return { success: true };
         } catch (error) {
+            console.log("error", error);
             return { success: false };
         }
 

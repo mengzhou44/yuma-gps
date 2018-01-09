@@ -33,44 +33,46 @@ class Reader {
     }
 
     processTag(line) {
-
+        if (line.trim() === "") {
+            return;
+        }
         const fields = line.toString().split(",");
-        if (fields.length === 5) {
-            const tagNumber = fields[1];
-            if (tagNumber.length > 12) {
-                console.log("exception: ", line);
-                return;
-            }
-            const matId = new Tags().findMatId(this.knownTags, tagNumber);
-            if (matId === "-1") return;
 
-            this.updateMatsInRange(matId);
+        const tagNumber = fields[1];
+        if (tagNumber.length > 12) {
+            console.log("exception: ", line);
+            return;
+        }
+        const matId = new Tags().findMatId(this.knownTags, tagNumber);
+        if (matId === "-1") return;
 
-            let found = _.find(this.mats, (mat) => mat.matId === matId);
-            if (!found) {
-                this.yumaServices.getGPSData().then(location => {
-                    const timeStamp = Math.floor(Date.now());
-                    const mat = {
-                        matId,
-                        gps: `${location.latitude},${location.longitude}`,
-                        timeStamp
-                    };
-                    this.mats.push(mat);
-                    this.mainWindow.webContents.send('mat:found',
-                        {
-                            found: this.mats.length,
-                            inRange: this.matsInRange.length
-                        });
-                });
-            } else {
-                found.timeStamp = Math.floor(Date.now());
+        this.updateMatsInRange(matId);
+
+        let found = _.find(this.mats, (mat) => mat.matId === matId);
+        if (!found) {
+            this.yumaServices.getGPSData().then(location => {
+                const timeStamp = Math.floor(Date.now());
+                const mat = {
+                    matId,
+                    gps: [location.latitude, location.longitude],
+                    timeStamp
+                };
+                this.mats.push(mat);
                 this.mainWindow.webContents.send('mat:found',
                     {
                         found: this.mats.length,
                         inRange: this.matsInRange.length
                     });
-            }
+            });
+        } else {
+            found.timeStamp = Math.floor(Date.now());
+            this.mainWindow.webContents.send('mat:found',
+                {
+                    found: this.mats.length,
+                    inRange: this.matsInRange.length
+                });
         }
+
     }
 
 
@@ -129,7 +131,6 @@ class Reader {
         if (this.tcpClient) {
             this.tcpClient.destroy();
         }
-
         this.tcpClient = null;
     }
 

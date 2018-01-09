@@ -1,32 +1,52 @@
 [
     {
-        "clientId": 343444,
-        "clientName": "Cenovous",
-        "created": 1515446076559,
-        "jobId": 76652,
-        "jobName": "18-001-06-0102",
+        "client": "AAA",
+        "clientid": 24,
+        "job": "job-24",
+        "jobid": 11,
+        "gps": [
+            45.573,
+            -104.323
+        ],
+        "time": 1515520792660,
+        "deviceid": "c4:b3:01:d3:15:51",
         "mats": [
             {
-                "matId": "MAT1xjxg4j4h778",
-                "gps": "45.573,-104.323",
-                "timeStamp": 1515446078568
+                "id": "MATeu7wr2gefae2",
+                "gps": [
+                    45.573,
+                    -104.323
+                ],
+                "tags": [],
+                "contaminated": false
             },
             {
-                "matId": "MATwn4n9sii1owf",
-                "gps": "45.573,-104.323",
-                "timeStamp": 1515446080571
+                "id": "MATk07vs3onshth",
+                "gps": [
+                    45.573,
+                    -104.323
+                ],
+                "tags": [],
+                "contaminated": false
             },
             {
-                "matId": "MAT0o8artcnxkqs",
-                "gps": "45.573,-104.323",
-                "timeStamp": 1515446082576
+                "id": "MATakr4honx6eo4",
+                "gps": [
+                    45.573,
+                    -104.323
+                ],
+                "tags": [],
+                "contaminated": true
             },
             {
-                "matId": "MAT6z066nr71zks",
-                "gps": "45.573,-104.323",
-                "timeStamp": 1515446084579
+                "id": "MATyou5vzipfwn2",
+                "gps": [
+                    45.573,
+                    -104.323
+                ],
+                "tags": [],
+                "contaminated": true
             }
-        ],
-        "deviceId": "c4:b3:01:d3:15:51"
+        ]
     }
 ]

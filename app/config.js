@@ -1,19 +1,21 @@
 const environment = require("./environment");
+const Settings = require("./settings/settings");
 
 
 function getConfig() {
+
+    const settings = new Settings();
+    const { portal } = settings.fetch();
     if (environment === "production") {
         return {
-            portalUrl: "http://empirelinux.com:9000",
+            portalUrl: portal.url,
             useStub: false
         };
     }
 
     return {
-        // portalUrl: "http://localhost:5000",
-        //portalUrl: "http://empirelinux.com:9000",
-        portalUrl: "https://services.lunchpad123.com",
-        useStub: false
+        portalUrl: portal.url,
+        useStub: true
     }
 }
 

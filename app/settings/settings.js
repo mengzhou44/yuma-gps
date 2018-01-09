@@ -20,7 +20,7 @@ class Settings {
     }
 
     save(data) {
-        fs.writeFileSync(this.jsonFile, JSON.stringify(data));
+        fs.writeFileSync(this.jsonFile, JSON.stringify(data, null, 4));
     }
 }
 

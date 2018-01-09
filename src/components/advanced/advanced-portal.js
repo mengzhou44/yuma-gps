@@ -6,7 +6,7 @@ import MyTransition from "../_common/my-transition";
 import { renderField } from "../_common/render-field";
 import * as actions from "../../actions";
 
-class AdvancedReader extends Component {
+class AdvancedPortal extends Component {
 
     constructor(props) {
         super(props);
@@ -20,7 +20,7 @@ class AdvancedReader extends Component {
 
     onSubmit(props) {
         let { settings } = this.props;
-        settings.reader = props;
+        settings.portal = props;
         this.props.saveSettings(settings, () => {
             this.setState({ disabled: true });
         });
@@ -64,12 +64,12 @@ class AdvancedReader extends Component {
 
     render() {
 
-        const visible = this.props.current === "reader";
+        const visible = this.props.current === "portal";
 
         return (
             <MyTransition visible={visible}>
                 <div className="sidebar-content">
-                    <h5 className="color-orange">Reader</h5>
+                    <h5 className="color-orange">Portal</h5>
                     <Divider />
 
                     <form
@@ -78,20 +78,13 @@ class AdvancedReader extends Component {
                     >
 
                         <Field
-                            name="host"
-                            label="HOST"
+                            name="url"
+                            label="Address"
                             component={renderField}
                             type="text"
                             disabled={this.state.disabled}
                         />
 
-                        <Field
-                            name="port"
-                            label="PORT"
-                            component={renderField}
-                            type="text"
-                            disabled={this.state.disabled}
-                        />
 
                         {this.renderChangeButton()}
 
@@ -108,12 +101,8 @@ class AdvancedReader extends Component {
 const validate = values => {
     const errors = {};
 
-    if (!values.host) {
-        errors.host = "Please enter HOST name.";
-    }
-
-    if (!values.port) {
-        errors.port = "Please enter Port number.";
+    if (!values.url) {
+        errors.host = "Please enter portal address.";
     }
 
     return errors;
@@ -122,7 +111,7 @@ const validate = values => {
 
 function mapStateToProps({ settings }) {
     return {
-        initialValues: settings.data.reader,
+        initialValues: settings.data.portal,
         settings: settings.data
     };
 }
@@ -130,8 +119,8 @@ function mapStateToProps({ settings }) {
 
 export default connect(mapStateToProps, actions)(
     reduxForm({
-        form: "reader-form",
+        form: "portal-form",
         enableReinitialize: true,
         validate
-    })(AdvancedReader));
+    })(AdvancedPortal));
 
