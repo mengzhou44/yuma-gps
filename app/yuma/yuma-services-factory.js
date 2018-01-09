@@ -4,7 +4,7 @@ const YumaServices = require('./yuma-services');
 const { environment } = require('../environment');
 
 function getYumaServices() {
-    if (environment === "dev") {
+    if (environment !== "production") {
         return new YumaServicesStub();
     }
     return new YumaServices();
