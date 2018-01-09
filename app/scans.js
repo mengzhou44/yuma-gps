@@ -31,8 +31,7 @@ class Scans {
             const converted = {
                 id: mat.matId,
                 gps: mat.gps,
-                tags: [],
-                time: mat.tempStamp,
+                time: mat.timeStamp,
                 contaminated: mat.contaminated
             };
             return converted;
@@ -77,7 +76,7 @@ class Scans {
                 return { success: true };
             }
             const res = await axios.post(`${portalUrl}/field-data`, JSON.stringify(scans));
-
+            console.log("upload scann response", res.data);
             if (res.data.success) {
                 this.clearScans();
                 return { success: true };

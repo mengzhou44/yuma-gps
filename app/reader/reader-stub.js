@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const Tags = require("../tags");
 
 class ReaderStub {
 
@@ -8,13 +9,17 @@ class ReaderStub {
         this.mats = [];
         this.timer = null;
         this.matsInRange = [];
+        this.knownTags = new Tags().getTags();
     }
 
 
-    createRandomString(length) {
-        var str = "";
-        for (; str.length < length; str += Math.random().toString(36).substr(2));
-        return str.substr(0, length);
+    getRandomTagNumber() {
+        var result;
+        var count = 0;
+        for (var prop in this.knownTags)
+            if (Math.random() < 1 / ++count)
+                result = prop;
+        return result;
     }
 
 
@@ -40,7 +45,9 @@ class ReaderStub {
 
     start() {
         this.timer = setInterval(() => {
-            const matId = "MAT" + this.createRandomString(12);
+            const tagNumber = this.getRandomTagNumber();
+            console.log("tag number:", tagNumber);
+            const matId = new Tags().findMatId(this.knownTags, tagNumber);
             this.updateMatsInRange(matId);
             this.yumaServices.getGPSData().then(location => {
 
