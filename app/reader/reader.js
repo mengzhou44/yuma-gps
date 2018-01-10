@@ -36,6 +36,7 @@ class Reader {
         if (line.trim() === "") {
             return;
         }
+
         const fields = line.toString().split(",");
 
         const tagNumber = fields[1];
@@ -44,6 +45,7 @@ class Reader {
             return;
         }
         const matId = new Tags().findMatId(this.knownTags, tagNumber);
+    
         if (matId === "-1") return;
 
         this.updateMatsInRange(matId);
@@ -107,6 +109,7 @@ class Reader {
 
 
     onData(data) {
+        console.log("data", data);
         const lines = data.toString().split("\n");
         _.each(lines, line => {
             this.processTag(line);
