@@ -1,5 +1,6 @@
 const wifi = require('wifi-control');
 
+
 class YumaServicesStub {
 
     constructor() {
@@ -11,6 +12,7 @@ class YumaServicesStub {
     }
 
     checkWifi() {
+     
         const { connection } = wifi.getIfaceState();
         if (connection) return true;
         return false;

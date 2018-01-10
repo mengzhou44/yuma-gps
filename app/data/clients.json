@@ -2,145 +2,39 @@
     {
         "jobs": [
             {
-                "id": 30,
-                "name": "the new job",
-                "latitude": -114.0094,
-                "longitude": 54.00932
-            }
-        ],
-        "clientName": "This is the new client name",
-        "clientId": 40
-    },
-    {
-        "jobs": [
-            {
-                "id": 21,
-                "name": "new2-jobX",
-                "latitude": 0,
-                "longitude": 1
+                "id": 76652,
+                "name": "18-001-06-0102"
             },
             {
-                "id": 22,
-                "name": "new2-jobZZ",
-                "latitude": 0,
-                "longitude": 1
+                "id": 76653,
+                "name": "18-002-03-0105"
+            }
+        ],
+        "clientName": "Cenovous",
+        "clientId": 343444
+    },
+    {
+        "jobs": [
+            {
+                "id": 76651,
+                "name": "18-003-02-0105"
             },
             {
-                "id": 20,
-                "name": "new2-job1",
-                "latitude": 0,
-                "longitude": 1
+                "id": 76659,
+                "name": "18-004-01-0109"
             }
         ],
-        "clientName": "New 2",
-        "clientId": 33
+        "clientName": "Nexus",
+        "clientId": 343448
     },
     {
         "jobs": [
             {
-                "id": 23,
-                "name": "new2-jobZZ",
-                "latitude": 0,
-                "longitude": 1
+                "id": 76650,
+                "name": "GEMS-2017 Q224ES"
             }
         ],
-        "clientName": "New 3",
-        "clientId": 34
-    },
-    {
-        "jobs": [
-            {
-                "id": 18,
-                "name": "job-31",
-                "latitude": 0,
-                "longitude": 1
-            }
-        ],
-        "clientName": "RKO1",
-        "clientId": 3
-    },
-    {
-        "jobs": [
-            {
-                "id": 11,
-                "name": "job-24",
-                "latitude": 0,
-                "longitude": 1
-            }
-        ],
-        "clientName": "AAA",
-        "clientId": 24
-    },
-    {
-        "jobs": [
-            {
-                "id": 2,
-                "name": "Job 02",
-                "latitude": 1,
-                "longitude": 0
-            },
-            {
-                "id": 1,
-                "name": "Job 01",
-                "latitude": 0,
-                "longitude": 1
-            }
-        ],
-        "clientName": "GEMS",
-        "clientId": 1
-    },
-    {
-        "jobs": [
-            {
-                "id": 25,
-                "name": "Test Job",
-                "latitude": 0,
-                "longitude": 1
-            }
-        ],
-        "clientName": "Richrad1",
-        "clientId": 35
-    },
-    {
-        "jobs": [
-            {
-                "id": 31,
-                "name": "******* new job",
-                "latitude": -114.0094,
-                "longitude": 54.00932
-            }
-        ],
-        "clientName": "**********client name",
-        "clientId": 41
-    },
-    {
-        "jobs": [
-            {
-                "id": 19,
-                "name": "New 1",
-                "latitude": 0,
-                "longitude": 1
-            }
-        ],
-        "clientName": "New 1",
-        "clientId": 32
-    },
-    {
-        "jobs": [
-            {
-                "id": 8,
-                "name": "job-21",
-                "latitude": 0,
-                "longitude": 1
-            },
-            {
-                "id": 24,
-                "name": "ZZZ",
-                "latitude": 0,
-                "longitude": 1
-            }
-        ],
-        "clientName": "XXX",
-        "clientId": 21
+        "clientName": "Suncor",
+        "clientId": 343449
     }
 ]
