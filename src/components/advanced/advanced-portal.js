@@ -18,8 +18,17 @@ class AdvancedPortal extends Component {
         this.props.fetchSettings();
     }
 
+    stripTrailingSlash = (str) => {
+        return str.endsWith('/') ?
+            str.slice(0, -1) :
+            str;
+    };
+
+
     onSubmit(props) {
         let { settings } = this.props;
+        props.url = this.stripTrailingSlash(props.url);
+        console.log("props.url", props.url);
         settings.portal = props;
         this.props.saveSettings(settings, () => {
             this.setState({ disabled: true });
