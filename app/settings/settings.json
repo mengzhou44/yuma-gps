@@ -1,6 +1,6 @@
 {
     "portal": {
-        "url": "https://services.lunchpad123.com"
+        "url": "http://empirelinux.com:9000/"
     },
     "reader": {
         "host": "speedwayr-10-d5-1c.local",
