@@ -30,11 +30,11 @@ app.on("close", () => {
 
 
 app.on("ready", () => {
-    // splashScreen = new BrowserWindow({});
-    // splashScreen.loadURL(`file://${__dirname}/splash.html`);
+    splashScreen = new BrowserWindow({});
+    splashScreen.loadURL(`file://${__dirname}/splash.html`);
 
     mainWindow = new BrowserWindow({
-        //  show: false,
+        show: false,
         icon: path.join(__dirname, "/assets/images/icon.ico"),
         webPreferences: { backgroundThrottling: false }
     });
@@ -44,8 +44,8 @@ app.on("ready", () => {
 
 
 ipcMain.on("system:initialized", (event) => {
-    //  splashScreen.hide();
-    //  mainWindow.show();
+    splashScreen.hide();
+    mainWindow.show();
 });
 
 
