@@ -19,6 +19,12 @@ class Settings {
 
     }
 
+    getToken() {
+        const { tablet } = this.fetch();
+        return tablet.token;
+    }
+
+
     save(data) {
         fs.writeFileSync(this.jsonFile, JSON.stringify(data, null, 4));
     }

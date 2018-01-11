@@ -154,5 +154,17 @@
         ],
         "clientName": "This is the new client name",
         "clientId": 40
+    },
+    {
+        "jobs": [
+            {
+                "id": 35,
+                "name": "Good Job 2",
+                "latitude": 45.573,
+                "longitude": -104.323
+            }
+        ],
+        "clientName": "Easy Express Solutions Inc.",
+        "clientId": 45
     }
 ]

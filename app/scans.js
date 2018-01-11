@@ -7,6 +7,7 @@ const { environment } = require("./environment");
 const { getConfig } = require("./config");
 const Clients = require("./clients");
 const Tablet = require("./tablet");
+const Settings = require("./settings/settings");
 
 class Scans {
 
@@ -70,13 +71,19 @@ class Scans {
     async  uploadScans() {
 
         const { portalUrl } = getConfig();
+
+        const token = new Settings().getToken();
+
         try {
             const scans = this.getScans();
             if (scans.length === 0) {
                 return { success: true };
             }
+            const config = {
+                headers: { Authorization: `bearer ${token}` }
+            };
             _.map(scans, async (scan) => {
-                const res = await axios.post(`${portalUrl}/field-data`, JSON.stringify(scan));
+                const res = await axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
                 console.log("upload scan response", res.data);
             });
             this.clearScans();

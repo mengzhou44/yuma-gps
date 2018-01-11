@@ -3,6 +3,7 @@ const fs = require("fs");
 const axios = require("axios");
 const _ = require("lodash");
 const { getConfig } = require("./config");
+const Settings = require("./settings/settings");
 
 const { environment } = require('./environment');
 
@@ -29,9 +30,18 @@ class Tags {
 
     async downloadTags() {
         const { portalUrl } = getConfig();
+        const settings = new Settings();
+        const token = settings.getToken();
+
+
         const tagsUrl = `${portalUrl}/tags`;
         try {
-            const res = await axios.get(tagsUrl);
+            const config = {
+                headers: { Authorization: `bearer ${token}` }
+            };
+
+            const res = await axios.get(tagsUrl, config);
+
             res.data;
             let temp = {};
 

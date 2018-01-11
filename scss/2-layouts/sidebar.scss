@@ -3,7 +3,7 @@
   
   .collection-item {
     background-color: $color-whitesmoke !important;
-    color:  $color-gray !important; 
+    color:  $color-gray * 0.8 !important; 
     cursor: pointer;
   }
   .active-link {

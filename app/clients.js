@@ -4,7 +4,8 @@ const axios = require("axios");
 const _ = require("lodash");
 const { getConfig } = require("./config");
 
-const { environment } = require('./environment');
+const { environment } = require("./environment");
+const Settings = require("./settings/settings");
 
 class Clients {
 
@@ -77,8 +78,13 @@ class Clients {
     async downloadClients() {
         const { portalUrl } = getConfig();
         const clientsUrl = `${portalUrl}/clients`;
+        const token = new Settings().getToken();
+        const config = {
+            headers: { Authorization: `bearer ${token}` }
+        };
+
         try {
-            const res = await axios.get(clientsUrl);
+            const res = await axios.get(clientsUrl, config);
             const clients = this.convertToLowerCamelCase(res.data);
             fs.writeFileSync(this.clientsFile, JSON.stringify(clients, null, 4));
             return { success: true };
