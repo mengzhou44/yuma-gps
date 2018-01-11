@@ -3,6 +3,7 @@ var { Socket } = require('net');
 const Settings = require('../settings/settings');
 const Tags = require("../tags");
 
+//branch 2018-01-11-prod comment 
 class Reader {
 
     constructor(mainWindow, yumaServices) {
@@ -45,7 +46,7 @@ class Reader {
             return;
         }
         const matId = new Tags().findMatId(this.knownTags, tagNumber);
-    
+
         if (matId === "-1") return;
 
         this.updateMatsInRange(matId);
