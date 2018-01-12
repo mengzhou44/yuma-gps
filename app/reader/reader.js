@@ -34,6 +34,7 @@ class Reader {
     }
 
     processTag(line) {
+
         if (line.trim() === "") {
             return;
         }
@@ -110,22 +111,27 @@ class Reader {
 
 
     onData(data) {
-        console.log("data", data);
-        const lines = data.toString().split("\n");
-        _.each(lines, line => {
-            this.processTag(line);
-        });
-    }
 
-    onError(error) {
-        this.mainWindow.webContents.send('mat:found', {
-            error
-        });
+       try {    
+           if (this.tcpClient === null) {
+               return;
+           }
+           
+            const lines = data.toString().split("\n");
+                _.each(lines, line => {
+                    this.processTag(line);
+                });
+       } catch(err) {
+            this.stop();
+            this.mainWindow.webContents.send('mat:found', 
+              { error: `Error occured while scanning. ${err} ${err.stack}`});
+       }
+    
     }
-
+ 
     start() {
         this.tcpClient = new Socket();
-        this.tcpClient.on('error', this.onError.bind(this));
+       
         this.tcpClient.on('data', this.onData.bind(this));
         const readerSetting = this.getReaderSetting();
         this.tcpClient.connect(readerSetting.port, readerSetting.host);

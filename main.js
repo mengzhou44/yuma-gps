@@ -20,15 +20,7 @@ let reader;
 let checkDevicesTimer;
 let yumaServices = getYumaServices();
 
-app.on("close", () => {
-    yumaServices.stop();
-    if (reader) {
-        reader.stop();
-    }
-
-});
-
-
+ 
 app.on("ready", () => {
     splashScreen = new BrowserWindow({});
     splashScreen.loadURL(`file://${__dirname}/splash.html`);
@@ -39,8 +31,12 @@ app.on("ready", () => {
         webPreferences: { backgroundThrottling: false }
     });
 
+    mainWindow.on("close", ()=> {closeApp()});
+
     mainWindow.loadURL(`file://${__dirname}/index.html`);
+
 });
+
 
 
 ipcMain.on("system:initialized", (event) => {
@@ -82,6 +78,16 @@ ipcMain.on("portal:check", (event) => {
     });
 });
 
+function closeApp() {
+    yumaServices.stop();
+    if (reader) {
+        reader.stop();
+    }
+    this.clearInterval(this.checkDevicesTimer);
+    this.checkDevicesTimer= null;
+    app.quit();
+}
+
 function checkDevices() {
     const devices = {};
     const promise1 = yumaServices.checkGPS();
@@ -92,6 +98,7 @@ function checkDevices() {
         devices.wifi = yumaServices.checkWifi();
         mainWindow.webContents.send("devices:status", devices);
     });
+   
 }
 
 ipcMain.on("devices:check", (event) => {

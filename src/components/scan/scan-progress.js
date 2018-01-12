@@ -1,12 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ipcRenderer } from "electron";
+import  Error from "../_common/error";
 
 import * as actions from "../../actions";
 
 class ScanProgress extends Component {
 
     render() {
+
+        const  {error } = this.props.progress;
+
+        if  (error) {
+          
+            return (
+                <Error message={error}   />
+            );
+        }
+
         let mats = 0;
         let matsInRange = 0;
         if (this.props.progress.found) {
