@@ -34,15 +34,20 @@ app.on("ready", () => {
         webPreferences: { backgroundThrottling: false }
     });
 
+    mainWindow.on("close", ()=> {
+       closeApp();
+    });
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
 });
 
 app.on("window-all-closed",  ()=> {
-  closeApp();
+    closeApp();
 });
 
 app.on("before-quit", () => {
+    mainWindow.removeAllListeners('close');
+    splashScreen.removeAllListeners('close');
     mainWindow.close();
     splashScreen.close();
 });
@@ -88,7 +93,11 @@ ipcMain.on("portal:check", (event) => {
 });
 
 function closeApp() {
-    yumaServices.stop();
+
+    if (yumaServices) {
+       yumaServices.stop();
+    }
+    
     if (reader) {
         reader.stop();
     }

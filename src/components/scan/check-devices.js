@@ -8,6 +8,7 @@ class CheckDevices extends Component {
         this.props.checkDevices();
     }
 
+  
     renderCheckResultIcon(device) {
         const passed = this.props.result[device];
 
@@ -59,10 +60,10 @@ class CheckDevices extends Component {
 
         }
         else if (this.props.status === "check-fail") {
-
+    
             return (<div className="align-center">
                 {this.renderDevicesStatus()}
-
+                
                 <button
                     className="btn btn-red width-400 margin-top-10"
                     onClick={() => {
