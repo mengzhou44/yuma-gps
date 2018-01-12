@@ -36,11 +36,10 @@ class YumaServices {
       getGPSUrl() {
 
             if (environment === "test") {
-                  return 'http://localhost:3000/api/test/getLocation';
+                  return "http://localhost:3000/api/test/getLocation";
             }
-            return 'http://localhost:3000/api/yuma/getLocation';
+            return "http://localhost:3000/api/yuma/getLocation";
       }
-
 
       stop() {      
           this.cmd.unref();
