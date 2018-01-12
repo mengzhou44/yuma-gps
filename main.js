@@ -21,6 +21,8 @@ let checkDevicesTimer;
 let yumaServices = getYumaServices();
 
  
+
+
 app.on("ready", () => {
     splashScreen = new BrowserWindow({});
     splashScreen.loadURL(`file://${__dirname}/splash.html`);
@@ -37,6 +39,14 @@ app.on("ready", () => {
 
 });
 
+app.on("window-all-closed",  ()=> {
+  closeApp();
+});
+
+app.on("before-quit", () => {
+    mainWindow.close();
+    splashScreen.close();
+});
 
 
 ipcMain.on("system:initialized", (event) => {
@@ -85,6 +95,7 @@ function closeApp() {
     }
     this.clearInterval(this.checkDevicesTimer);
     this.checkDevicesTimer= null;
+
     app.quit();
 }
 

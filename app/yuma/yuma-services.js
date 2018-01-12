@@ -24,8 +24,12 @@ class YumaServices {
             } else {
                   commandPath = __dirname + "/yuma-lib";
             }
-
-            this.cmd = spawn('YumaServices.exe', { cwd: commandPath });
+            try{
+                 this.cmd = spawn("YumaServices.exe", { cwd: commandPath });
+            } catch(err) {
+                  console.log("Error to start Yuma Services", err);
+            }
+           
 
       }
 
@@ -38,10 +42,8 @@ class YumaServices {
       }
 
 
-      stop() {
-            if (cmd !== null) {
-                  cmd.unref();
-            }
+      stop() {      
+          this.cmd.unref();
       }
 
       checkWifi() {
