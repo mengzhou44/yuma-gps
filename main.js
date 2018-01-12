@@ -33,8 +33,6 @@ app.on("ready", () => {
         webPreferences: { backgroundThrottling: false }
     });
 
-    mainWindow.on("close", ()=> {closeApp()});
-
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
 });

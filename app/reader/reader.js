@@ -3,7 +3,7 @@ var { Socket } = require('net');
 const Settings = require('../settings/settings');
 const Tags = require("../tags");
 
-//branch 2018-01-11-prod comment 
+
 class Reader {
 
     constructor(mainWindow, yumaServices) {
