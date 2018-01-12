@@ -14,15 +14,24 @@ class Reader {
         this.knownTags = new Tags().getTags();
     }
 
-    updateMatsInRange(matId) {
-        let found = _.find(this.matsInRange, (mat) => mat.matId === matId);
-        if (found) {
-            found.timeStamp = Math.floor(Date.now());
+    addTag(tagNumber, mat) {
+        const found = _.find(mat.tags, item => item === tagNumber);
+        if (!found) {
+            mat.tags.push(tagNumber);
+        }
+    }
+    updateMatsInRange(tagNumber) {
+        const matId = new Tags().findMatId(this.knownTags, tagNumber);
+        let matFound = _.find(this.matsInRange, (mat) => mat.matId === matId);
+        if (matFound) {
+            matFound.timeStamp = Math.floor(Date.now());
+            this.addTag(tagNumber, matFound);
         } else {
             const timeStamp = Math.floor(Date.now());
             const mat = {
                 matId,
-                timeStamp
+                timeStamp,
+                tags: [tagNumber]
             };
             this.matsInRange.push(mat);
         }
@@ -31,6 +40,14 @@ class Reader {
             const timeStamp = Math.floor(Date.now());
             return timeStamp < (mat.timeStamp + 2000)
         });
+    }
+
+    getTagsInRange() {
+        let result = []
+        _.map(this.matsInRange, (mat) => {
+            result.push(mat.tags.join());
+        })
+        return result.join();
     }
 
     processTag(line) {
@@ -50,7 +67,7 @@ class Reader {
 
         if (matId === "-1") return;
 
-        this.updateMatsInRange(matId);
+        this.updateMatsInRange(tagNumber);
 
         let found = _.find(this.mats, (mat) => mat.matId === matId);
         if (!found) {
@@ -65,7 +82,8 @@ class Reader {
                 this.mainWindow.webContents.send('mat:found',
                     {
                         found: this.mats.length,
-                        inRange: this.matsInRange.length
+                        inRange: this.matsInRange.length,
+                        tagsInRange: this.getTagsInRange()
                     });
             });
         } else {
@@ -112,26 +130,26 @@ class Reader {
 
     onData(data) {
 
-       try {    
-           if (this.tcpClient === null) {
-               return;
-           }
-           
+        try {
+            if (this.tcpClient === null) {
+                return;
+            }
+
             const lines = data.toString().split("\n");
-                _.each(lines, line => {
-                    this.processTag(line);
-                });
-       } catch(err) {
+            _.each(lines, line => {
+                this.processTag(line);
+            });
+        } catch (err) {
             this.stop();
-            this.mainWindow.webContents.send('mat:found', 
-              { error: `Error occured while scanning. ${err} ${err.stack}`});
-       }
-    
+            this.mainWindow.webContents.send('mat:found',
+                { error: `Error occured while scanning. ${err} ${err.stack}` });
+        }
+
     }
- 
+
     start() {
         this.tcpClient = new Socket();
-       
+
         this.tcpClient.on('data', this.onData.bind(this));
         const readerSetting = this.getReaderSetting();
         this.tcpClient.connect(readerSetting.port, readerSetting.host);

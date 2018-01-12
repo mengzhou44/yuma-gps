@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ipcRenderer } from "electron";
-import  Error from "../_common/error";
+import Error from "../_common/error";
 
 import * as actions from "../../actions";
 
@@ -9,17 +9,18 @@ class ScanProgress extends Component {
 
     render() {
 
-        const  {error } = this.props.progress;
+        const { error } = this.props.progress;
 
-        if  (error) {
-          
+        if (error) {
+
             return (
-                <Error message={error}   />
+                <Error message={error} />
             );
         }
 
         let mats = 0;
         let matsInRange = 0;
+        let tagsInRange = 0;
         if (this.props.progress.found) {
             mats = this.props.progress.found;
         }
@@ -27,6 +28,11 @@ class ScanProgress extends Component {
         if (this.props.progress.inRange) {
             matsInRange = this.props.progress.inRange;
         }
+
+        if (this.props.progress.tagsInRange) {
+            tagsInRange = this.props.progress.tagsInRange
+        }
+
         return (<div className="scan-progress">
             <div className="scan-progress-mats-container">
                 <span className="scan-progress-mats">{mats}</span>
@@ -36,6 +42,9 @@ class ScanProgress extends Component {
                 <div>
                     <span className="scan-progress-inrange-mats">{matsInRange}</span>
                     <span className="scan-progress-mats-found">&nbsp;Mats In Range</span>
+                    <p className="margin-top-10">
+                        {tagsInRange}
+                    </p>
                 </div>
                 <div className="scan-progress-buttons">
                     <div className="margin-20">

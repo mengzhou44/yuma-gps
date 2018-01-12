@@ -23,31 +23,48 @@ class ReaderStub {
     }
 
 
-    updateMatsInRange(matId) {
-        let found = _.find(this.matsInRange, (mat) => mat.matId === matId);
-        if (found) {
-            found.timeStamp = Math.floor(Date.now());
+    addTag(tagNumber, mat) {
+        const found = _.find(mat.tags, item => item === tagNumber);
+        if (!found) {
+            mat.tags.push(tagNumber);
+        }
+    }
+
+    updateMatsInRange(tagNumber) {
+        const matId = new Tags().findMatId(this.knownTags, tagNumber);
+        let matFound = _.find(this.matsInRange, (mat) => mat.matId === matId);
+        if (matFound) {
+            matFound.timeStamp = Math.floor(Date.now());
+            this.addTag(tagNumber, matFound);
         } else {
             const timeStamp = Math.floor(Date.now());
             const mat = {
                 matId,
-                timeStamp
+                timeStamp,
+                tags: [tagNumber]
             };
             this.matsInRange.push(mat);
         }
 
         this.matsInRange = _.filter(this.matsInRange, (mat) => {
             const timeStamp = Math.floor(Date.now());
-            return timeStamp < (mat.timeStamp + 3000)
+            return timeStamp < (mat.timeStamp + 2000)
         });
     }
 
+    getTagsInRange() {
+        let result = []
+        _.map(this.matsInRange, (mat) => {
+            result.push(mat.tags.join());
+        })
+        return result.join();
+    }
 
     start() {
         this.timer = setInterval(() => {
             const tagNumber = this.getRandomTagNumber();
+            this.updateMatsInRange(tagNumber);
             const matId = new Tags().findMatId(this.knownTags, tagNumber);
-            this.updateMatsInRange(matId);
             this.yumaServices.getGPSData().then(location => {
 
                 const found = _.find(this.mats, (mat) => mat.matId === matId);
@@ -63,10 +80,13 @@ class ReaderStub {
                     this.mats.push(mat);
                 }
 
+                const tagsInRange = this.getTagsInRange();
+                console.log("tags in range:", tagsInRange);
                 this.mainWindow.webContents.send('mat:found',
                     {
                         found: this.mats.length,
-                        inRange: this.matsInRange.length
+                        inRange: this.matsInRange.length,
+                        tagsInRange
                     });
             });
 

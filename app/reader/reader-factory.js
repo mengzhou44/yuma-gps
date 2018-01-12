@@ -13,7 +13,7 @@ function getReader(mainWindow, yumaServices) {
     return new Reader(mainWindow, yumaServices);
 }
 
-function checkReader() {
+async function checkReader() {
     if (getConfig().useStub) {
         return true;
     }
