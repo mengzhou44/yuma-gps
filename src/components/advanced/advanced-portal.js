@@ -28,7 +28,6 @@ class AdvancedPortal extends Component {
     onSubmit(props) {
         let { settings } = this.props;
         props.url = this.stripTrailingSlash(props.url);
-        console.log("props.url", props.url);
         settings.portal = props;
         this.props.saveSettings(settings, () => {
             this.setState({ disabled: true });
