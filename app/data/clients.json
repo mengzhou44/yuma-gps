@@ -2,6 +2,18 @@
     {
         "jobs": [
             {
+                "id": 37,
+                "name": "Good Job 3",
+                "latitude": 45.573,
+                "longitude": -104.323
+            }
+        ],
+        "clientName": "123521 Alberta Ltd.",
+        "clientId": 47
+    },
+    {
+        "jobs": [
+            {
                 "id": 36,
                 "name": "Good Job 2",
                 "latitude": 45.573,
