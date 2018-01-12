@@ -39,7 +39,9 @@ class YumaServices {
 
 
       stop() {
-            cmd.unref();
+            if (cmd !== null) {
+                  cmd.unref();
+            }
       }
 
       checkWifi() {
