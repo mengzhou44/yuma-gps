@@ -17,11 +17,11 @@ const Tablet = require("./app/tablet");
 let mainWindow;
 let splashScreen;
 let reader;
-let devices ={ gps: false, reader: false, wifi: false };
+let devices = { gps: false, reader: false, wifi: false };
 let checkDevicesTimer;
 let yumaServices = getYumaServices();
 
- 
+
 
 
 app.on("ready", () => {
@@ -34,14 +34,19 @@ app.on("ready", () => {
         webPreferences: { backgroundThrottling: false }
     });
 
-    mainWindow.on("close", ()=> {
-       closeApp();
+    mainWindow.on("close", () => {
+        closeApp();
     });
+
+    mainWindow.on("window-all-closed", () => {
+        closeApp();
+    });
+
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
 });
 
-app.on("window-all-closed",  ()=> {
+app.on("window-all-closed", () => {
     closeApp();
 });
 
@@ -95,26 +100,26 @@ ipcMain.on("portal:check", (event) => {
 function closeApp() {
 
     if (yumaServices) {
-       yumaServices.stop();
+        yumaServices.stop();
     }
-    
+
     if (reader) {
         reader.stop();
     }
     this.clearInterval(this.checkDevicesTimer);
-    this.checkDevicesTimer= null;
+    this.checkDevicesTimer = null;
 
     app.quit();
 }
 
-function checkDevices() { 
-   devices.wifi = yumaServices.checkWifi();
-   yumaServices.checkGPS().then(value=> {
+function checkDevices() {
+    devices.wifi = yumaServices.checkWifi();
+    yumaServices.checkGPS().then(value => {
         devices.gps = value;
         mainWindow.webContents.send("devices:status", devices);
     });
- 
-    checkReader().then(value=> {
+
+    checkReader().then(value => {
         devices.reader = value;
         mainWindow.webContents.send("devices:status", devices);
     });
