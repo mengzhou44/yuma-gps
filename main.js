@@ -35,7 +35,7 @@ app.on("ready", () => {
         closeApp();
     });
 
-  
+
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
 });
@@ -107,15 +107,15 @@ function closeApp() {
 }
 
 async function checkDevices() {
-     devices.wifi = yumaServices.checkWifi();
- 
-     const gps = await  yumaServices.checkGPS();
-     devices.gps = gps;
+    devices.wifi = yumaServices.checkWifi();
 
-     const reader = await checkReader();
-     devices.reader = reader;
+    const gps = await yumaServices.checkGPS();
+    devices.gps = gps;
 
-     mainWindow.webContents.send("devices:status", devices);   
+    const reader = await checkReader();
+    devices.reader = reader;
+
+    mainWindow.webContents.send("devices:status", devices);
 }
 
 ipcMain.on("devices:check", (event) => {
@@ -192,15 +192,9 @@ ipcMain.on("batch:process", (event, data) => {
     reader.processBatch(data);
 });
 
-ipcMain.on("scan:stop", (event) => {
-    reader.stop();
-});
-
-ipcMain.on("scan:resume", (event) => {
-    reader.start();
-});
 
 ipcMain.on("scan:complete", (event, scan) => {
+    reader.stop();
     scan.mats = reader.getData();
     const scans = new Scans();
     scans.addNewScan(scan);

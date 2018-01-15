@@ -7410,8 +7410,8 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   font-size: 25px; }
 
 .check-portal-checking-container {
-  width: 300px;
-  margin: 200 auto !important;
+  display: flex;
+  justify-content: center;
   background-color: white;
   height: 100px; }
 
@@ -7429,7 +7429,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   margin-top: 100px; }
 
 .scan-progress {
-  height: 200px;
+  height: 225px;
   display: flex;
   flex-flow: column;
   justify-content: space-between; }

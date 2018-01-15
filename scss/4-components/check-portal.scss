@@ -1,7 +1,6 @@
-
 .check-portal-checking-container {
-    width: 300px; 
-    margin: 200 auto !important; 
+    display: flex; 
+    justify-content: center;
     background-color:  $color-white;
     height: 100px;  
 }

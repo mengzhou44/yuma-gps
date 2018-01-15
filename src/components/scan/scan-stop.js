@@ -21,56 +21,33 @@ class ScanStop extends Component {
         };
     }
 
-    renderButtons() {
-        if (this.props.status === "started") {
-            return (
-                <div className="scan-stop-buttons-container">
-                    <button
-                        className="btn btn-block btn-green"
-                        onClick={() => this.props.stopScan()}
-                    >
-                        Stop
-                </button>
-                </div>
-            );
-        }
-
+    renderFinishButton() {
         return (
-            <div className="scan-stop-buttons-container">
-                <button
-                    className="btn btn-block btn-green"
-                    onClick={() => this.props.resumeScan()}
-                >
-                    Resume
-            </button>
-
-                <div className="height-30" />
-                <button
-                    className="btn btn-block btn-orange"
-                    onClick={() => {
-                        this.setState({
-                            showConfirm: true,
-                            confirmMessage: "Are you sure you want to finish this scan?",
-                            onConfirm: () => {
-                                const { clientId, jobId, created } = this.props;
-                                this.props.finishScan(
-                                    {
-                                        clientId: clientId > 0 ? parseInt(clientId) : 0,
-                                        jobId: jobId > 0 ? parseInt(jobId) : 0,
-                                        clientName: this.findClientName(),
-                                        jobName: this.findJobName(),
-                                        created
-                                    }
-                                );
-                            }
-                        })
-                    }}
-                >
-                    Finish
-            </button>
-
-            </div>
+            <button
+                className="btn btn-block btn-orange"
+                onClick={() => {
+                    this.setState({
+                        showConfirm: true,
+                        confirmMessage: "Are you sure you want to finish this scan?",
+                        onConfirm: () => {
+                            const { clientId, jobId, created } = this.props;
+                            this.props.finishScan(
+                                {
+                                    clientId: clientId > 0 ? parseInt(clientId) : 0,
+                                    jobId: jobId > 0 ? parseInt(jobId) : 0,
+                                    clientName: this.findClientName(),
+                                    jobName: this.findJobName(),
+                                    created
+                                }
+                            );
+                        }
+                    })
+                }}
+            >
+                Finish
+        </button>
         );
+
     }
 
     findClientName() {
@@ -105,7 +82,7 @@ class ScanStop extends Component {
                     {this.renderSelected()}
                     <div className="scan-stop">
                         <ScanProgress />
-                        {this.renderButtons()}
+                        {this.renderFinishButton()}
                     </div>
 
                     <MyConfirm
@@ -132,7 +109,6 @@ function mapStateToProps({ scan }) {
         progress: scan.progress,
     }
 }
-
 
 export default connect(mapStateToProps, actions)(withRouter(ScanStop));
 

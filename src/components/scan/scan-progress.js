@@ -42,6 +42,9 @@ class ScanProgress extends Component {
                 <div>
                     <span className="scan-progress-inrange-mats">{matsInRange}</span>
                     <span className="scan-progress-mats-found">&nbsp;Mats In Range</span>
+
+                </div>
+                <div>
                     <p className="margin-top-10">
                         {tagsInRange}
                     </p>

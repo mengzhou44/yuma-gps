@@ -161,28 +161,31 @@ class SyncScreen extends Component {
 
 
     renderScreenContent() {
-        return (
-            <div className="sync-content">
-                {this.renderSyncButton()}
-                {this.renderSyncProgress()}
-            </div>
-        );
-    }
-    render() {
         if (this.props.portalAvailable === true) {
             return (
-                <div>
-                    <Header />
-                    {this.renderScreenContent()}
+                <div className="sync-content">
+                    {this.renderSyncButton()}
+                    {this.renderSyncProgress()}
                 </div>
             );
 
         }
-
         return (
             <div>
-                <Header />
                 <CheckPortal />
+            </div>
+
+        );
+    }
+    render() {
+
+        return (
+            <div className="screen">
+                <Header />
+                <div className="screen-content">
+                    {this.renderScreenContent()}
+                </div>
+
             </div>);
     }
 }

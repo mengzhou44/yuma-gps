@@ -81,7 +81,7 @@ class ReaderStub {
                 }
 
                 const tagsInRange = this.getTagsInRange();
-                console.log("tags in range:", tagsInRange);
+
                 this.mainWindow.webContents.send('mat:found',
                     {
                         found: this.mats.length,

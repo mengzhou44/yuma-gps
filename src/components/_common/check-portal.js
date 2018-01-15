@@ -25,7 +25,7 @@ class CheckPortal extends Component {
             return (<div className="check-portal-not-available">
                 <div className="font-size-20 margin-bottom-20" >
                     Portal is not accessible. Please check internet access.
-                </div>
+                 </div>
 
                 <button
                     className="btn btn-red width-400 margin-top-10"
@@ -38,7 +38,7 @@ class CheckPortal extends Component {
                     }}
                 >
                     Try Again
-                </button>
+                 </button>
             </div>
             );
         }
