@@ -108,15 +108,15 @@ function closeApp() {
 
 function checkDevices() {
     devices.wifi = yumaServices.checkWifi();
-    yumaServices.checkGPS().then(value => {
-        devices.gps = value;
-        mainWindow.webContents.send("devices:status", devices);
-    });
 
-    checkReader().then(value => {
-        devices.reader = value;
-        mainWindow.webContents.send("devices:status", devices);
-    });
+    const promise1 =  yumaServices.checkGPS();
+    const promise2 =  checkReader();
+
+    Promise.all([promise1, promise2], (values)=> {
+          devices.gps = values[0];
+          devices.reder = values[1];
+          mainWindow.webContents.send("devices:status", devices);
+    })
 
 }
 
