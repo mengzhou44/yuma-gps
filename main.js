@@ -106,18 +106,16 @@ function closeApp() {
     app.quit();
 }
 
-function checkDevices() {
-    devices.wifi = yumaServices.checkWifi();
+async function checkDevices() {
+     devices.wifi = yumaServices.checkWifi();
+ 
+     const gps = await  yumaServices.checkGPS();
+     devices.gps = gps;
 
-    const promise1 =  yumaServices.checkGPS();
-    const promise2 =  checkReader();
+     const reader = await checkReader();
+     devices.reader = reader;
 
-    Promise.all([promise1, promise2], (values)=> {
-          devices.gps = values[0];
-          devices.reder = values[1];
-          mainWindow.webContents.send("devices:status", devices);
-    })
-
+     mainWindow.webContents.send("devices:status", devices);   
 }
 
 ipcMain.on("devices:check", (event) => {
