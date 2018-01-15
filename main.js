@@ -21,15 +21,12 @@ let devices = { gps: false, reader: false, wifi: false };
 let checkDevicesTimer;
 let yumaServices = getYumaServices();
 
-
-
-
 app.on("ready", () => {
     splashScreen = new BrowserWindow({});
     splashScreen.loadURL(`file://${__dirname}/splash.html`);
 
     mainWindow = new BrowserWindow({
-        show: false,
+        show: true,
         icon: path.join(__dirname, "/assets/images/icon.ico"),
         webPreferences: { backgroundThrottling: false }
     });
@@ -38,10 +35,7 @@ app.on("ready", () => {
         closeApp();
     });
 
-    mainWindow.on("window-all-closed", () => {
-        closeApp();
-    });
-
+  
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
 });
