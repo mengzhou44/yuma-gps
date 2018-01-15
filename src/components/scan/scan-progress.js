@@ -20,7 +20,7 @@ class ScanProgress extends Component {
 
         let mats = 0;
         let matsInRange = 0;
-        let tagsInRange = 0;
+        let tagsInRange = "";
         if (this.props.progress.found) {
             mats = this.props.progress.found;
         }

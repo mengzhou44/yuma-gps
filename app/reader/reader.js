@@ -12,6 +12,9 @@ class Reader {
         this.mats = [];
         this.matsInRange = [];
         this.knownTags = new Tags().getTags();
+        this.count=0;
+       this.matsInRangeTimer  =null;
+
     }
 
     addTag(tagNumber, mat) {
@@ -21,6 +24,7 @@ class Reader {
         }
     }
     updateMatsInRange(tagNumber) {
+       
         const matId = new Tags().findMatId(this.knownTags, tagNumber);
         let matFound = _.find(this.matsInRange, (mat) => mat.matId === matId);
         if (matFound) {
@@ -35,17 +39,31 @@ class Reader {
             };
             this.matsInRange.push(mat);
         }
+    }
 
+    renewMatsInRange() {
         this.matsInRange = _.filter(this.matsInRange, (mat) => {
             const timeStamp = Math.floor(Date.now());
             return timeStamp < (mat.timeStamp + 2000)
         });
-    }
+       
+       try{
 
+            this.mainWindow.webContents.send('mat:found',
+                        {
+                            found: this.mats.length,
+                            inRange: this.matsInRange.length,
+                            tagsInRange: this.getTagsInRange()
+            });
+       } catch(err) {
+           console.log("main window was destroyed!");
+       }
+ 
+    }
     getTagsInRange() {
         let result = []
         _.map(this.matsInRange, (mat) => {
-            result.push(mat.tags.join());
+            result.push(mat.tags[0]);
         })
         return result.join();
     }
@@ -91,7 +109,8 @@ class Reader {
             this.mainWindow.webContents.send('mat:found',
                 {
                     found: this.mats.length,
-                    inRange: this.matsInRange.length
+                    inRange: this.matsInRange.length,
+                    tagsInRange: this.getTagsInRange()
                 });
         }
 
@@ -144,12 +163,11 @@ class Reader {
             this.mainWindow.webContents.send('mat:found',
                 { error: `Error occured while scanning. ${err} ${err.stack}` });
         }
-
     }
 
     start() {
         this.tcpClient = new Socket();
-
+        this.matsInRangeTimer= setInterval(this.renewMatsInRange.bind(this), 1000);
         this.tcpClient.on('data', this.onData.bind(this));
         const readerSetting = this.getReaderSetting();
         this.tcpClient.connect(readerSetting.port, readerSetting.host);
@@ -159,6 +177,7 @@ class Reader {
         if (this.tcpClient) {
             this.tcpClient.destroy();
         }
+        this.matsInRangeTimer=null;
         this.tcpClient = null;
     }
 
