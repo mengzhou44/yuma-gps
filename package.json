@@ -18,7 +18,10 @@
       },
       {
         "from": "app/settings/settings.json",
-        "to": "settings.json"
+        "to": "settings.json",
+        "filter": [
+          "!**/*"
+        ]
       },
       {
         "from": "app/data/clients.json",
