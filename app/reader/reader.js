@@ -68,6 +68,7 @@ class Reader {
                 {
                     found: this.mats.length,
                     inRange: this.matsInRange.length,
+                    contamination: this.getContamination(),
                     tagsInRange: this.getTagsInRange()
                 });
         } catch (err) {
@@ -116,6 +117,7 @@ class Reader {
                     {
                         found: this.mats.length,
                         inRange: this.matsInRange.length,
+                        contamination: this.getContamination(),
                         tagsInRange: this.getTagsInRange()
                     });
             });
