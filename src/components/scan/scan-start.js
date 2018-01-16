@@ -34,11 +34,31 @@ class ScanStart extends Component {
         });
     }
 
+    addNewClient(clientId, clientName) {
+        const client = {
+            clientId,
+            clientName,
+            jobs: []
+        };
+        const clients = this.state.clients;
+        clients.push(client);
+        this.setState({ clients });
+    }
+
+    addNewJob(jobId, jobName) {
+        const clients = this.state.clients;
+        const client = _.find(clients, (client) => client.clientId === this.state.clientId);
+        const job = {
+            id: jobId,
+            name: jobName
+        };
+        client.jobs.push(job);
+        this.setState({ clients });
+    }
+
     componentDidMount() {
         this.getClients();
     }
-
-
 
     getClientOptions() {
         const options = [];
@@ -87,12 +107,13 @@ class ScanStart extends Component {
                                 />
                             </td>
                             <td>
-                                <AddNewClient onClientAdded={() => {
-                                    this.getClients();
+                                <AddNewClient onClientAdded={(clientId, clientName) => {
+                                    this.addNewClient(clientId, clientName);
                                     this.setState({
-                                        clientId: "-1",
+                                        clientId: clientId,
                                         jobId: "-1"
                                     });
+
                                 }
                                 } />
 
@@ -120,11 +141,10 @@ class ScanStart extends Component {
                             <td>
                                 <AddNewJob
                                     clientId={this.state.clientId}
-                                    onJobAdded={() => {
-                                        this.getClients();
+                                    onJobAdded={(jobId, jobName) => {
+                                        this.addNewJob(jobId, jobName);
                                         this.setState({
-                                            clientId: "-1",
-                                            jobId: "-1"
+                                            jobId
                                         });
                                     }
                                     } />

@@ -64,7 +64,7 @@ export default class AddNewClient extends Component {
 
                                     ipcRenderer.send("clients:new-client", this.state.clientName);
                                     ipcRenderer.once("clients:new-client", (event, clientId) => {
-                                        this.props.onClientAdded();
+                                        this.props.onClientAdded(clientId, this.state.clientName);
                                         this.setState({
                                             showModal: false
                                         });

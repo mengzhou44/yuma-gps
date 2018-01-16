@@ -70,7 +70,7 @@ export default class AddNewJob extends Component {
                                     }
                                     ipcRenderer.send("clients:new-job", job);
                                     ipcRenderer.once("clients:new-job", (event, jobId) => {
-                                        this.props.onJobAdded();
+                                        this.props.onJobAdded(jobId, this.state.jobName);
                                     });
 
                                     this.setState({
