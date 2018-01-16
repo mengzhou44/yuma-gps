@@ -59,6 +59,11 @@ class Scans {
 
 
     async addNewScan(scan) {
+
+        if (scan.mats.length===0) {
+            return;
+        }
+        
         let tablet = new Tablet();
         const macAddress = await tablet.getMacAddress();
         scan.deviceId = macAddress;

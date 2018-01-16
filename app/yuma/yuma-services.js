@@ -9,14 +9,13 @@ const { environment } = require('../environment');
 class YumaServices {
 
       constructor() {
-            this.cmd = null;
-            wifi.init({});
-
+        
             if (environment === "dev") {
                   return;
             }
 
             let commandPath;
+                this.cmd = null;
 
             if (environment === "production") {
                   commandPath = path.join(process.resourcesPath, "yuma-lib");
@@ -30,6 +29,7 @@ class YumaServices {
                   console.log("Error to start Yuma Services", err);
             }
            
+            wifi.init({});
 
       }
 

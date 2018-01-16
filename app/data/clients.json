@@ -20,6 +20,18 @@
     {
         "jobs": [
             {
+                "id": 48,
+                "name": "Good Job 2",
+                "latitude": 45.573,
+                "longitude": -104.323
+            }
+        ],
+        "clientName": "Easy Express Solutions Inc.",
+        "clientId": 55
+    },
+    {
+        "jobs": [
+            {
                 "id": 44,
                 "name": "Edson Yard",
                 "latitude": -116.57145,
@@ -40,15 +52,5 @@
         ],
         "clientName": "Marks Company",
         "clientId": 54
-    },
-    {
-        "clientName": "canadian oil",
-        "clientId": -5,
-        "jobs": [
-            {
-                "id": -2,
-                "name": "job 123"
-            }
-        ]
     }
 ]

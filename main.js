@@ -26,7 +26,7 @@ app.on("ready", () => {
     splashScreen.loadURL(`file://${__dirname}/splash.html`);
 
     mainWindow = new BrowserWindow({
-        show: true,
+        show: false,
         icon: path.join(__dirname, "/assets/images/icon.ico"),
         webPreferences: { backgroundThrottling: false }
     });
