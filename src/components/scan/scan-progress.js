@@ -19,8 +19,11 @@ class ScanProgress extends Component {
         }
 
         let mats = 0;
+        let contaminated = 0;
+        let decontaminated = 0;
         let matsInRange = 0;
         let tagsInRange = "";
+
         if (this.props.progress.found) {
             mats = this.props.progress.found;
         }
@@ -33,22 +36,35 @@ class ScanProgress extends Component {
             tagsInRange = this.props.progress.tagsInRange
         }
 
+        if (this.props.progress.contamination) {
+            contaminated = this.props.progress.contamination.contaminated;
+            decontaminated = this.props.progress.contamination.decontaminated;
+        }
+
         return (<div className="scan-progress">
-            <div className="scan-progress-mats-container">
-                <span className="scan-progress-mats">{mats}</span>
-                <span className="scan-progress-mats-found">&nbsp;Mats Found</span>
+            <div className="scan-progress-summary-container">
+                <div className="scan-progress-summary-mats">
+                    <span className="scan-progress-mats">{mats}</span>
+                    <span className="scan-progress-mats-found">&nbsp;Mats Found</span>
+                </div>
+                <div className="scan-progress-summary-decontaminated">
+                    <span className="scan-progress-mats">{decontaminated}</span>
+                    <span className="scan-progress-mats-found">&nbsp;Decontaminated</span>
+                </div>
+                <div className="scan-progress-summary-contaminated">
+                    <span className="scan-progress-mats">{contaminated}</span>
+                    <span className="scan-progress-mats-found">&nbsp;Contaminated</span>
+                </div>
             </div>
             <div className="scan-progress-inrange">
                 <div>
                     <span className="scan-progress-inrange-mats">{matsInRange}</span>
                     <span className="scan-progress-mats-found">&nbsp;Mats In Range</span>
-
-                </div>
-                <div>
                     <p className="margin-top-10">
                         {tagsInRange}
                     </p>
                 </div>
+
                 <div className="scan-progress-buttons">
                     <div className="margin-20">
                         <button
@@ -74,6 +90,7 @@ class ScanProgress extends Component {
                 </div>
             </div>
         </div>
+
         );
     }
 }

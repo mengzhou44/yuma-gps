@@ -1,13 +1,16 @@
 .scan-progress {
-  height:  225px; 
   display: flex; 
   flex-flow: column;
   justify-content: space-between;
 }
 
-.scan-progress-mats-container {
-   align-self: flex-end;
-   margin-bottom: 10px; 
+.scan-progress-summary-container {
+   
+   height: 65px;
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   margin-bottom: 20px; 
 }
  
  .scan-progress-mats {
@@ -22,23 +25,23 @@
  }
 
 .scan-progress-inrange {
-   border: 1px solid $color-gray;
-   border-radius: 5px;  
-   padding: 20px; 
+   border: 1px solid $color-gray; 
+   border-radius: 5px; 
+   padding-top: 20px; 
    display: flex; 
    flex-flow: column;
-   justify-content: space-between;
+   justify-content: space-around;
    align-items: center;
 }
 
 .scan-progress-inrange-mats {
+  height:50px;
   color:  $color-green;
   font-size: 50px;
   text-decoration-line: underline;
 }
 
 .scan-progress-buttons {
-  margin-top: 20px; 
    display: flex; 
    justify-content:  space-between;
 }

@@ -12,8 +12,8 @@ class Reader {
         this.mats = [];
         this.matsInRange = [];
         this.knownTags = new Tags().getTags();
-        this.count=0;
-       this.matsInRangeTimer  =null;
+        this.count = 0;
+        this.matsInRangeTimer = null;
 
     }
 
@@ -23,8 +23,23 @@ class Reader {
             mat.tags.push(tagNumber);
         }
     }
+
+    getContamination() {
+        const contamination = { contaminated: 0, decontaminated: 0 };
+        _.map(this.mats, mat => {
+            if (mat.hasOwnProperty("contaminated")) {
+                if (mat.contaminated) {
+                    contamination.contaminated++;
+                } else {
+                    contamination.decontaminated++;
+                }
+            }
+        });
+        return contamination;
+    }
+
     updateMatsInRange(tagNumber) {
-       
+
         const matId = new Tags().findMatId(this.knownTags, tagNumber);
         let matFound = _.find(this.matsInRange, (mat) => mat.matId === matId);
         if (matFound) {
@@ -46,19 +61,19 @@ class Reader {
             const timeStamp = Math.floor(Date.now());
             return timeStamp < (mat.timeStamp + 2000)
         });
-       
-       try{
+
+        try {
 
             this.mainWindow.webContents.send('mat:found',
-                        {
-                            found: this.mats.length,
-                            inRange: this.matsInRange.length,
-                            tagsInRange: this.getTagsInRange()
-            });
-       } catch(err) {
-           console.log("main window was destroyed!");
-       }
- 
+                {
+                    found: this.mats.length,
+                    inRange: this.matsInRange.length,
+                    tagsInRange: this.getTagsInRange()
+                });
+        } catch (err) {
+            console.log("main window was destroyed!");
+        }
+
     }
     getTagsInRange() {
         let result = []
@@ -110,6 +125,7 @@ class Reader {
                 {
                     found: this.mats.length,
                     inRange: this.matsInRange.length,
+                    contamination: this.getContamination(),
                     tagsInRange: this.getTagsInRange()
                 });
         }
@@ -131,7 +147,8 @@ class Reader {
 
         const result = {
             found: this.mats.length,
-            inRange: this.matsInRange.length
+            inRange: this.matsInRange.length,
+            contamination: this.getContamination(),
         };
 
         this.mainWindow.webContents.send('mat:found', result);
@@ -167,7 +184,7 @@ class Reader {
 
     start() {
         this.tcpClient = new Socket();
-        this.matsInRangeTimer= setInterval(this.renewMatsInRange.bind(this), 1000);
+        this.matsInRangeTimer = setInterval(this.renewMatsInRange.bind(this), 1000);
         this.tcpClient.on('data', this.onData.bind(this));
         const readerSetting = this.getReaderSetting();
         this.tcpClient.connect(readerSetting.port, readerSetting.host);
@@ -177,7 +194,7 @@ class Reader {
         if (this.tcpClient) {
             this.tcpClient.destroy();
         }
-        this.matsInRangeTimer=null;
+        this.matsInRangeTimer = null;
         this.tcpClient = null;
     }
 

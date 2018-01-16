@@ -22,6 +22,19 @@ class ReaderStub {
         return result;
     }
 
+    getContamination() {
+        const contamination = { contaminated: 0, decontaminated: 0 };
+        _.map(this.mats, mat => {
+            if (mat.hasOwnProperty("contaminated")) {
+                if (mat.contaminated) {
+                    contamination.contaminated++;
+                } else {
+                    contamination.decontaminated++;
+                }
+            }
+        });
+        return contamination;
+    }
 
     addTag(tagNumber, mat) {
         const found = _.find(mat.tags, item => item === tagNumber);
@@ -86,6 +99,7 @@ class ReaderStub {
                     {
                         found: this.mats.length,
                         inRange: this.matsInRange.length,
+                        contamination: this.getContamination(),
                         tagsInRange
                     });
             });
@@ -102,12 +116,12 @@ class ReaderStub {
                     found[prop] = data[prop];
                 }
             }
-
         });
         this.matsInRange = [];
         const result = {
             found: this.mats.length,
             inRange: this.matsInRange.length,
+            contamination: this.getContamination(),
         };
 
         this.mainWindow.webContents.send('mat:found', result);

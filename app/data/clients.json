@@ -2,181 +2,43 @@
     {
         "jobs": [
             {
-                "id": 37,
-                "name": "Good Job 3",
-                "latitude": 45.573,
-                "longitude": -104.323
-            }
-        ],
-        "clientName": "123521 Alberta Ltd.",
-        "clientId": 47
-    },
-    {
-        "jobs": [
-            {
-                "id": 36,
-                "name": "Good Job 2",
-                "latitude": 45.573,
-                "longitude": -104.323
-            }
-        ],
-        "clientName": "Easy Express Solutions Inc.",
-        "clientId": 46
-    },
-    {
-        "jobs": [
-            {
-                "id": 11,
-                "name": "job-24",
-                "latitude": 0,
-                "longitude": 1
-            }
-        ],
-        "clientName": "AAA",
-        "clientId": 24
-    },
-    {
-        "jobs": [
-            {
-                "id": 31,
-                "name": "******* new job",
-                "latitude": -114.0094,
-                "longitude": 54.00932
-            }
-        ],
-        "clientName": "**********client name",
-        "clientId": 41
-    },
-    {
-        "jobs": [
-            {
-                "id": 19,
-                "name": "New 1",
-                "latitude": 0,
-                "longitude": 1
-            }
-        ],
-        "clientName": "New 1",
-        "clientId": 32
-    },
-    {
-        "jobs": [
-            {
-                "id": 8,
-                "name": "job-21",
-                "latitude": 0,
-                "longitude": 1
+                "id": 45,
+                "name": "Site A",
+                "latitude": -114.57145,
+                "longitude": 52.576487
             },
             {
-                "id": 24,
-                "name": "ZZZ",
-                "latitude": 0,
-                "longitude": 1
+                "id": 46,
+                "name": "Site B",
+                "latitude": -117.57145,
+                "longitude": 54.576487
             }
         ],
-        "clientName": "XXX",
-        "clientId": 21
+        "clientName": "Cenovus",
+        "clientId": 53
     },
     {
         "jobs": [
             {
-                "id": 22,
-                "name": "new2-jobZZ",
-                "latitude": 0,
-                "longitude": 1
-            },
-            {
-                "id": 20,
-                "name": "new2-job1",
-                "latitude": 0,
-                "longitude": 1
-            },
-            {
-                "id": 21,
-                "name": "new2-jobX",
-                "latitude": 0,
-                "longitude": 1
-            }
-        ],
-        "clientName": "New 2",
-        "clientId": 33
-    },
-    {
-        "jobs": [
-            {
-                "id": 34,
-                "name": "New Job",
-                "latitude": 45.573,
-                "longitude": -104.323
-            }
-        ],
-        "clientName": "Canadian Oil",
-        "clientId": 44
-    },
-    {
-        "jobs": [
-            {
-                "id": 23,
-                "name": "new2-jobZZ",
-                "latitude": 0,
-                "longitude": 1
-            }
-        ],
-        "clientName": "New 3",
-        "clientId": 34
-    },
-    {
-        "jobs": [
-            {
-                "id": 18,
-                "name": "job-31",
-                "latitude": 0,
-                "longitude": 1
-            }
-        ],
-        "clientName": "RKO1",
-        "clientId": 3
-    },
-    {
-        "jobs": [
-            {
-                "id": 2,
-                "name": "Job 02",
-                "latitude": 1,
-                "longitude": 0
-            },
-            {
-                "id": 1,
-                "name": "Job 01",
-                "latitude": 0,
-                "longitude": 1
+                "id": 44,
+                "name": "Edson Yard",
+                "latitude": -116.57145,
+                "longitude": 53.576487
             }
         ],
         "clientName": "GEMS",
-        "clientId": 1
+        "clientId": 52
     },
     {
         "jobs": [
             {
-                "id": 25,
-                "name": "Test Job",
-                "latitude": 0,
-                "longitude": 1
+                "id": 47,
+                "name": "Good Job 1",
+                "latitude": -104.323,
+                "longitude": 45.573
             }
         ],
-        "clientName": "Richrad1",
-        "clientId": 35
-    },
-    {
-        "jobs": [
-            {
-                "id": 30,
-                "name": "the new job",
-                "latitude": -114.0094,
-                "longitude": 54.00932
-            }
-        ],
-        "clientName": "This is the new client name",
-        "clientId": 40
+        "clientName": "Marks Company",
+        "clientId": 54
     }
 ]
