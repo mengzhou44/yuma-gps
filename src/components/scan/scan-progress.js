@@ -60,13 +60,15 @@ class ScanProgress extends Component {
                 <div>
                     <span className="scan-progress-inrange-mats">{matsInRange}</span>
                     <span className="scan-progress-mats-found">&nbsp;Mats In Range</span>
-                    <p className="margin-top-10 height-40">
+                </div>
+                <div className="height-40">
+                    <p className="margin-top-10">
                         {tagsInRange}
                     </p>
                 </div>
 
                 <div className="scan-progress-buttons">
-                    <div className="margin-20">
+                    <div className="margin-lr-40">
                         <button
                             className="btn btn-green"
                             onClick={() => {
@@ -77,7 +79,7 @@ class ScanProgress extends Component {
                             Decontaminated
                    </button>
                     </div>
-                    <div className="margin-20">
+                    <div className="margin-lr-40">
                         <button
                             className="btn btn-red"
                             onClick={() => {

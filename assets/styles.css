@@ -7016,6 +7016,14 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 .margin-bottom-200 {
   margin-bottom: 200px !important; }
 
+.margin-lr-20 {
+  margin-left: 20px !important;
+  margin-right: 20px !important; }
+
+.margin-lr-40 {
+  margin-left: 40px !important;
+  margin-right: 40px !important; }
+
 .padding-0 {
   padding: 0px !important; }
 
@@ -7453,6 +7461,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   border: 1px solid #e0e0e0;
   border-radius: 5px;
   padding-top: 20px;
+  padding-bottom: 20px;
   display: flex;
   flex-flow: column;
   justify-content: space-around;
