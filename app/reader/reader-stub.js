@@ -74,11 +74,11 @@ class ReaderStub {
     }
 
     start() {
-        this.timer = setInterval(() => {
-            const tagNumber = this.getRandomTagNumber();
-            this.updateMatsInRange(tagNumber);
-            const matId = new Tags().findMatId(this.knownTags, tagNumber);
-            this.yumaServices.getGPSData().then(location => {
+        this.timer = setInterval(async () => {
+                const tagNumber = this.getRandomTagNumber();
+                this.updateMatsInRange(tagNumber);
+                const matId = new Tags().findMatId(this.knownTags, tagNumber);
+                const location= await this.yumaServices.getGPSData();
 
                 const found = _.find(this.mats, (mat) => mat.matId === matId);
                 if (found) {
@@ -102,7 +102,6 @@ class ReaderStub {
                         contamination: this.getContamination(),
                         tagsInRange
                     });
-            });
 
         }, 2000);
     }
