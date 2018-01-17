@@ -87,7 +87,7 @@ class ReaderStub {
                     const timeStamp = Math.floor(Date.now());
                     const mat = {
                         matId,
-                        gps: [location.latitude, location.longitude],
+                        gps: [location.longitude, location.latitude ],
                         timeStamp
                     };
                     this.mats.push(mat);
