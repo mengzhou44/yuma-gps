@@ -27,7 +27,7 @@ class AdvancedTablet extends Component {
         });
         ipcRenderer.send("settings:get");
         ipcRenderer.once("settings:result", (event, settings) => {
-            if (settings.tablet) {
+            if (settings.tablet.token) {
                 this.setState({ registered: true });
             }
         });

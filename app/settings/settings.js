@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 
 const { environment } = require('../environment');
@@ -15,27 +15,33 @@ class Settings {
     }
 
     createJsonFile() {
-        const myDefault =
+        try{
+            const myDefault =
             {
                 "portal": {
                     "url": "http://empirelinux.com:9000"
                 },
                 "reader": {
-                    "host": "speedwayr-10-d5-1c.local",
+                    "host": "speedwayr-xx-xx-xx.local",
                     "port": 14250
                 },
                 "tablet": {
-                    "token": "DD23FJSSS-09892"
                 }
             };
 
-        fs.writeFileSync(this.jsonFile, JSON.stringify(myDefault, null, 4));
+        fs.outputFileSync(this.jsonFile, JSON.stringify(myDefault, null, 4));
+    
+        }catch (error) {
+           console.log("Eerror: ", error);
+        }
+
     }
 
     fetch() {
         if (!fs.existsSync(this.jsonFile)) {
             this.createJsonFile();
         }
+
         var text = fs.readFileSync(this.jsonFile);
         return JSON.parse(text);
     }
@@ -47,7 +53,7 @@ class Settings {
 
 
     save(data) {
-        fs.writeFileSync(this.jsonFile, JSON.stringify(data, null, 4));
+        fs.outputFileSync(this.jsonFile, JSON.stringify(data, null, 4));
     }
 }
 

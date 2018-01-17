@@ -63,7 +63,7 @@ class Reader {
         });
 
         try {
-
+     
             this.mainWindow.webContents.send('mat:found',
                 {
                     found: this.mats.length,
@@ -113,6 +113,7 @@ class Reader {
                     timeStamp
                 };
                 this.mats.push(mat);
+        
                 this.mainWindow.webContents.send('mat:found',
                     {
                         found: this.mats.length,
@@ -123,13 +124,6 @@ class Reader {
             });
         } else {
             found.timeStamp = Math.floor(Date.now());
-            this.mainWindow.webContents.send('mat:found',
-                {
-                    found: this.mats.length,
-                    inRange: this.matsInRange.length,
-                    contamination: this.getContamination(),
-                    tagsInRange: this.getTagsInRange()
-                });
         }
 
     }
@@ -146,13 +140,13 @@ class Reader {
             }
         });
         this.matsInRange = [];
-
+ 
         const result = {
             found: this.mats.length,
             inRange: this.matsInRange.length,
             contamination: this.getContamination(),
         };
-
+       
         this.mainWindow.webContents.send('mat:found', result);
         setTimeout(() => {
             this.start();
