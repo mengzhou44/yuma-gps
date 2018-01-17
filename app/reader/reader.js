@@ -84,7 +84,7 @@ class Reader {
         return result.join();
     }
 
-    processTag(line) {
+   async processTag(line) {
 
         if (line.trim() === "") {
             return;
@@ -105,7 +105,9 @@ class Reader {
 
         let found = _.find(this.mats, (mat) => mat.matId === matId);
         if (!found) {
-            this.yumaServices.getGPSData().then(location => {
+
+                const location = await this.yumaServices.getGPSData();
+        
                 const timeStamp = Math.floor(Date.now());
                 const mat = {
                     matId,
@@ -120,12 +122,10 @@ class Reader {
                         inRange: this.matsInRange.length,
                         contamination: this.getContamination(),
                         tagsInRange: this.getTagsInRange()
-                    });
-            });
+                    });         
         } else {
             found.timeStamp = Math.floor(Date.now());
         }
-
     }
 
 
