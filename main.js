@@ -22,6 +22,7 @@ let checkDevicesTimer;
 let yumaServices = getYumaServices();
 
 app.on("ready", () => {
+
     splashScreen = new BrowserWindow({});
     splashScreen.loadURL(`file://${__dirname}/splash.html`);
 

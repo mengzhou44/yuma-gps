@@ -5,18 +5,39 @@ const { environment } = require('../environment');
 
 
 class Settings {
+
+
     constructor() {
-        if (environment === "production") {
-            this.jsonFile = path.join(process.resourcesPath, "settings.json");
-        } else {
-            this.jsonFile = path.join(__dirname, "settings.json");
-        }
+
+        const homeDir = require('os').homedir();
+        this.jsonFile = path.join(homeDir, "smartmat", "settings.json");
+
+    }
+
+    createJsonFile() {
+        const myDefault =
+            {
+                "portal": {
+                    "url": "http://empirelinux.com:9000"
+                },
+                "reader": {
+                    "host": "speedwayr-10-d5-1c.local",
+                    "port": 14250
+                },
+                "tablet": {
+                    "token": "DD23FJSSS-09892"
+                }
+            };
+
+        fs.writeFileSync(this.jsonFile, JSON.stringify(myDefault, null, 4));
     }
 
     fetch() {
+        if (!fs.existsSync(this.jsonFile)) {
+            this.createJsonFile();
+        }
         var text = fs.readFileSync(this.jsonFile);
         return JSON.parse(text);
-
     }
 
     getToken() {

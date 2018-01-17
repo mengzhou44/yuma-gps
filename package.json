@@ -1,7 +1,7 @@
 {
   "name": "SmartMat",
   "productName": "SmartMat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A tablet electron app to track mats!",
   "main": "main.js",
   "scripts": {
@@ -15,10 +15,6 @@
       {
         "from": "app/yuma/yuma-lib",
         "to": "yuma-lib"
-      },
-      {
-        "from": "app/settings/settings.json",
-        "to": "settings.json"
       },
       {
         "from": "app/data/clients.json",
