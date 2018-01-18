@@ -2,55 +2,43 @@
     {
         "jobs": [
             {
-                "id": 55,
-                "name": "job 123",
-                "latitude": 50.8951143333333,
-                "longitude": -114.074044333333
-            }
-        ],
-        "clientName": "canadian oil",
-        "clientId": 60
-    },
-    {
-        "jobs": [
-            {
-                "id": 52,
+                "id": 66,
                 "name": "Site A",
-                "latitude": -114.57145,
-                "longitude": 52.576487
+                "latitude": 52.576487,
+                "longitude": -114.57145
             },
             {
-                "id": 53,
+                "id": 67,
                 "name": "Site B",
-                "latitude": -117.57145,
-                "longitude": 54.576487
+                "latitude": 54.576487,
+                "longitude": -117.57145
             }
         ],
         "clientName": "Cenovus",
-        "clientId": 58
+        "clientId": 69
     },
     {
         "jobs": [
             {
-                "id": 54,
+                "id": 69,
                 "name": "Good Job 2",
-                "latitude": 45.573,
-                "longitude": -104.323
+                "latitude": 50.8950756666667,
+                "longitude": -114.074031166667
             }
         ],
         "clientName": "Easy Express Solutions Inc.",
-        "clientId": 59
+        "clientId": 71
     },
     {
         "jobs": [
             {
-                "id": 51,
+                "id": 65,
                 "name": "Edson Yard",
-                "latitude": -116.57145,
-                "longitude": 53.576487
+                "latitude": 53.576487,
+                "longitude": -116.57145
             }
         ],
         "clientName": "GEMS",
-        "clientId": 57
+        "clientId": 68
     }
 ]
