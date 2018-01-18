@@ -17,6 +17,10 @@ class ScanScreen extends Component {
         ipcRenderer.send("system:initialized");
     }
 
+    componentWillUnmount() {
+        this.props.resetCheckDevicesStatus();
+    }
+
     renderContent() {
         if (this.props.checkDevicesStatus === "check-passed") {
             return <ScanContent />

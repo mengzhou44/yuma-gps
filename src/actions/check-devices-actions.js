@@ -3,7 +3,7 @@ import * as types from './types';
 
 
 export function resetCheckDevicesStatus() {
-    return ({ type: types.DEVICES_STATUS_RESET });
+    return { type: types.DEVICES_STATUS_RESET };
 }
 
 export function checkDevices() {
