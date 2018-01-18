@@ -32,7 +32,7 @@ class YumaServices {
             try{
                  this.cmd = spawn("YumaServices.exe", { cwd: commandPath });
             } catch(err) {
-                  console.log("Error to start Yuma Services", err);
+                throw err;
             }
       }
 

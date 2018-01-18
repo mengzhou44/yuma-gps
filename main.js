@@ -16,28 +16,47 @@ const Tablet = require("./app/tablet");
 
 let mainWindow;
 let splashScreen;
+let launchErrorScreen;
 let reader;
 let devices = { gps: false, reader: false, wifi: false };
 let checkDevicesTimer;
-let yumaServices = getYumaServices();
+let yumaServices;
+
 
 app.on("ready", () => {
 
+   try {
+
+        yumaServices= getYumaServices();
+
+   } catch(error) {
+
+       launchErrorScreen = new BrowserWindow({});
+       launchErrorScreen.loadURL(`file://${__dirname}/launch-error.html`);
+
+       launchErrorScreen.on("close", () => {
+                app.quit();
+       });
+
+      return;
+   }
+
     splashScreen = new BrowserWindow({});
-    splashScreen.loadURL(`file://${__dirname}/splash.html`);
+            splashScreen.loadURL(`file://${__dirname}/splash.html`);
 
-    mainWindow = new BrowserWindow({
-        show: false,
-        icon: path.join(__dirname, "/assets/images/icon.ico"),
-        webPreferences: { backgroundThrottling: false }
-    });
+            mainWindow = new BrowserWindow({
+                show: false,
+                icon: path.join(__dirname, "/assets/images/icon.ico"),
+                webPreferences: { backgroundThrottling: false }
+            });
 
-    mainWindow.on("close", () => {
-        closeApp();
-    });
+            mainWindow.on("close", () => {
+                closeApp();
+            });
 
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
+
 
 });
 

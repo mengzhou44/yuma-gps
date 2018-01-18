@@ -84,6 +84,10 @@ class Reader {
         return result.join();
     }
 
+    addMat(mat)  {
+
+    }
+
    async processTag(line) {
 
         if (line.trim() === "") {
@@ -103,19 +107,19 @@ class Reader {
 
         this.updateMatsInRange(tagNumber);
 
-        let found = _.find(this.mats, (mat) => mat.matId === matId);
-        if (!found) {
-
-                const location = await this.yumaServices.getGPSData();
-        
-                const timeStamp = Math.floor(Date.now());
-                const mat = {
+        const location = await this.yumaServices.getGPSData();
+        const timeStamp = Math.floor(Date.now());
+        const mat = {
                     matId,
                     gps: [location.longitude, location.latitude],
                     timeStamp
-                };
+        };
+
+
+        let found = _.find(this.mats, (mat) => mat.matId === matId);
+        if (!found) {
+               
                 this.mats.push(mat);
-        
                 this.mainWindow.webContents.send('mat:found',
                     {
                         found: this.mats.length,
