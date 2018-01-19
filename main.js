@@ -166,9 +166,10 @@ function downloadTags() {
 }
 
 ipcMain.on("sync", (event) => {
-
-    new Scans().uploadScans().then(({ success }) => {
+    const scans =  new Scans();
+    scans.uploadScans().then(({ success }) => {
         if (success) {
+            scans.clearScans();
             mainWindow.webContents.send("sync:progress", { data: { "uploadScans": true } });
             downloadClients();
             downloadTags();

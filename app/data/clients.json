@@ -2,6 +2,30 @@
     {
         "jobs": [
             {
+                "id": 70,
+                "name": "Job 2018-01-18",
+                "latitude": -104.323,
+                "longitude": 45.573
+            }
+        ],
+        "clientName": "123522 Alberta Ltd.",
+        "clientId": 72
+    },
+    {
+        "jobs": [
+            {
+                "id": 73,
+                "name": "AJOBA",
+                "latitude": 50.8950291666667,
+                "longitude": -114.074107
+            }
+        ],
+        "clientName": "ALIBABA",
+        "clientId": 74
+    },
+    {
+        "jobs": [
+            {
                 "id": 66,
                 "name": "Site A",
                 "latitude": 52.576487,
@@ -40,5 +64,23 @@
         ],
         "clientName": "GEMS",
         "clientId": 68
+    },
+    {
+        "jobs": [
+            {
+                "id": 72,
+                "name": "Golden 2",
+                "latitude": null,
+                "longitude": null
+            },
+            {
+                "id": 71,
+                "name": "Golden BC",
+                "latitude": 51.2925301666667,
+                "longitude": -116.962865166667
+            }
+        ],
+        "clientName": "Marks Job",
+        "clientId": 73
     }
 ]

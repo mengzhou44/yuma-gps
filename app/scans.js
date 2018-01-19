@@ -76,11 +76,11 @@ class Scans {
     async  uploadScans() {
 
         const { portalUrl } = getConfig();
-
         const token = new Settings().getToken();
 
         try {
             const scans = this.getScans();
+    
             if (scans.length === 0) {
                 return { success: true };
             }
@@ -91,11 +91,10 @@ class Scans {
                 const res = await axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
                 console.log("upload scan response", res.data);
             });
-            this.clearScans();
+       
             return { success: true };
 
         } catch (ex) {
-            console.log("upload scann error", ex);
             return { success: false };
         }
     }
@@ -104,7 +103,7 @@ class Scans {
         try {
             fs.writeFileSync(this.scansFile, JSON.stringify([], null, 4));
         } catch (ex) {
-            console.log("Error occured when clearing scans...", ex);
+            console.log("Error occurred when clearing scans...", ex);
         }
     }
 }
