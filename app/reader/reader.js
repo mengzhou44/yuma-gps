@@ -63,7 +63,7 @@ class Reader {
         });
 
         try {
-     
+
             this.mainWindow.webContents.send('mat:found',
                 {
                     found: this.mats.length,
@@ -84,11 +84,11 @@ class Reader {
         return result.join();
     }
 
-    addMat(mat)  {
+    addMat(mat) {
 
     }
 
-   async processTag(line) {
+    async processTag(line) {
 
         if (line.trim() === "") {
             return;
@@ -110,23 +110,22 @@ class Reader {
         const location = await this.yumaServices.getGPSData();
         const timeStamp = Math.floor(Date.now());
         const mat = {
-                    matId,
-                    gps: [location.longitude, location.latitude],
-                    timeStamp
+            matId,
+            gps: [location.longitude, location.latitude],
+            timeStamp
         };
-
 
         let found = _.find(this.mats, (mat) => mat.matId === matId);
         if (!found) {
-               
-                this.mats.push(mat);
-                this.mainWindow.webContents.send('mat:found',
-                    {
-                        found: this.mats.length,
-                        inRange: this.matsInRange.length,
-                        contamination: this.getContamination(),
-                        tagsInRange: this.getTagsInRange()
-                    });         
+
+            this.mats.push(mat);
+            this.mainWindow.webContents.send('mat:found',
+                {
+                    found: this.mats.length,
+                    inRange: this.matsInRange.length,
+                    contamination: this.getContamination(),
+                    tagsInRange: this.getTagsInRange()
+                });
         } else {
             found.timeStamp = Math.floor(Date.now());
         }
@@ -144,13 +143,13 @@ class Reader {
             }
         });
         this.matsInRange = [];
- 
+
         const result = {
             found: this.mats.length,
             inRange: this.matsInRange.length,
             contamination: this.getContamination(),
         };
-       
+
         this.mainWindow.webContents.send('mat:found', result);
         setTimeout(() => {
             this.start();

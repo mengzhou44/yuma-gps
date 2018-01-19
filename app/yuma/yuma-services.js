@@ -10,12 +10,12 @@ class YumaServices {
 
       constructor() {
 
-            try{
-                   wifi.init({});
-            } catch(error) {
+            try {
+                  wifi.init({});
+            } catch (error) {
 
             }
-            
+
             if (environment === "dev") {
                   return;
             }
@@ -29,10 +29,10 @@ class YumaServices {
             } else {
                   commandPath = __dirname + "/yuma-lib";
             }
-            try{
-                 this.cmd = spawn("YumaServices.exe", { cwd: commandPath });
-            } catch(err) {
-                throw err;
+            try {
+                  this.cmd = spawn("YumaServices.exe", { cwd: commandPath });
+            } catch (err) {
+                  throw err;
             }
       }
 
@@ -44,8 +44,8 @@ class YumaServices {
             return "http://localhost:3000/api/yuma/getLocation";
       }
 
-      stop() {      
-          this.cmd.unref();
+      stop() {
+            this.cmd.unref();
       }
 
       checkWifi() {
@@ -53,7 +53,7 @@ class YumaServices {
             if (!ssid) {
                   return false;
             }
-            if (ssid.includes("smartmat")===false) {
+            if (ssid.includes("smartmat") === false) {
                   return false;
             }
             if (connection) return true;
@@ -63,6 +63,10 @@ class YumaServices {
       async checkGPS() {
             try {
                   const res = await axios.get(this.getGPSUrl());
+                  const temp = res.data.split(",");
+                  const latitude = parseFloat(temp[0].trim());
+                  const longitude = parseFloat(temp[1].trim());
+
                   return new Promise((resolve) => {
                         resolve(true);
                   })
@@ -72,7 +76,6 @@ class YumaServices {
                         resolve(false);
                   })
             }
-
       }
 
       async  getGPSData() {
@@ -92,14 +95,7 @@ class YumaServices {
                   });
             }
             catch (err) {
-                  return new Promise(resolve => {
-                        return resolve(
-                              {
-                                    latitude: 0,
-                                    longitude: 0
-                              }
-                        );
-                  });
+                  throw "Unable to fetch GPS data!";
             }
       }
 }
