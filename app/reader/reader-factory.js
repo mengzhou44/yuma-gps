@@ -9,8 +9,10 @@ const ReaderStub = require("./reader-stub");
 function getReader(mainWindow, yumaServices) {
     if (getConfig().useStub) {
         return new ReaderStub(mainWindow, yumaServices);
+    } else {
+       return new Reader(mainWindow, yumaServices);
     }
-    return new Reader(mainWindow, yumaServices);
+   
 }
 
 async function checkReader() {

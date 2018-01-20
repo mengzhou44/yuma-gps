@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { ipcRenderer } from "electron";
 import Header from "../_common/header";
 import AdvancedTablet from "./advanced-tablet";
 import AdvancedReader from "./advanced-reader";
@@ -9,10 +10,10 @@ export default class AdvancedScreen extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { current: "tablet" };
+        this.state = { current: "tablet"};
     }
 
-
+   
     getSideBarLinkClass(link) {
         if (this.state.current === link) {
             return "collection-item active-link";
@@ -42,6 +43,7 @@ export default class AdvancedScreen extends Component {
                     Portal
                 </li>
 
+             
 
             </ul>
         );

@@ -15,7 +15,8 @@ class AdvancedTablet extends Component {
         this.state = {
             macAddress: "",
             registered: false,
-            error: ""
+            error: "",
+            environment: ""
         };
     }
     componentDidMount() {
@@ -31,6 +32,14 @@ class AdvancedTablet extends Component {
                 this.setState({ registered: true });
             }
         });
+
+        ipcRenderer.send("environment:get");
+        ipcRenderer.once("environment:get", (event, environment)=> {
+                this.setState({
+                    environment
+                })
+        })
+   
     }
 
     renderPortalNotAccessible() {
@@ -88,6 +97,9 @@ class AdvancedTablet extends Component {
                 <div className="sidebar-content">
                     <h5 className="color-orange">Tablet</h5>
                     <Divider />
+                    <label>Environment</label>
+                    <p>{this.state.environment}</p>
+        
                     <label>Mac Address</label>
                     <p>{this.state.macAddress}</p>
                     {this.renderRegisterContent()}

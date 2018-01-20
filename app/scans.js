@@ -3,7 +3,7 @@ const fs = require("fs");
 const axios = require("axios");
 const _ = require("lodash");
 
-const { environment } = require("./environment");
+const  environment = require("./environment");
 const { getConfig } = require("./config");
 const Clients = require("./clients");
 const Tablet = require("./tablet");

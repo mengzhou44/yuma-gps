@@ -3,7 +3,7 @@ const axios = require("axios");
 const wifi = require('wifi-control');
 const { spawn } = require('child_process');
 
-const { environment } = require('../environment');
+const  environment  = require('../environment');
 
 
 class YumaServices {

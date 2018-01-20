@@ -5,7 +5,7 @@ const _ = require("lodash");
 const { getConfig } = require("./config");
 const Settings = require("./settings/settings");
 
-const { environment } = require('./environment');
+const  environment  = require('./environment');
 
 class Tags {
 

@@ -4,7 +4,7 @@ const axios = require("axios");
 const _ = require("lodash");
 const { getConfig } = require("./config");
 
-const { environment } = require("./environment");
+const environment = require("./environment");
 const Settings = require("./settings/settings");
 
 class Clients {

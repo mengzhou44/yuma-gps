@@ -7,6 +7,8 @@ const { app, BrowserWindow, ipcMain } = electron;
 const { getYumaServices } = require("./app/yuma/yuma-services-factory");
 const { getReader, checkReader } = require("./app/reader/reader-factory");
 const { checkPortal } = require("./app/portal");
+const environment = require("./app/environment");
+const { getConfig } = require("./app/config");
 const Settings = require("./app/settings/settings");
 
 const Clients = require("./app/clients");
@@ -102,6 +104,10 @@ ipcMain.on("tablet:mac", (event) => {
     new Tablet().getMacAddress().then(macAddress => {
         mainWindow.webContents.send("tablet:mac", macAddress);
     });
+});
+
+ipcMain.on("environment:get", (event) => {
+     mainWindow.webContents.send("environment:get", `${environment}`);
 });
 
 
