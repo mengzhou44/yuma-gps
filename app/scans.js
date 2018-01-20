@@ -77,7 +77,7 @@ class Scans {
     backupUploadedScan(scan) {
         const homeDir = require('os').homedir();
         const fileName = path.join(homeDir, "smartmat",
-            `${scan.time} - ${scan.clientname} - ${scan.jobname}.json`);
+            `${scan.time} - ${scan.client} - ${scan.job}.json`);
 
         fs.writeFileSync(fileName, JSON.stringify(scan, null, 4));
     }
