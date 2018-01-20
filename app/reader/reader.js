@@ -84,9 +84,6 @@ class Reader {
         return result.join();
     }
 
-    addMat(mat) {
-
-    }
 
     async processTag(line) {
 

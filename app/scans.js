@@ -97,7 +97,7 @@ class Scans {
                 headers: { Authorization: `bearer ${token}` }
             };
             _.map(scans, async (scan) => {
-                // const res = await axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
+                const res = await axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
                 this.backupUploadedScan(scan);
             });
 
