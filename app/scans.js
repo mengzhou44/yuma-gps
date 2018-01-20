@@ -96,12 +96,17 @@ class Scans {
             const config = {
                 headers: { Authorization: `bearer ${token}` }
             };
-            _.map(scans, async (scan) => {
-                const res = await axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
+
+            const promises = [];
+
+            _.map(scans,  (scan) => {
+                promises.push(axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config));
                 this.backupUploadedScan(scan);
             });
 
-            return { success: true };
+            Promise.all(promises, (values)=> {
+                    return { success: true };
+            })
 
         } catch (ex) {
             return { success: false };
