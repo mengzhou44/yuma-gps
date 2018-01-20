@@ -7,6 +7,7 @@ const  environment = require("./environment");
 const { getConfig } = require("./config");
 const Clients = require("./clients");
 const Tablet = require("./tablet");
+
 const Settings = require("./settings/settings");
 
 class Scans {
@@ -60,10 +61,10 @@ class Scans {
 
     async addNewScan(scan) {
 
-        if (scan.mats.length===0) {
+        if (scan.mats.length === 0) {
             return;
         }
-        
+
         let tablet = new Tablet();
         const macAddress = await tablet.getMacAddress();
         scan.deviceId = macAddress;
@@ -73,6 +74,14 @@ class Scans {
         fs.writeFileSync(this.scansFile, JSON.stringify(scans, null, 4));
     }
 
+    backupUploadedScan(scan) {
+        const homeDir = require('os').homedir();
+        const fileName = path.join(homeDir, "smartmat",
+            `${scan.time} - ${scan.clientname} - ${scan.jobname}.json`);
+
+        fs.writeFileSync(fileName, JSON.stringify(scan, null, 4));
+    }
+
     async  uploadScans() {
 
         const { portalUrl } = getConfig();
@@ -80,7 +89,7 @@ class Scans {
 
         try {
             const scans = this.getScans();
-    
+
             if (scans.length === 0) {
                 return { success: true };
             }
@@ -88,10 +97,10 @@ class Scans {
                 headers: { Authorization: `bearer ${token}` }
             };
             _.map(scans, async (scan) => {
-                const res = await axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
-                console.log("upload scan response", res.data);
+                // const res = await axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
+                this.backupUploadedScan(scan);
             });
-       
+
             return { success: true };
 
         } catch (ex) {

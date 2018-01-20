@@ -15,13 +15,13 @@ function getConfig() {
             useStub: false
         };
     } 
-
-      
+    
         return {
                     portalUrl: portal.url,
                     useStub: true
             };
     
+
 }
 
 module.exports = { getConfig }
