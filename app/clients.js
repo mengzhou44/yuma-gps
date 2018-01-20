@@ -80,7 +80,7 @@ class Clients {
         const clientsUrl = `${portalUrl}/clients`;
         const token = new Settings().getToken();
         const config = {
-            headers: { Authorization: `bearer ${token}` }
+            headers: { Authorization: `${token}` }
         };
 
         try {

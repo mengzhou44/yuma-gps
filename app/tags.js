@@ -37,7 +37,7 @@ class Tags {
         const tagsUrl = `${portalUrl}/tags`;
         try {
             const config = {
-                headers: { Authorization: `bearer ${token}` }
+                headers: { Authorization: `${token}` }
             };
 
             const res = await axios.get(tagsUrl, config);

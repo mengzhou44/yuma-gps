@@ -94,7 +94,7 @@ class Scans {
                 return { success: true };
             }
             const config = {
-                headers: { Authorization: `bearer ${token}` }
+                headers: { Authorization: `${token}` }
             };
 
             const promises = [];
