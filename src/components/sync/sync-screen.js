@@ -46,13 +46,16 @@ class SyncScreen extends Component {
                     <button
                         className="btn btn-block btn-green"
                         onClick={() => {
-                            ipcRenderer.send("sync");
-                            ipcRenderer.on("sync:progress", (event, result) => {
 
-                                this.setState({
+                            this.setState({
                                     inProgress: true
-                                });
+                            });
 
+
+                            ipcRenderer.send("sync");
+                            ipcRenderer.once("sync:progress", (event, result) => {
+
+                             
                                 let progress = this.state.progress;
                                 progress.inProgress = true;
                                 if (result.error) {

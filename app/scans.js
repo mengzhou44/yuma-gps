@@ -74,7 +74,7 @@ class Scans {
         fs.writeFileSync(this.scansFile, JSON.stringify(scans, null, 4));
     }
 
-    backupUploadedScan(scan) {
+    backupScan(scan) {
         const homeDir = require('os').homedir();
         const fileName = path.join(homeDir, "smartmat",
             `${scan.time} - ${scan.client} - ${scan.job}.json`);
@@ -101,15 +101,19 @@ class Scans {
 
             _.map(scans,  (scan) => {
                 promises.push(axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config));
-                this.backupUploadedScan(scan);
+                this.backupScan(scan);
             });
 
-            Promise.all(promises, (values)=> {
-                    return { success: true };
-            })
+            Promise.all(promises).then(values => { 
+                 return { success: true};
+            }).catch(err => { 
+               return { success: false };
+            });
 
         } catch (ex) {
             return { success: false };
+        } finally  {
+            this.clearScans();
         }
     }
 
