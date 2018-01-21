@@ -1,6 +1,7 @@
 const electron = require("electron");
 const _ = require("lodash");
 const path = require("path");
+const findProcess = require("find-process");
 
 const { app, BrowserWindow, ipcMain } = electron;
 
@@ -18,32 +19,33 @@ const Tablet = require("./app/tablet");
 
 let mainWindow;
 let splashScreen;
-let launchErrorScreen;
+ 
 let reader;
 let devices = { gps: false, reader: false, wifi: false };
 let checkDevicesTimer;
 let yumaServices;
 
 
-app.on("ready", () => {
+app.on("ready", async () => {
 
-   try {
+ 
+      const list = await  findProcess("name", "YumaServices.exe");
 
-        yumaServices= getYumaServices();
+     if (list.length>0) {
 
-   } catch(error) {
+         let launchErrorScreen = new BrowserWindow({});
+         launchErrorScreen.loadURL(`file://${__dirname}/launch-error.html`);
 
-       launchErrorScreen = new BrowserWindow({});
-       launchErrorScreen.loadURL(`file://${__dirname}/launch-error.html`);
-
-       launchErrorScreen.on("close", () => {
+         launchErrorScreen.on("close", () => {
                 app.quit();
-       });
+        });
 
-      return;
-   }
+         return;
+     }
 
-    splashScreen = new BrowserWindow({});
+     yumaServices =  getYumaServices();
+
+     splashScreen = new BrowserWindow({});
             splashScreen.loadURL(`file://${__dirname}/splash.html`);
 
             mainWindow = new BrowserWindow({
@@ -67,8 +69,8 @@ app.on("window-all-closed", () => {
 });
 
 app.on("before-quit", () => {
-    mainWindow.removeAllListeners('close');
-    splashScreen.removeAllListeners('close');
+    mainWindow.removeAllListeners("close");
+    splashScreen.removeAllListeners("close");
     mainWindow.close();
     splashScreen.close();
 });
