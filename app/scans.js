@@ -82,7 +82,7 @@ class Scans {
         fs.writeFileSync(fileName, JSON.stringify(scan, null, 4));
     }
 
-    async  uploadScans() {
+   async  uploadScans() {
 
         const { portalUrl } = getConfig();
         const token = new Settings().getToken();
@@ -91,27 +91,22 @@ class Scans {
             const scans = this.getScans();
 
             if (scans.length === 0) {
-                return { success: true };
+                return  true;
             }
             const config = {
                 headers: { Authorization: `${token}` }
             };
 
-            const promises = [];
-
-            _.map(scans,  (scan) => {
-                promises.push(axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config));
+             _.map(scans, async (scan) => {
+                const res= await  axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
                 this.backupScan(scan);
             });
 
-            Promise.all(promises).then(values => { 
-                 return { success: true};
-            }).catch(err => { 
-               return { success: false };
-            });
+            return true; 
 
         } catch (ex) {
-            return { success: false };
+          console.log("error 2", ex);
+           return false;
         } finally  {
             this.clearScans();
         }

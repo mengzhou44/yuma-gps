@@ -53,7 +53,7 @@ class SyncScreen extends Component {
 
 
                             ipcRenderer.send("sync");
-                            ipcRenderer.once("sync:progress", (event, result) => {
+                            ipcRenderer.on("sync:progress", (event, result) => {
 
                              
                                 let progress = this.state.progress;

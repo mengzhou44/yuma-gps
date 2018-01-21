@@ -172,16 +172,17 @@ function downloadTags() {
 }
 
 ipcMain.on("sync", (event) => {
-    const scans =  new Scans();
-    scans.uploadScans().then(({ success }) => {
-        if (success) {
+   
+   new Scans().uploadScans().then(success=> {
+
+    if (success === true) {
             mainWindow.webContents.send("sync:progress", { data: { "uploadScans": true } });
             downloadClients();
             downloadTags();
-        } else {
-            mainWindow.webContents.send("sync:progress", { error: "Error occurred when sync..." });
-        }
-    });
+    } else {
+         mainWindow.webContents.send("sync:progress", { error: "Error occurred when sync..." });
+    }
+   });  
 });
 
 
