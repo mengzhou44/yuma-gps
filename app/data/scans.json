@@ -1,1 +1,52 @@
-[]
+[
+    {
+        "client": "Easy  Express Solutions Inc.",
+        "clientid": 82,
+        "job": "Job 2018-01-20",
+        "jobid": 83,
+        "gps": [
+            -104.323,
+            45.573
+        ],
+        "time": 1516508273748,
+        "deviceid": "54-27-1E-1C-6D-DA",
+        "mats": [
+            {
+                "id": "MA-MENG-0002-0002",
+                "gps": [
+                    -104.323,
+                    45.573
+                ],
+                "time": 1516508335845,
+                "contaminated": true
+            },
+            {
+                "id": "MA-MENG-0002-0003",
+                "gps": [
+                    -104.323,
+                    45.573
+                ],
+                "time": 1516508335346,
+                "contaminated": false
+            },
+            {
+                "id": "MA-MENG-0002-0001",
+                "gps": [
+                    -104.323,
+                    45.573
+                ],
+                "time": 1516508334887,
+                "contaminated": true
+            },
+            {
+                "id": "MA-MENG-0002-0004",
+                "gps": [
+                    -104.323,
+                    45.573
+                ],
+                "time": 1516508335599,
+                "contaminated": true
+            }
+        ]
+    }
+]

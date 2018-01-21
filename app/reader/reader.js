@@ -12,7 +12,7 @@ class Reader {
         this.mats = [];
         this.matsInRange = [];
         this.knownTags = new Tags().getTags();
-        this.count = 0;
+ 
         this.matsInRangeTimer = null;
 
     }
@@ -26,15 +26,19 @@ class Reader {
 
     getContamination() {
         const contamination = { contaminated: 0, decontaminated: 0 };
+      
         _.map(this.mats, mat => {
-            if (mat.hasOwnProperty("contaminated")) {
+            
+            if (mat.contaminated !== undefined) {
                 if (mat.contaminated) {
                     contamination.contaminated++;
                 } else {
                     contamination.decontaminated++;
                 }
+                
             }
         });
+      
         return contamination;
     }
 
@@ -57,6 +61,7 @@ class Reader {
     }
 
     renewMatsInRange() {
+       
         this.matsInRange = _.filter(this.matsInRange, (mat) => {
             const timeStamp = Math.floor(Date.now());
             return timeStamp < (mat.timeStamp + 2000)
