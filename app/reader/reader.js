@@ -12,7 +12,8 @@ class Reader {
         this.mats = [];
         this.matsInRange = [];
         this.knownTags = new Tags().getTags();
- 
+        this.contamination = { contaminated: 0, decontaminated: 0 };
+      
         this.matsInRangeTimer = null;
 
     }
@@ -22,24 +23,6 @@ class Reader {
         if (!found) {
             mat.tags.push(tagNumber);
         }
-    }
-
-    getContamination() {
-        const contamination = { contaminated: 0, decontaminated: 0 };
-      
-        _.map(this.mats, mat => {
-            
-            if (mat.contaminated !== undefined) {
-                if (mat.contaminated) {
-                    contamination.contaminated++;
-                } else {
-                    contamination.decontaminated++;
-                }
-                
-            }
-        });
-      
-        return contamination;
     }
 
     updateMatsInRange(tagNumber) {
@@ -73,7 +56,7 @@ class Reader {
                 {
                     found: this.mats.length,
                     inRange: this.matsInRange.length,
-                    contamination: this.getContamination(),
+                    contamination: this.contamination,
                     tagsInRange: this.getTagsInRange()
                 });
         } catch (err) {
@@ -122,7 +105,7 @@ class Reader {
                 {
                     found: this.mats.length,
                     inRange: this.matsInRange.length,
-                    contamination: this.getContamination(),
+                    contamination: this.contamination,
                     tagsInRange: this.getTagsInRange()
                 });
         } else {
@@ -142,11 +125,24 @@ class Reader {
             }
         });
         this.matsInRange = [];
+        this.contamination = { contaminated: 0, decontaminated: 0 };
+     
+        _.map(this.mats, mat => {
+            
+            if (mat.contaminated !== undefined) {
+                if (mat.contaminated) {
+                    this.contamination.contaminated++;
+                } else {
+                    this.contamination.decontaminated++;
+                }
+                
+            }
+        });
 
         const result = {
             found: this.mats.length,
             inRange: this.matsInRange.length,
-            contamination: this.getContamination(),
+            contamination: this.contamination
         };
 
         this.mainWindow.webContents.send('mat:found', result);
@@ -203,6 +199,7 @@ class Reader {
     clearData() {
         this.mats = [];
         this.matsInRange = [];
+        this.contamination = { contaminated: 0, decontaminated: 0 };
     }
 }
 

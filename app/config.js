@@ -21,7 +21,6 @@ function getConfig() {
                     useStub: false
             };
     
-
 }
 
 module.exports = { getConfig }

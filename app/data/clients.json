@@ -80,24 +80,6 @@
     {
         "jobs": [
             {
-                "id": 81,
-                "name": "Big River Site",
-                "latitude": 51.1159403,
-                "longitude": -106.1700737
-            },
-            {
-                "id": 84,
-                "name": "oil job jan 2018-01-20",
-                "latitude": 50.8950175,
-                "longitude": -114.074062666667
-            }
-        ],
-        "clientName": "Giga Oil",
-        "clientId": 80
-    },
-    {
-        "jobs": [
-            {
                 "id": 93,
                 "name": "job123",
                 "latitude": 50.8951251666667,
@@ -136,6 +118,24 @@
         ],
         "clientName": "Marks Company",
         "clientId": 78
+    },
+    {
+        "jobs": [
+            {
+                "id": 81,
+                "name": "Big River Site",
+                "latitude": 51.1159403,
+                "longitude": -106.1700737
+            },
+            {
+                "id": 84,
+                "name": "oil job jan 2018-01-20",
+                "latitude": 50.8950175,
+                "longitude": -114.074062666667
+            }
+        ],
+        "clientName": "Oil Co",
+        "clientId": 80
     },
     {
         "jobs": [
