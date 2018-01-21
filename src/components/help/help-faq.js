@@ -14,7 +14,7 @@ export default class HelpFaq extends Component {
         return (
             <MyTransition visible={visible}>
                 <div className="sidebar-content">
-                    <h5 className="color-orange">Faq</h5>
+                    <h5 className="color-orange">FAQ</h5>
                     <Divider />
 
                 </div>

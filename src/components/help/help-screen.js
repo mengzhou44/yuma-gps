@@ -26,7 +26,7 @@ export default class HelpScreen extends Component {
                     className={this.getSideBarLinkClass("faq")}
                     onClick={() => this.setState({ current: "faq" })}
                 >
-                    Faq
+                    FAQ
                 </li>
                 <li
                     className={this.getSideBarLinkClass("contact")}

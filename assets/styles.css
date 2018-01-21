@@ -7568,3 +7568,6 @@ body {
 
 .pull-right {
   float: right !important; }
+
+label {
+  font-size: 18px !important; }
