@@ -1,0 +1,15 @@
+.launch-error {
+  
+    margin: 0 auto;
+    padding: 30px;
+
+    h3 {
+        text-align: center;
+        color: $color-red;
+    }
+
+    p {
+         line-height: 200%;
+         font-size: 18px; 
+    }   
+}

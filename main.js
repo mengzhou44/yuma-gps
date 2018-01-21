@@ -28,8 +28,7 @@ let yumaServices;
 
 app.on("ready", async () => {
 
- 
-      const list = await  findProcess("name", "YumaServices.exe");
+     const list = await  findProcess("name", "YumaServices.exe");
 
      if (list.length>0) {
 
@@ -60,7 +59,7 @@ app.on("ready", async () => {
 
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
-
+  
 
 });
 

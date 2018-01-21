@@ -7319,6 +7319,16 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   font-size: 20px;
   margin-top: 0px !important; }
 
+.launch-error {
+  margin: 0 auto;
+  padding: 30px; }
+  .launch-error h3 {
+    text-align: center;
+    color: #d03027; }
+  .launch-error p {
+    line-height: 200%;
+    font-size: 18px; }
+
 .my-alert-actions {
   height: 80px; }
 
