@@ -94,10 +94,7 @@ class Reader {
         const fields = line.toString().split(",");
 
         const tagNumber = fields[1];
-        if (tagNumber.length > 12) {
-            console.log("exception: ", line);
-            return;
-        }
+      
         const matId = new Tags().findMatId(this.knownTags, tagNumber);
 
         if (matId === "-1") return;
