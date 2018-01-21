@@ -97,15 +97,25 @@ class Scans {
                 headers: { Authorization: `${token}` }
             };
 
-             _.map(scans, async (scan) => {
-                const res= await  axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
-                this.backupScan(scan);
+            let promises =[]; 
+            _.map(scans,  (scan) => {
+                
+                 const promise =  axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
+                 promises.push(promise);
+                 
+                 this.backupScan(scan);
+                
             });
-
-            return true; 
-
+                
+          return  Promise.all(promises).then(values=>{
+            
+              return true; 
+          }).catch (err=> {
+               return false;
+          })
+        
         } catch (ex) {
-          console.log("error 2", ex);
+         
            return false;
         } finally  {
             this.clearScans();
