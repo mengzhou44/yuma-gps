@@ -74,17 +74,38 @@ class ScanStop extends Component {
         }
     }
 
+    renderScan() {
+        if (this.props.status === "finishing") {
+            return <div>
+            Finshing Scan,  Please Wait ...
+            </div>
+        }
+    }
+
+    renderScanContent() {
+        if (this.props.status === "finishing") {
+            return (<div className="scan-finishing">
+                Finishing Scan ...
+            </div>);
+        } 
+         return (
+                <div className="scan-stop">
+                       <ScanProgress />
+                        {this.renderFinishButton()}
+                 </div>
+               );
+
+    }
+
+
     render() {
         const visible = this.props.status !== "not-started";
         return (
             <MyTransition visible={visible}>
                 <div>
                     {this.renderSelected()}
-                    <div className="scan-stop">
-                        <ScanProgress />
-                        {this.renderFinishButton()}
-                    </div>
-
+                       {this.renderScanContent()}
+                 
                     <MyConfirm
                         showConfirm={this.state.showConfirm}
                         message={this.state.confirmMessage}

@@ -7508,6 +7508,11 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   justify-content: space-around;
   height: 400px; }
 
+.scan-finishing {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 24px; }
+
 .scan-stop-buttons-container {
   align-self: flex-end;
   width: 100% !important; }

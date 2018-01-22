@@ -17,6 +17,8 @@ export default (state = INITIAL_STATE, action) => {
         case types.SCAN_STARTED:
             const { clients, created, clientId, jobId } = action.payload;
             return { ...state, status: "started", clients, created, clientId, jobId };
+          case types.SCAN_FINISHING:
+             return { ...state, status: "finishing"};
         case types.MAT_FOUND:
             return { ...state, progress: action.payload };
         default:
