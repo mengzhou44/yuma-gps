@@ -26,9 +26,13 @@ export function startScan({ clients, clientId, jobId }) {
 
 export function finishScan({ clientId, clientName, jobId, jobName, created }) {
     return function (dispatch) {
-        dispatch({ type: types.SCAN_STATUS_RESET });
+      
         ipcRenderer.send("scan:complete", { clientId, jobId, clientName, jobName, created });
-        ipcRenderer.removeAllListeners("mat:found");
+        ipcRenderer.once("scan:complete", (event) => {
+             dispatch({ type: types.SCAN_STATUS_RESET });
+             ipcRenderer.removeAllListeners("mat:found");
+        });
+       
     };
 }
 

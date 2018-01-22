@@ -14,12 +14,6 @@
     {
         "jobs": [
             {
-                "id": 89,
-                "name": "JOB1",
-                "latitude": 50.8951173333333,
-                "longitude": -114.074037166667
-            },
-            {
                 "id": 88,
                 "name": "JOB2",
                 "latitude": 50.8951178333333,
@@ -28,6 +22,18 @@
         ],
         "clientName": "CANADIAN OIL",
         "clientId": 87
+    },
+    {
+        "jobs": [
+            {
+                "id": 89,
+                "name": "JOB1",
+                "latitude": 50.8951173333333,
+                "longitude": -114.074037166667
+            }
+        ],
+        "clientName": "CANADIAN OIL2",
+        "clientId": 86
     },
     {
         "jobs": [

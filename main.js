@@ -227,5 +227,7 @@ ipcMain.on("scan:complete", async (event, scan) => {
     await scans.addNewScan(scan);
     reader.clearData();
     checkDevicesTimer = null;
+    mainWindow.webContents.send("scan:complete");
+
 });
 
