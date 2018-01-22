@@ -15,6 +15,7 @@ class Reader {
         this.contamination = { contaminated: 0, decontaminated: 0 };
       
         this.matsInRangeTimer = null;
+        this.location = { latitude: 0, longitude: 0 };
 
     }
 
@@ -26,7 +27,6 @@ class Reader {
     }
 
     updateMatsInRange(tagNumber) {
-
         const matId = new Tags().findMatId(this.knownTags, tagNumber);
         let matFound = _.find(this.matsInRange, (mat) => mat.matId === matId);
         if (matFound) {
@@ -89,11 +89,16 @@ class Reader {
 
         this.updateMatsInRange(tagNumber);
 
-        const location = await this.yumaServices.getGPSData();
+        try{
+             this.location = await this.yumaServices.getGPSData();
+         }   catch (ex) {
+
+         }
+       
         const timeStamp = Math.floor(Date.now());
         const mat = {
             matId,
-            gps: [location.longitude, location.latitude],
+            gps: [this.location.longitude, this.location.latitude],
             timeStamp
         };
 
@@ -176,12 +181,13 @@ class Reader {
         }
     }
 
-    start() {
+    async start() {
         this.tcpClient = new Socket();
         this.matsInRangeTimer = setInterval(this.renewMatsInRange.bind(this), 1000);
         this.tcpClient.on('data', this.onData.bind(this));
         const readerSetting = this.getReaderSetting();
         this.tcpClient.connect(readerSetting.port, readerSetting.host);
+        this.location = await this.yumaServices.getGPSData();
     }
 
     stop() {

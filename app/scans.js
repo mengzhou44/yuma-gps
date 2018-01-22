@@ -6,7 +6,7 @@ const _ = require("lodash");
 const  environment = require("./environment");
 const { getConfig } = require("./config");
 const Clients = require("./clients");
-const Tablet = require("./tablet");
+
 
 const Settings = require("./settings/settings");
 
@@ -42,7 +42,7 @@ class Scans {
 
     convertScanToServerFormat(scan) {
 
-        const gps = scan.mats.length > 1 ? scan.mats[0].gps : [];
+        const gps = scan.mats.length >  0 ? scan.mats[0].gps : [];
 
         const converted = {
             client: scan.clientName,
@@ -65,9 +65,7 @@ class Scans {
             return;
         }
 
-        let tablet = new Tablet();
-        const macAddress = await tablet.getMacAddress();
-        scan.deviceId = macAddress;
+      
         const serverScan = this.convertScanToServerFormat(scan);
         let scans = this.getScans();
         scans.push(serverScan);

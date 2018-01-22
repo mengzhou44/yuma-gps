@@ -24,6 +24,7 @@ let reader;
 let devices = { gps: false, reader: false, wifi: false };
 let checkDevicesTimer;
 let yumaServices;
+let macAddress;
 
 
 app.on("ready", async () => {
@@ -42,6 +43,8 @@ app.on("ready", async () => {
          return;
      }
 
+     macAddress = await new Tablet().getMacAddress();
+    
      yumaServices =  getYumaServices();
 
      splashScreen = new BrowserWindow({});
@@ -95,16 +98,14 @@ ipcMain.on("settings:save", (event, data) => {
 
 });
 
-ipcMain.on("tablet:register", (event, macAddress) => {
+ipcMain.on("tablet:register", (event) => {
     new Tablet().register().then(result => {
         mainWindow.webContents.send("tablet:register", result);
     });
 });
 
 ipcMain.on("tablet:mac", (event) => {
-    new Tablet().getMacAddress().then(macAddress => {
-        mainWindow.webContents.send("tablet:mac", macAddress);
-    });
+    mainWindow.webContents.send("tablet:mac", macAddress);
 });
 
 ipcMain.on("environment:get", (event) => {
@@ -202,12 +203,12 @@ ipcMain.on("clients:new-job", (event, { clientId, jobName }) => {
 });
 
 
-ipcMain.on("scan:start", (event) => {
+ipcMain.on("scan:start", async (event) => {
     if (reader) {
         reader.stop();
     }
     reader = getReader(mainWindow, yumaServices);
-    reader.start();
+    await reader.start();
 
     checkDevicesTimer = setInterval(() => {
         checkDevices();
@@ -221,12 +222,17 @@ ipcMain.on("batch:process", (event, data) => {
 
 
 ipcMain.on("scan:complete", async (event, scan) => {
+
+    scan.deviceId = macAddress; 
     reader.stop();
     scan.mats = reader.getData();
+    
     const scans = new Scans();
     await scans.addNewScan(scan);
+   
     reader.clearData();
     checkDevicesTimer = null;
+     
     mainWindow.webContents.send("scan:complete");
 
 });
