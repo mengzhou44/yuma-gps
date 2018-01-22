@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("fs-extra");
 const axios = require("axios");
 const _ = require("lodash");
+const uuid = require("uuid/v4");
 
 const  environment = require("./environment");
 const { getConfig } = require("./config");
@@ -77,7 +78,7 @@ class Scans {
         const fileName = path.join(homeDir, "smartmat",
             `${scan.time} - ${scan.client} - ${scan.job}.json`);
 
-        fs.writeFileSync(fileName, JSON.stringify(scan, null, 4));
+        fs.outputFileSync(fileName, JSON.stringify(scan, null, 4));
     }
 
     backupFailedScan(scan) {
@@ -85,7 +86,7 @@ class Scans {
         const fileName = path.join(homeDir, "smartmat","failed",
             `${scan.time} - ${scan.client} - ${scan.job}.json`);
 
-        fs.writeFileSync(fileName, JSON.stringify(scan, null, 4));
+        fs.outputFileSync(fileName, JSON.stringify(scan, null, 4));
     }
 
    async  uploadScans() {
@@ -94,6 +95,7 @@ class Scans {
         const token = new Settings().getToken();
 
         try {
+            
             const scans = this.getScans();
 
             if (scans.length === 0) {
@@ -105,18 +107,26 @@ class Scans {
 
     
             const promises = _.map(scans, (scan) => {
+                 scan.scanid= uuid();
                  this.backupScan(scan);
+               
                  return axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
             })
 
             return Promise.all(promises).then(values=>{ 
-               const failedScans = _.filter(values, value => value.data !== "Success");
-                if (failedScans.length >0 ) {
-                     _.map(failedScans, (scan)=> {
-                        this.backupFailedScans(scan);
+                 
+                const failedScans = _.filter(values, value => value.data !== "Success" );
+                if (failedScans.length > 0 ) {
+                       
+                     _.map(failedScans, (value)=> {
+                        console.log("Upload Error:", value.data.error);
+                         const error = value.data.error;            
+                         const scan = _.find(scans, (scan)=> scan.scanid === value.data.scanid);
+                         this.backupFailedScan(scan);
                      });
-                     throw `upload failed - ${found.data}`;
+                     throw `upload failed - ${failedScans[0].data.error}`;
                 } else {
+                       
                      return  Promise.resolve({success: true}); 
                 }
               

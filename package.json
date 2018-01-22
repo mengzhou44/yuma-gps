@@ -58,6 +58,7 @@
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.77.1",
     "tcp-ping": "^0.1.1",
+    "uuid": "^3.2.1",
     "wifi-control": "^2.0.1"
   },
   "repository": {
