@@ -91,35 +91,37 @@ class Scans {
             const scans = this.getScans();
 
             if (scans.length === 0) {
-                return  true;
+                return  Promise.resolve({success: true}); 
             }
             const config = {
                 headers: { Authorization: `${token}` }
             };
 
-            let promises =[]; 
-            _.map(scans,  (scan) => {
-                
-                 const promise =  axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
-                 promises.push(promise);
-                 
+    
+            const promises = _.map(scans, (scan) => {
                  this.backupScan(scan);
-                
-            });
-                
-          return  Promise.all(promises).then(values=>{
-            
-              return true; 
-          }).catch (err=> {
-               return false;
-          })
-        
+                 return axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
+            })
+
+            return Promise.all(promises).then(values=>{ 
+               const found = _.find(values, value => value.data !== "Success");
+                if (found) {
+                     throw `upload failed - ${found.data}`;
+                } else {
+                     console.log("step 1 - success");
+                     return  Promise.resolve({success: true}); 
+                }
+              
+            }).catch (err=> {
+                 console.log("upload error", err);
+                 console.log("step2");
+               return  Promise.resolve({success: false, error: err}); 
+            })
+             
         } catch (ex) {
-         
-           return false;
-        } finally  {
-            this.clearScans();
-        }
+             console.log("step3");
+             return  Promise.resolve({success: false, error: ex}); 
+        } 
     }
 
     clearScans() {

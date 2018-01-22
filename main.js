@@ -149,42 +149,41 @@ ipcMain.on("devices:check", (event) => {
     checkDevices();
 });
 
-function downloadClients() {
+async function downloadClients() {
 
-    new Clients().downloadClients().then(({ success }) => {
-        if (success) {
+     const {success}= await  new Clients().downloadClients();
+   
+     if (success) {
             mainWindow.webContents.send("sync:progress", { data: { "downloadClients": true } });
 
-        } else {
+     } else {
             mainWindow.webContents.send("sync:progress", { error: "Error occurred when downloading clients." });
-        }
-    });
-
+    }
 }
 
-function downloadTags() {
-    new Tags().downloadTags().then(({ success }) => {
+async function downloadTags() {
+        const {success} = await  new Tags().downloadTags();
+   
         if (success) {
             mainWindow.webContents.send("sync:progress", { data: { "downloadTags": true } });
         } else {
             mainWindow.webContents.send("sync:progress", { error: "Error occurred when downloading tags." });
         }
-    });
 }
 
-ipcMain.on("sync", (event) => {
+ipcMain.on("sync", async (event) => {
    
-   new Scans().uploadScans().then(success=> {
-    
-    if (success === true) {
+    const {success, error }  =await new Scans().uploadScans(); 
+     console.log("step4");
+     new Scans().clearScans();
+    if (success) {
             mainWindow.webContents.send("sync:progress", { data: { "uploadScans": true } });
-            downloadClients();
-            downloadTags();
+            await  downloadClients();
+            await  downloadTags();
     } else {
-         mainWindow.webContents.send("sync:progress", { error: "Error occurred when sync..." });
+         mainWindow.webContents.send("sync:progress", { error: `Error ${error}` });
     }
-   });  
-});
+})
 
 
 ipcMain.on("clients:get", (event) => {
