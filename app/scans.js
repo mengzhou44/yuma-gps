@@ -108,18 +108,16 @@ class Scans {
                 if (found) {
                      throw `upload failed - ${found.data}`;
                 } else {
-                     console.log("step 1 - success");
                      return  Promise.resolve({success: true}); 
                 }
               
             }).catch (err=> {
-                 console.log("upload error", err);
-                 console.log("step2");
+             
                return  Promise.resolve({success: false, error: err}); 
             })
              
         } catch (ex) {
-             console.log("step3");
+          
              return  Promise.resolve({success: false, error: ex}); 
         } 
     }

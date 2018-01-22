@@ -173,9 +173,9 @@ async function downloadTags() {
 
 ipcMain.on("sync", async (event) => {
    
-    const {success, error }  =await new Scans().uploadScans(); 
-     console.log("step4");
-     new Scans().clearScans();
+     const {success, error }  =await new Scans().uploadScans(); 
+ 
+    new Scans().clearScans();
     if (success) {
             mainWindow.webContents.send("sync:progress", { data: { "uploadScans": true } });
             await  downloadClients();
@@ -220,11 +220,11 @@ ipcMain.on("batch:process", (event, data) => {
 });
 
 
-ipcMain.on("scan:complete", (event, scan) => {
+ipcMain.on("scan:complete", async (event, scan) => {
     reader.stop();
     scan.mats = reader.getData();
     const scans = new Scans();
-    scans.addNewScan(scan);
+    await scans.addNewScan(scan);
     reader.clearData();
     checkDevicesTimer = null;
 });
