@@ -1,5 +1,5 @@
 const path = require("path");
-const fs = require("fs");
+const fs = require("fs-extra");
 const axios = require("axios");
 const _ = require("lodash");
 
@@ -80,6 +80,14 @@ class Scans {
         fs.writeFileSync(fileName, JSON.stringify(scan, null, 4));
     }
 
+    backupFailedScan(scan) {
+        const homeDir = require('os').homedir();
+        const fileName = path.join(homeDir, "smartmat","failed",
+            `${scan.time} - ${scan.client} - ${scan.job}.json`);
+
+        fs.writeFileSync(fileName, JSON.stringify(scan, null, 4));
+    }
+
    async  uploadScans() {
 
         const { portalUrl } = getConfig();
@@ -102,8 +110,11 @@ class Scans {
             })
 
             return Promise.all(promises).then(values=>{ 
-               const found = _.find(values, value => value.data !== "Success");
-                if (found) {
+               const failedScans = _.filter(values, value => value.data !== "Success");
+                if (failedScans.length >0 ) {
+                     _.map(failedScans, (scan)=> {
+                        this.backupFailedScans(scan);
+                     });
                      throw `upload failed - ${found.data}`;
                 } else {
                      return  Promise.resolve({success: true}); 
