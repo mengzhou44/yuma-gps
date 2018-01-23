@@ -65,13 +65,11 @@ class Reader {
     }
 
     getData() {
-        return this.mats;
+        return this.job.mats;
     }
 
     clearData() {
-        this.mats = [];
-        this.matsInRange = [];
-        this.contamination = { contaminated: 0, decontaminated: 0 };
+       return this.job.clearData();
     }
 }
 

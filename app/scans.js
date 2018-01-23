@@ -65,8 +65,7 @@ class Scans {
         if (scan.mats.length === 0) {
             return;
         }
-
-      
+          
         const serverScan = this.convertScanToServerFormat(scan);
         let scans = this.getScans();
         scans.push(serverScan);

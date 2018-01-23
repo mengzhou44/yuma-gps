@@ -224,15 +224,15 @@ ipcMain.on("batch:process", (event, data) => {
 ipcMain.on("scan:complete", async (event, scan) => {
 
     scan.deviceId = macAddress;
+ 
     reader.stop();
+    
     scan.mats = reader.getData();
-
     const scans = new Scans();
     await scans.addNewScan(scan);
-
     reader.clearData();
     checkDevicesTimer = null;
-
+ 
     mainWindow.webContents.send("scan:complete");
 
 });
