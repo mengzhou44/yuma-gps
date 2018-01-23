@@ -19,7 +19,7 @@ const Tablet = require("./app/tablet");
 
 let mainWindow;
 let splashScreen;
- 
+
 let reader;
 let devices = { gps: false, reader: false, wifi: false };
 let checkDevicesTimer;
@@ -29,40 +29,40 @@ let macAddress;
 
 app.on("ready", async () => {
 
-     const list = await  findProcess("name", "YumaServices.exe");
+    const list = await findProcess("name", "YumaServices.exe");
 
-     if (list.length>0) {
+    if (list.length > 0) {
 
-         let launchErrorScreen = new BrowserWindow({});
-         launchErrorScreen.loadURL(`file://${__dirname}/launch-error.html`);
+        let launchErrorScreen = new BrowserWindow({});
+        launchErrorScreen.loadURL(`file://${__dirname}/launch-error.html`);
 
-         launchErrorScreen.on("close", () => {
-                app.quit();
+        launchErrorScreen.on("close", () => {
+            app.quit();
         });
 
-         return;
-     }
+        return;
+    }
 
-     macAddress = await new Tablet().getMacAddress();
-    
-     yumaServices =  getYumaServices();
+    macAddress = await new Tablet().getMacAddress();
 
-     splashScreen = new BrowserWindow({});
-            splashScreen.loadURL(`file://${__dirname}/splash.html`);
+    yumaServices = getYumaServices();
 
-            mainWindow = new BrowserWindow({
-                show: false,
-                icon: path.join(__dirname, "/assets/images/icon.ico"),
-                webPreferences: { backgroundThrottling: false }
-            });
+    splashScreen = new BrowserWindow({});
+    splashScreen.loadURL(`file://${__dirname}/splash.html`);
 
-            mainWindow.on("close", () => {
-                closeApp();
-            });
+    mainWindow = new BrowserWindow({
+        show: false,
+        icon: path.join(__dirname, "/assets/images/icon.ico"),
+        webPreferences: { backgroundThrottling: false }
+    });
+
+    mainWindow.on("close", () => {
+        closeApp();
+    });
 
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
-  
+
 
 });
 
@@ -109,7 +109,7 @@ ipcMain.on("tablet:mac", (event) => {
 });
 
 ipcMain.on("environment:get", (event) => {
-     mainWindow.webContents.send("environment:get", `${environment}`);
+    mainWindow.webContents.send("environment:get", `${environment}`);
 });
 
 
@@ -152,37 +152,37 @@ ipcMain.on("devices:check", (event) => {
 
 async function downloadClients() {
 
-     const {success}= await  new Clients().downloadClients();
-   
-     if (success) {
-            mainWindow.webContents.send("sync:progress", { data: { "downloadClients": true } });
+    const { success } = await new Clients().downloadClients();
 
-     } else {
-            mainWindow.webContents.send("sync:progress", { error: "Error occurred when downloading clients." });
+    if (success) {
+        mainWindow.webContents.send("sync:progress", { data: { "downloadClients": true } });
+
+    } else {
+        mainWindow.webContents.send("sync:progress", { error: "Error occurred when downloading clients." });
     }
 }
 
 async function downloadTags() {
-        const {success} = await  new Tags().downloadTags();
-   
-        if (success) {
-            mainWindow.webContents.send("sync:progress", { data: { "downloadTags": true } });
-        } else {
-            mainWindow.webContents.send("sync:progress", { error: "Error occurred when downloading tags." });
-        }
+    const { success } = await new Tags().downloadTags();
+
+    if (success) {
+        mainWindow.webContents.send("sync:progress", { data: { "downloadTags": true } });
+    } else {
+        mainWindow.webContents.send("sync:progress", { error: "Error occurred when downloading tags." });
+    }
 }
 
 ipcMain.on("sync", async (event) => {
-   
-     const {success, error }  =await new Scans().uploadScans(); 
- 
+
+    const { success, error } = await new Scans().uploadScans();
+
     new Scans().clearScans();
     if (success) {
-            mainWindow.webContents.send("sync:progress", { data: { "uploadScans": true } });
-            await  downloadClients();
-            await  downloadTags();
+        mainWindow.webContents.send("sync:progress", { data: { "uploadScans": true } });
+        await downloadClients();
+        await downloadTags();
     } else {
-         mainWindow.webContents.send("sync:progress", { error: `Error ${error}` });
+        mainWindow.webContents.send("sync:progress", { error: `Error ${error}` });
     }
 })
 
@@ -207,7 +207,7 @@ ipcMain.on("scan:start", async (event) => {
     if (reader) {
         reader.stop();
     }
-    reader = getReader(mainWindow, yumaServices);
+    reader = getReader(mainWindow, yumaServices, "contamination");
     await reader.start();
 
     checkDevicesTimer = setInterval(() => {
@@ -223,16 +223,16 @@ ipcMain.on("batch:process", (event, data) => {
 
 ipcMain.on("scan:complete", async (event, scan) => {
 
-    scan.deviceId = macAddress; 
+    scan.deviceId = macAddress;
     reader.stop();
     scan.mats = reader.getData();
-    
+
     const scans = new Scans();
     await scans.addNewScan(scan);
-   
+
     reader.clearData();
     checkDevicesTimer = null;
-     
+
     mainWindow.webContents.send("scan:complete");
 
 });

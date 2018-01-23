@@ -1,145 +1,48 @@
-const _ = require('lodash');
-const Tags = require("../tags");
+const { createJob } = require("./job-factory");
 
 class ReaderStub {
 
-    constructor(mainWindow, yumaServices) {
-        this.mainWindow = mainWindow;
-        this.yumaServices = yumaServices;
-        this.mats = [];
+    constructor(mainWindow, yumaServices, jobType) {
         this.timer = null;
-        this.matsInRange = [];
-        this.contamination = { contaminated: 0, decontaminated: 0 };
-      
-        this.knownTags = new Tags().getTags();
+        this.job = createJob(mainWindow, yumaServices, jobType);
     }
-
 
     getRandomTagNumber() {
         var result;
         var count = 0;
-        for (var prop in this.knownTags)
+        for (var prop in this.job.knownTags)
             if (Math.random() < 1 / ++count)
                 result = prop;
         return result;
     }
 
-   
-
-    addTag(tagNumber, mat) {
-        const found = _.find(mat.tags, item => item === tagNumber);
-        if (!found) {
-            mat.tags.push(tagNumber);
-        }
-    }
-
-    updateMatsInRange(tagNumber) {
-        const matId = new Tags().findMatId(this.knownTags, tagNumber);
-        let matFound = _.find(this.matsInRange, (mat) => mat.matId === matId);
-        if (matFound) {
-            matFound.timeStamp = Math.floor(Date.now());
-            this.addTag(tagNumber, matFound);
-        } else {
-            const timeStamp = Math.floor(Date.now());
-            const mat = {
-                matId,
-                timeStamp,
-                tags: [tagNumber]
-            };
-            this.matsInRange.push(mat);
-        }
-
-        this.matsInRange = _.filter(this.matsInRange, (mat) => {
-            const timeStamp = Math.floor(Date.now());
-            return timeStamp < (mat.timeStamp + 2000)
-        });
-    }
-
-    getTagsInRange() {
-        let result = []
-        _.map(this.matsInRange, (mat) => {
-            result.push(mat.tags.join());
-        })
-        return result.join();
-    }
-
     start() {
         this.timer = setInterval(async () => {
-                const tagNumber = this.getRandomTagNumber();
-                this.updateMatsInRange(tagNumber);
-                const matId = new Tags().findMatId(this.knownTags, tagNumber);
-                const location= await this.yumaServices.getGPSData();
-
-                const found = _.find(this.mats, (mat) => mat.matId === matId);
-                if (found) {
-                    found.timeStamp = Math.floor(Date.now());
-                } else {
-                    const timeStamp = Math.floor(Date.now());
-                    const mat = {
-                        matId,
-                        gps: [location.longitude, location.latitude ],
-                        timeStamp
-                    };
-                    this.mats.push(mat);
-                }
-
-                const tagsInRange = this.getTagsInRange();
-
-                this.mainWindow.webContents.send('mat:found',
-                    {
-                        found: this.mats.length,
-                        inRange: this.matsInRange.length,
-                        contamination: this.contamination,
-                        tagsInRange
-                    });
-
+            const tagNumber = this.getRandomTagNumber();
+            await this.job.processTag(tagNumber);
         }, 2000);
+
+        this.job.start();
     }
 
     processBatch(data) {
         this.stop();
-        _.map(this.matsInRange, mat => {
-            const found = _.find(this.mats, (item) => item.matId === mat.matId);
-            for (var prop in data) {
-                if (data.hasOwnProperty(prop)) {
-                    found[prop] = data[prop];
-                }
-            }
-        });
-        this.matsInRange = [];
-        this.contamination = { contaminated: 0, decontaminated: 0 };
-        _.map(this.mats, mat => {
-            if (mat.hasOwnProperty("contaminated")) {
-                if (mat.contaminated) {
-                    this.contamination.contaminated++;
-                } else {
-                    this.contamination.decontaminated++;
-                }
-            }
-        });
-        const result = {
-            found: this.mats.length,
-            inRange: this.matsInRange.length,
-            contamination: this.contamination,
-        };
-
-        this.mainWindow.webContents.send('mat:found', result);
+        this.job.processBatch(data);
         setTimeout(() => {
             this.start();
         }, 500);
     }
 
     getData() {
-        return this.mats;
+        return this.job.mats;
     }
 
     clearData() {
-        this.mats = [];
-        this.matsInRange = [];
-        this.contamination = { contaminated: 0, decontaminated: 0 };
+        this.job.clearData();
     }
 
     stop() {
+        this.job.stop();
         clearInterval(this.timer);
         this.timer = null;
     }

@@ -6,13 +6,14 @@ const { getConfig } = require("../config");
 const Reader = require("./reader");
 const ReaderStub = require("./reader-stub");
 
-function getReader(mainWindow, yumaServices) {
+
+function getReader(mainWindow, yumaServices, jobType) {
     if (getConfig().useStub) {
-        return new ReaderStub(mainWindow, yumaServices);
+        return new ReaderStub(mainWindow, yumaServices, jobType);
     } else {
-       return new Reader(mainWindow, yumaServices);
+        return new Reader(mainWindow, yumaServices, jobType);
     }
-   
+
 }
 
 async function checkReader() {
