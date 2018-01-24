@@ -1,4 +1,3 @@
-
 const _ = require('lodash');
 const Tags = require("../tags");
 
@@ -14,28 +13,6 @@ class ContaminationJob {
         this.matsInRangeTimer = null;
         this.contamination = { contaminated: 0, decontaminated: 0 };
         this.location = { latitude: 0, longitude: 0 };
-    }
-
-    renewMatsInRange() {
-
-        this.matsInRange = _.filter(this.matsInRange, (mat) => {
-            const timeStamp = Math.floor(Date.now());
-            return timeStamp < (mat.timeStamp + 2000)
-        });
-
-        try {
-
-            this.mainWindow.webContents.send('mat:found',
-                {
-                    found: this.mats.length,
-                    inRange: this.matsInRange.length,
-                    contamination: this.contamination,
-                    tagsInRange: this.getTagsInRange()
-                });
-        } catch (err) {
-            console.log("main window was destroyed!");
-        }
-
     }
 
     addTag(tagNumber, mat) {
@@ -58,7 +35,7 @@ class ContaminationJob {
         let matFound = _.find(this.matsInRange, (mat) => mat.matId === matId);
         if (matFound) {
             matFound.timeStamp = Math.floor(Date.now());
-            this.addTag(tagNumber, matFound);
+            addTag(tagNumber, matFound);
         } else {
             const timeStamp = Math.floor(Date.now());
             const mat = {
@@ -76,6 +53,7 @@ class ContaminationJob {
         if (matId === "-1") return;
 
         this.updateMatsInRange(tagNumber);
+
         try {
             this.location = await this.yumaServices.getGPSData();
         } catch (ex) {
@@ -129,6 +107,7 @@ class ContaminationJob {
             }
         });
 
+
         const result = {
             found: this.mats.length,
             inRange: this.matsInRange.length,
@@ -138,8 +117,32 @@ class ContaminationJob {
         this.mainWindow.webContents.send('mat:found', result);
     }
 
+    renewMatsInRange() {
+        this.matsInRange = _.filter(this.matsInRange, (mat) => {
+            const timeStamp = Math.floor(Date.now());
+            return timeStamp < (mat.timeStamp + 2000)
+        });
+
+        try {
+
+            this.mainWindow.webContents.send('mat:found',
+                {
+                    found: this.mats.length,
+                    inRange: this.matsInRange.length,
+                    contamination: this.contamination,
+                    tagsInRange: this.getTagsInRange()
+                });
+
+        } catch (err) {
+            console.log("main window was destroyed!");
+        }
+
+    }
+
     async start() {
-        this.matsInRangeTimer = setInterval(this.renewMatsInRange.bind(this), 1000);
+        this.matsInRangeTimer = setInterval(
+            this.renewMatsInRange.bind(this),
+            1000);
         this.location = await this.yumaServices.getGPSData();
     }
 
@@ -154,7 +157,6 @@ class ContaminationJob {
         this.matsInRangeTimer = null;
     }
 }
-
 
 module.exports = ContaminationJob;
 

@@ -39,6 +39,7 @@ class Reader {
                 }
                 const fields = line.toString().split(",");
                 const tagNumber = fields[1];
+
                 await this.job.processTag(tagNumber);
             });
         } catch (err) {
@@ -69,7 +70,7 @@ class Reader {
     }
 
     clearData() {
-       return this.job.clearData();
+        return this.job.clearData();
     }
 }
 
