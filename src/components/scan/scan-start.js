@@ -85,10 +85,6 @@ class ScanStart extends Component {
 
         const options = [
             {
-                value: "scan",
-                label: "Scan"
-            },
-            {
                 value: "contamination",
                 label: "Contamination"
             },
@@ -160,7 +156,7 @@ class ScanStart extends Component {
                                     onChange={option =>
                                         this.setState({
                                             jobId: option.value,
-                                            jobType: ""
+                                            jobType: "contamination"
                                         })}
                                 />
                             </td>
@@ -171,7 +167,7 @@ class ScanStart extends Component {
                                         this.addNewJob(jobId, jobName);
                                         this.setState({
                                             jobId,
-                                            jobType: ""
+                                            jobType: "contamination"
                                         });
                                     }
                                     } />
