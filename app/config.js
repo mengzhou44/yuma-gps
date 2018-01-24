@@ -18,7 +18,7 @@ function getConfig() {
 
     return {
         portalUrl: portal.url,
-        useStub: false
+        useStub: true
     };
 
 }

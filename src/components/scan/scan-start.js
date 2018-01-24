@@ -17,7 +17,8 @@ class ScanStart extends Component {
         this.state = {
             clients: [],
             clientId: "-1",
-            jobId: "-1"
+            jobId: "-1",
+            jobType: ""
         }
     }
 
@@ -79,16 +80,38 @@ class ScanStart extends Component {
         return _.sortBy(options, "label");
     }
 
+    getJobTypeOptions() {
+        if (this.state.jobId === "-1") return [];
+
+        const options = [
+            {
+                value: "scan",
+                label: "Scan"
+            },
+            {
+                value: "contamination",
+                label: "Contamination"
+            },
+            {
+                value: "branding",
+                label: "Branding"
+            }
+        ];
+
+        return _.sortBy(options, "label");
+    }
+
+
     render() {
         const visible = this.props.status === "not-started";
         let scanButtonDisabled = true;
-        if (this.state.jobId !== "-1" && this.state.clientId !== "-1") {
+        if (this.state.jobId !== "-1" && this.state.clientId !== "-1" && this.state.jobType) {
             scanButtonDisabled = false;
         }
 
         return (
             <MyTransition visible={visible} >
-                <div className="margin-top-100">
+                <div className="margin-top-50">
 
                     <TableRow>
                         <tr>
@@ -102,7 +125,8 @@ class ScanStart extends Component {
                                     onChange={option =>
                                         this.setState({
                                             clientId: option.value,
-                                            jobId: "-1"
+                                            jobId: "-1",
+                                            jobType: ""
                                         })}
                                 />
                             </td>
@@ -111,7 +135,8 @@ class ScanStart extends Component {
                                     this.addNewClient(clientId, clientName);
                                     this.setState({
                                         clientId: clientId,
-                                        jobId: "-1"
+                                        jobId: "-1",
+                                        jobType: ""
                                     });
 
                                 }
@@ -134,7 +159,8 @@ class ScanStart extends Component {
                                     options={this.getJobOptions(this.state.clientId)}
                                     onChange={option =>
                                         this.setState({
-                                            jobId: option.value
+                                            jobId: option.value,
+                                            jobType: ""
                                         })}
                                 />
                             </td>
@@ -144,11 +170,33 @@ class ScanStart extends Component {
                                     onJobAdded={(jobId, jobName) => {
                                         this.addNewJob(jobId, jobName);
                                         this.setState({
-                                            jobId
+                                            jobId,
+                                            jobType: ""
                                         });
                                     }
                                     } />
                             </td>
+                        </tr>
+                    </TableRow>
+
+                    <div className="height-50" />
+
+                    <TableRow>
+                        <tr>
+                            <td className="width-100-100">
+                                <Select
+                                    type="text"
+                                    clearable={false}
+                                    value={this.state.jobType}
+                                    placeholder="Please select job type ..."
+                                    options={this.getJobTypeOptions(this.state.jobId)}
+                                    onChange={option =>
+                                        this.setState({
+                                            jobType: option.value
+                                        })}
+                                />
+                            </td>
+
                         </tr>
                     </TableRow>
 
@@ -164,6 +212,7 @@ class ScanStart extends Component {
                                         clients: this.state.clients,
                                         clientId: this.state.clientId,
                                         jobId: this.state.jobId,
+                                        jobType: this.state.jobType
                                     }
                                 );
 

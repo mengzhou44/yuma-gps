@@ -47,11 +47,11 @@ app.on("ready", async () => {
 
     yumaServices = getYumaServices();
 
-    splashScreen = new BrowserWindow({});
-    splashScreen.loadURL(`file://${__dirname}/splash.html`);
+    // splashScreen = new BrowserWindow({});
+    // splashScreen.loadURL(`file://${__dirname}/splash.html`);
 
     mainWindow = new BrowserWindow({
-        show: false,
+        show: true,
         icon: path.join(__dirname, "/assets/images/icon.ico"),
         webPreferences: { backgroundThrottling: false }
     });
@@ -79,8 +79,9 @@ app.on("before-quit", () => {
 
 
 ipcMain.on("system:initialized", (event) => {
-    splashScreen.hide();
-    mainWindow.show();
+
+    // splashScreen.hide();
+    // mainWindow.show();
 });
 
 
@@ -203,11 +204,11 @@ ipcMain.on("clients:new-job", (event, { clientId, jobName }) => {
 });
 
 
-ipcMain.on("scan:start", async (event) => {
+ipcMain.on("scan:start", async (event, jobType) => {
     if (reader) {
         reader.stop();
     }
-    reader = getReader(mainWindow, yumaServices, "contamination");
+    reader = getReader(mainWindow, yumaServices, jobType);
     await reader.start();
 
     checkDevicesTimer = setInterval(() => {
@@ -224,15 +225,15 @@ ipcMain.on("batch:process", (event, data) => {
 ipcMain.on("scan:complete", async (event, scan) => {
 
     scan.deviceId = macAddress;
- 
+
     reader.stop();
-    
+
     scan.mats = reader.getData();
     const scans = new Scans();
     await scans.addNewScan(scan);
     reader.clearData();
     checkDevicesTimer = null;
- 
+
     mainWindow.webContents.send("scan:complete");
 
 });

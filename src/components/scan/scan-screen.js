@@ -8,12 +8,15 @@ import Header from "../_common/header";
 
 
 import CheckDevices from "./check-devices";
-import ScanContent from "./scan-content";
+import ScanStart from './scan-start';
+import ScanStop from './scan-stop';
+
 
 
 class ScanScreen extends Component {
 
     componentDidMount() {
+        console.log("send system:initialized");
         ipcRenderer.send("system:initialized");
     }
 
@@ -23,7 +26,12 @@ class ScanScreen extends Component {
 
     renderContent() {
         if (this.props.checkDevicesStatus === "check-passed") {
-            return <ScanContent />
+            return (<div>
+                <ScanStart />
+                <div className='height-20' />
+                <ScanStop className="scan-stop" />
+            </div>);
+
         } else {
             return <div className="margin-top-100">
                 <CheckDevices />
