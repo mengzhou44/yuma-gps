@@ -60,9 +60,7 @@ app.on("ready", async () => {
         closeApp();
     });
 
-
     mainWindow.loadURL(`file://${__dirname}/index.html`);
-
 
 });
 
@@ -207,6 +205,7 @@ ipcMain.on("scan:start", async (event, jobType) => {
     if (reader) {
         reader.stop();
     }
+
     reader = getReader(mainWindow, yumaServices, jobType);
     await reader.start();
 

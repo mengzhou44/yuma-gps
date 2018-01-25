@@ -43,7 +43,7 @@ class BrandingJob {
         try {
             this.mainWindow.webContents.send('mat:found',
                 {
-                    branded: this.branded,
+                    branded: this.branded.length,
                     tagsInRange: this.tagsInRange
                 });
 
@@ -54,22 +54,30 @@ class BrandingJob {
 
     async  processTag(tagNumber) {
 
-        if (this.knownTags[tagNumber] === undefined) {
-            return;   // unknown tag
-        }
-
-        if (this.knownTags[tagNumber] !== "") {
-            return;   // branded tags
-        }
+        /*  if (this.knownTags[tagNumber] === undefined) {
+             return;   // unknown tag
+         }
+ 
+         if (this.knownTags[tagNumber] !== "") {
+             return;   // branded tags
+         } */
 
         _.map(this.branded, mat => {
             const found = _.find(mat.tags, tag => tag === tagNumber);
             if (found) {
-                return; // the tag that is already branded
+                return; //  tag is already branded
             }
         });
 
-        updateTagsInRange(tagNumber);
+        this.updateTagsInRange(tagNumber);
+
+        const result = {
+            branded: this.branded.length,
+            tagsInRange: this.tagsInRange,
+        };
+
+        this.mainWindow.webContents.send("mat:found", result);
+
     }
 
     async processBatch(data) {

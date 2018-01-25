@@ -16,9 +16,10 @@ export function startScan({ clients, clientId, jobId, jobType }) {
         };
         dispatch({ type: types.SCAN_STARTED, payload });
         ipcRenderer.on("mat:found", (event, progress) => {
-            if (progress.found > 0) {
-                dispatch({ type: types.MAT_FOUND, payload: progress });
+            if (progress.found && progress.found === 0) {
+                return;
             }
+            dispatch({ type: types.MAT_FOUND, payload: progress });
 
         });
     };
