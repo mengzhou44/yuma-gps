@@ -3,7 +3,6 @@ var { Socket } = require('net');
 const Settings = require('../settings/settings');
 const { createJob } = require("./job-factory");
 
-
 class Reader {
 
     constructor(mainWindow, yumaServices, jobType) {
@@ -66,7 +65,7 @@ class Reader {
     }
 
     getData() {
-        return this.job.mats;
+        return this.job.getData();
     }
 
     clearData() {

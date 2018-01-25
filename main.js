@@ -227,8 +227,10 @@ ipcMain.on("scan:complete", async (event, scan) => {
     reader.stop();
 
     scan.mats = reader.getData();
+
     const scans = new Scans();
     await scans.addNewScan(scan);
+
     reader.clearData();
     checkDevicesTimer = null;
 

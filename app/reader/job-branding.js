@@ -2,57 +2,50 @@
 const _ = require('lodash');
 const uuid = require("uuid/v4");
 
-const Tags = require("../tags");
-
-
 class BrandingJob {
 
     constructor(mainWindow, yumaServices) {
         this.mainWindow = mainWindow;
         this.yumaServices = yumaServices;
 
-        this.branded = [];
-        this.tagsInRange = [];
-        this.knownTags = new Tags().getTags();
-        this.tagsInRangeTimer = null;
+        this.matsBranded = [];
+        this.matsInRange = [];
+        this.matsInRangeTimer = null;
         this.location = { latitude: 0, longitude: 0 };
     }
 
-    updateTagsInRange(tagNumber) {
+    updateMatsInRange(tagNumber) {
 
-        let tagFound = _.find(this.tagsInRange, (tag) => tag.tagNumber === tagNumber);
+        let tagFound = _.find(this.matsInRange, (tag) => tag.tagNumber === tagNumber);
         if (tagFound) {
             tagFound.timeStamp = Math.floor(Date.now());
 
         } else {
             const timeStamp = Math.floor(Date.now());
-            const tag = {
+            const mat = {
                 tagNumber,
                 timeStamp
             };
-            this.tagsInRange.push(tag);
+            this.matsInRange.push(mat);
         }
     }
 
-    getTagsInRangeInfo() {
-
-        const tags = _.map(this.tagsInRange, tag => tag.tagNumber);
-
-        return tags.join(", ");
+    getMatsInRangeInfo() {
+        return _.map(this.matsInRange, mat => mat.tagNumber);
     }
 
 
-    renewTagsInRange() {
-        this.tagsInRange = _.filter(this.tagsInRange, (tag) => {
+    renewMatsInRange() {
+        this.matsInRange = _.filter(this.matsInRange, (mat) => {
             const timeStamp = Math.floor(Date.now());
-            return timeStamp < (tag.timeStamp + 2000)
+            return timeStamp < (mat.timeStamp + 2000)
         });
 
         try {
             this.mainWindow.webContents.send('mat:found',
                 {
-                    branded: this.branded.length,
-                    tagsInRange: this.getTagsInRangeInfo()
+                    matsBranded: this.matsBranded.length,
+                    matsInRange: this.getMatsInRangeInfo()
                 });
 
         } catch (err) {
@@ -62,26 +55,18 @@ class BrandingJob {
 
     async  processTag(tagNumber) {
 
-        /*  if (this.knownTags[tagNumber] === undefined) {
-             return;   // unknown tag
-         }
- 
-         if (this.knownTags[tagNumber] !== "") {
-             return;   // branded tags
-         } */
-
-        _.map(this.branded, mat => {
+        _.map(this.matsBranded, mat => {
             const found = _.find(mat.tags, tag => tag === tagNumber);
             if (found) {
-                return; //  tag is already branded
+                return; //  tag is already matsBranded
             }
         });
 
-        this.updateTagsInRange(tagNumber);
+        this.updateMatsInRange(tagNumber);
 
         const result = {
-            branded: this.branded.length,
-            tagsInRange: this.getTagsInRangeInfo()
+            matsBranded: this.matsBranded.length,
+            matsInRange: this.getMatsInRangeInfo()
         };
 
         this.mainWindow.webContents.send("mat:found", result);
@@ -95,44 +80,46 @@ class BrandingJob {
         } catch (ex) {
         }
 
-        const mat = {
-            id: uuid(),
-            tags: _.map(this.tagsInRange, tag => {
-                return tag.tagNumber
-            }),
-            timeStamp: Math.floor(Date.now()),
-            gps: [this.location.longitude, this.location.latitude],
-            branded: true
-        }
-        this.branded.push(mat);
+        _.map(this.matsInRange, mat => {
+            const temp = {
+                tags: [mat.tagNumber],
+                matId: uuid(),
+                timeStamp: Math.floor(Date.now()),
+                gps: [this.location.longitude, this.location.latitude],
+                branded: true
+            }
+            this.matsBranded.push(temp);
+        });
 
-        this.tagsInRange = [];
+        this.matsInRange = [];
 
         const result = {
-            branded: this.branded.length,
-            tagsInRange: this.getTagsInRangeInfo()
+            matsBranded: this.matsBranded.length,
+            matsInRange: this.getMatsInRangeInfo()
         };
 
         this.mainWindow.webContents.send('mat:found', result);
     }
 
-
-
     async start() {
-        this.tagsInRangeTimer = setInterval(
-            this.renewTagsInRange.bind(this),
+        this.matsInRangeTimer = setInterval(
+            this.renewMatsInRange.bind(this),
             1000);
         this.location = await this.yumaServices.getGPSData();
     }
 
     clearData() {
-        this.branded = [];
-        this.tagsInRange = [];
+        this.matsBranded = [];
+        this.matsInRange = [];
+    }
+
+    getData() {
+        return this.matsBranded;
     }
 
     stop() {
-        clearInterval(this.tagsInRangeTimer);
-        this.tagsInRangeTimer = null;
+        clearInterval(this.matsInRangeTimer);
+        this.matsInRangeTimer = null;
     }
 }
 

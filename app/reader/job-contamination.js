@@ -146,6 +146,10 @@ class ContaminationJob {
         this.location = await this.yumaServices.getGPSData();
     }
 
+    getData() {
+        return this.mats;
+    }
+
     clearData() {
         this.mats = [];
         this.matsInRange = [];

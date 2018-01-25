@@ -4,7 +4,7 @@ const axios = require("axios");
 const _ = require("lodash");
 const uuid = require("uuid/v4");
 
-const  environment = require("./environment");
+const environment = require("./environment");
 const { getConfig } = require("./config");
 const Clients = require("./clients");
 
@@ -33,9 +33,11 @@ class Scans {
         return _.map(mats, (mat) => {
             const converted = {
                 id: mat.matId,
+                tags: mat.tags,
                 gps: mat.gps,
                 time: mat.timeStamp,
-                contaminated: mat.contaminated
+                contaminated: mat.contaminated,
+                branded: mat.branded
             };
             return converted;
         });
@@ -43,7 +45,7 @@ class Scans {
 
     convertScanToServerFormat(scan) {
 
-        const gps = scan.mats.length >  0 ? scan.mats[0].gps : [];
+        const gps = scan.mats.length > 0 ? scan.mats[0].gps : [];
 
         const converted = {
             client: scan.clientName,
@@ -65,7 +67,7 @@ class Scans {
         if (scan.mats.length === 0) {
             return;
         }
-          
+
         const serverScan = this.convertScanToServerFormat(scan);
         let scans = this.getScans();
         scans.push(serverScan);
@@ -82,62 +84,62 @@ class Scans {
 
     backupFailedScan(scan) {
         const homeDir = require('os').homedir();
-        const fileName = path.join(homeDir, "smartmat","failed",
+        const fileName = path.join(homeDir, "smartmat", "failed",
             `${scan.time} - ${scan.client} - ${scan.job}.json`);
 
         fs.outputFileSync(fileName, JSON.stringify(scan, null, 4));
     }
 
-   async  uploadScans() {
+    async  uploadScans() {
 
         const { portalUrl } = getConfig();
         const token = new Settings().getToken();
 
         try {
-            
+
             const scans = this.getScans();
 
             if (scans.length === 0) {
-                return  Promise.resolve({success: true}); 
+                return Promise.resolve({ success: true });
             }
             const config = {
                 headers: { Authorization: `${token}` }
             };
 
-    
+
             const promises = _.map(scans, (scan) => {
-                 scan.scanid= uuid();
-                 this.backupScan(scan);
-               
-                 return axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
+                scan.scanid = uuid();
+                this.backupScan(scan);
+
+                return axios.post(`${portalUrl}/field-data`, JSON.stringify(scan), config);
             })
 
-            return Promise.all(promises).then(values=>{ 
-                 
-                const failedScans = _.filter(values, value => value.data !== "Success" );
-                if (failedScans.length > 0 ) {
-                       
-                     _.map(failedScans, (value)=> {
+            return Promise.all(promises).then(values => {
+
+                const failedScans = _.filter(values, value => value.data !== "Success");
+                if (failedScans.length > 0) {
+
+                    _.map(failedScans, (value) => {
                         console.log("Upload Error:", value.data.error);
-                         const error = value.data.error;            
-                         const scan = _.find(scans, (scan)=> scan.scanid === value.data.scanid);
-                         this.backupFailedScan(scan);
-                     });
-                     throw `upload failed - ${failedScans[0].data.error}`;
+                        const error = value.data.error;
+                        const scan = _.find(scans, (scan) => scan.scanid === value.data.scanid);
+                        this.backupFailedScan(scan);
+                    });
+                    throw `upload failed - ${failedScans[0].data.error}`;
                 } else {
-                       
-                     return  Promise.resolve({success: true}); 
+
+                    return Promise.resolve({ success: true });
                 }
-              
-            }).catch (err=> {
-             
-               return  Promise.resolve({success: false, error: err}); 
+
+            }).catch(err => {
+
+                return Promise.resolve({ success: false, error: err });
             })
-             
+
         } catch (ex) {
-          
-             return  Promise.resolve({success: false, error: ex}); 
-        } 
+
+            return Promise.resolve({ success: false, error: ex });
+        }
     }
 
     clearScans() {

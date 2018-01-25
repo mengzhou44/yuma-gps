@@ -1,4 +1,5 @@
 const { createJob } = require("./job-factory");
+const Tags = require("../tags");
 
 class ReaderStub {
 
@@ -10,7 +11,8 @@ class ReaderStub {
     getRandomTagNumber() {
         var result;
         var count = 0;
-        for (var prop in this.job.knownTags)
+        const knownTags = new Tags().getTags();
+        for (var prop in knownTags)
             if (Math.random() < 1 / ++count)
                 result = prop;
         return result;
@@ -20,7 +22,7 @@ class ReaderStub {
         this.timer = setInterval(async () => {
             const tagNumber = this.getRandomTagNumber();
             await this.job.processTag(tagNumber);
-        }, 2000);
+        }, 1000);
 
         this.job.start();
     }
@@ -34,7 +36,7 @@ class ReaderStub {
     }
 
     getData() {
-        return this.job.mats;
+        return this.job.getData();
     }
 
     clearData() {

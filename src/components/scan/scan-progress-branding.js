@@ -22,33 +22,35 @@ class ScanProgressBranding extends Component {
             );
         }
 
-        let branded = 0;
-        let tagsInRange = "";
+        let matsBranded = 0;
+        let matsInRange = "";
+        let numberOfMatsInRange = 0;
 
-        if (this.props.progress.branded) {
-            branded = this.props.progress.branded;
+        if (this.props.progress.matsBranded) {
+            matsBranded = this.props.progress.matsBranded;
         }
 
-        if (this.props.progress.tagsInRange) {
-            tagsInRange = this.props.progress.tagsInRange;
+        if (this.props.progress.matsInRange) {
+            matsInRange = this.props.progress.matsInRange.join(", ");
+            numberOfMatsInRange = this.props.progress.matsInRange.length;
         }
 
         return (<div className="scan-progress">
             <div className="scan-progress-summary-container">
                 <div className="scan-progress-summary-mats">
-                    <span className="scan-progress-mats">{branded}</span>
+                    <span className="scan-progress-mats">{matsBranded}</span>
                     <span className="scan-progress-mats-found">&nbsp;Mats Branded</span>
                 </div>
 
             </div>
             <div className="scan-progress-inrange">
                 <div>
-                    <span className="scan-progress-inrange-mats">{tagsInRange}</span>
-                    <span className="scan-progress-mats-found">&nbsp;Tags In Range</span>
+                    <span className="scan-progress-inrange-mats">{numberOfMatsInRange}</span>
+                    <span className="scan-progress-mats-found">&nbsp;Mats In Range</span>
                 </div>
                 <div className="height-40">
                     <p className="margin-top-10">
-                        {tagsInRange}
+                        {matsInRange}
                     </p>
                 </div>
 
