@@ -34,6 +34,14 @@ class BrandingJob {
         }
     }
 
+    getTagsInRangeInfo() {
+
+        const tags = _.map(this.tagsInRange, tag => tag.tagNumber);
+
+        return tags.join(", ");
+    }
+
+
     renewTagsInRange() {
         this.tagsInRange = _.filter(this.tagsInRange, (tag) => {
             const timeStamp = Math.floor(Date.now());
@@ -44,7 +52,7 @@ class BrandingJob {
             this.mainWindow.webContents.send('mat:found',
                 {
                     branded: this.branded.length,
-                    tagsInRange: this.tagsInRange
+                    tagsInRange: this.getTagsInRangeInfo()
                 });
 
         } catch (err) {
@@ -73,7 +81,7 @@ class BrandingJob {
 
         const result = {
             branded: this.branded.length,
-            tagsInRange: this.tagsInRange,
+            tagsInRange: this.getTagsInRangeInfo()
         };
 
         this.mainWindow.webContents.send("mat:found", result);
@@ -102,7 +110,7 @@ class BrandingJob {
 
         const result = {
             branded: this.branded.length,
-            tagsInRange: this.tagsInRange,
+            tagsInRange: this.getTagsInRangeInfo()
         };
 
         this.mainWindow.webContents.send('mat:found', result);
