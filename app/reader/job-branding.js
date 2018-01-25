@@ -55,13 +55,7 @@ class BrandingJob {
 
     async  processTag(tagNumber) {
 
-        _.map(this.matsBranded, mat => {
-            const found = _.find(mat.tags, tag => tag === tagNumber);
-            if (found) {
-                return; //  tag is already matsBranded
-            }
-        });
-
+      
         this.updateMatsInRange(tagNumber);
 
         const result = {
@@ -73,6 +67,25 @@ class BrandingJob {
 
     }
 
+
+    isBranded(tagNumber) {
+
+        if ( _.includes(['AAAA00002535','AAAA00002536'],  'AAAA00002536')) {
+             return true;
+        }
+        
+           return false;
+       /*
+           _.forEach(this.matsBranded, mat => {       
+                if(_.includes(mat.tags, tagNumber)) {
+                 
+                      return true;
+                }
+           });
+        
+           return false;*/
+    }
+
     async processBatch(data) {
 
         try {
@@ -81,14 +94,18 @@ class BrandingJob {
         }
 
         _.map(this.matsInRange, mat => {
-            const temp = {
-                tags: [mat.tagNumber],
-                matId: uuid(),
-                timeStamp: Math.floor(Date.now()),
-                gps: [this.location.longitude, this.location.latitude],
-                branded: true
+
+            if (this.isBranded(mat.tagNumber)=== false) {
+               const temp = {
+                    tags: [mat.tagNumber],
+                    matId: uuid(),
+                    timeStamp: Math.floor(Date.now()),
+                    gps: [this.location.longitude, this.location.latitude],
+                    branded: true
+                };
+               this.matsBranded.push(temp);
             }
-            this.matsBranded.push(temp);
+           
         });
 
         this.matsInRange = [];

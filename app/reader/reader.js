@@ -25,11 +25,12 @@ class Reader {
     }
 
     onData(data) {
-
+      
         try {
             if (this.tcpClient === null) {
                 return;
             }
+          
 
             const lines = data.toString().split("\n");
             _.each(lines, async line => {
