@@ -6,7 +6,9 @@ const { createJob } = require("./job-factory");
 class Reader {
 
     constructor(mainWindow, yumaServices, jobType) {
+        this.mainWindow = mainWindow;
         this.job = createJob(mainWindow, yumaServices, jobType);
+  
     }
 
     processBatch(data) {
@@ -22,6 +24,11 @@ class Reader {
         const settings = new Settings();
         const { reader } = settings.fetch();
         return reader;
+    }
+    onError(error) {
+            this.stop();
+             this.mainWindow.webContents.send('mat:found',
+              { error: `Error occured while scanning. ${error}` });
     }
 
     onData(data) {
@@ -52,6 +59,7 @@ class Reader {
     async start() {
         this.tcpClient = new Socket();
         this.tcpClient.on('data', this.onData.bind(this));
+       this.tcpClient.on('error', this.onError.bind(this));
         const readerSetting = this.getReaderSetting();
         this.tcpClient.connect(readerSetting.port, readerSetting.host);
         await this.job.start();

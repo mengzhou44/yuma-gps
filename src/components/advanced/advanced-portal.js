@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import MyTransition from "../_common/my-transition";
 import { renderField } from "../_common/render-field";
 import * as actions from "../../actions";
+ 
 
 class AdvancedPortal extends Component {
 
@@ -29,6 +30,7 @@ class AdvancedPortal extends Component {
         let { settings } = this.props;
         props.url = this.stripTrailingSlash(props.url);
         settings.portal = props;
+        console.log("props", props);
         this.props.saveSettings(settings, () => {
             this.setState({ disabled: true });
         });
@@ -93,6 +95,13 @@ class AdvancedPortal extends Component {
                             disabled={this.state.disabled}
                         />
 
+                        <Field
+                            name="upload"  
+                            label="Upload"  
+                            component={ props => <input type="checkbox" {...props} /> }
+                            type="checkbox"   
+                            disabled={this.state.disabled} 
+                        />
 
                         {this.renderChangeButton()}
 

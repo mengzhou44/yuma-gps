@@ -19,7 +19,8 @@ class Settings {
             const myDefault =
             {
                 "portal": {
-                    "url": "http://empirelinux.com:9000"
+                    "url": "http://empirelinux.com:9000",
+                    "upload": false
                 },
                 "reader": {
                     "host": "speedwayr-xx-xx-xx.local",

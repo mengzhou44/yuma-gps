@@ -6,10 +6,9 @@ const uuid = require("uuid/v4");
 
 const environment = require("./environment");
 const { getConfig } = require("./config");
+const  Settings  = require("./settings/settings");
+
 const Clients = require("./clients");
-
-
-const Settings = require("./settings/settings");
 
 class Scans {
 
@@ -102,6 +101,20 @@ class Scans {
             if (scans.length === 0) {
                 return Promise.resolve({ success: true });
             }
+
+            const settings = new Settings().fetch();
+
+            if (settings.portal.upload && settings.portal.upload === false )
+            {
+                 _.map(scans, (scan) => {
+                        scan.scanid = uuid();
+                        this.backupScan(scan);
+                 });
+
+                 return Promise.resolve({ success: true });
+            }
+
+
             const config = {
                 headers: { Authorization: `${token}` }
             };

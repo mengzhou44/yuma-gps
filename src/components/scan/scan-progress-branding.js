@@ -57,7 +57,7 @@ class ScanProgressBranding extends Component {
                 <div className="scan-progress-buttons">
 
                     <button
-                        className="btn btn-green"
+                        className="btn btn-green width-300"
                         onClick={() => {
                             ipcRenderer.send("batch:process", { branded: true });
                         }}

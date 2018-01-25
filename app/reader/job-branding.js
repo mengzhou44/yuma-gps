@@ -55,7 +55,6 @@ class BrandingJob {
 
     async  processTag(tagNumber) {
 
-      
         this.updateMatsInRange(tagNumber);
 
         const result = {
@@ -93,7 +92,6 @@ class BrandingJob {
 
             const isBranded = this.isBranded(mat.tagNumber);
             if (isBranded === false) {
-    
                 const temp = {
                     tags: [mat.tagNumber],
                     matId: uuid(),

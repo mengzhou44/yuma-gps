@@ -2,9 +2,15 @@ import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { Divider } from "semantic-ui-react";
 import { connect } from "react-redux";
+
+
+
 import MyTransition from "../_common/my-transition";
 import { renderField } from "../_common/render-field";
+
 import * as actions from "../../actions";
+
+
 
 class AdvancedReader extends Component {
 
