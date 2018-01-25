@@ -69,19 +69,17 @@ class BrandingJob {
 
 
     isBranded(tagNumber) {
-
-           _.forEach(this.matsBranded, mat => { 
-               _.forEach(mat.tags, tag=> {
-                    console.log(`${tag}=== ${tagNumber}`, tag === tagNumber)
-                    if (tag === tagNumber) {
-                        console.log("return true");
-                        return true;
-                    }
-               })      
-                
+          let branded = false;
+          _.forEach(this.matsBranded, mat => { 
+               const found = _.find(mat.tags, tag=> tag === tagNumber);
+               if (found) {
+                    branded = true;
+                    return;
+               }
+            
            });
-        
-           return false; 
+         
+           return  branded; 
     }
 
     async processBatch(data) {
@@ -94,10 +92,8 @@ class BrandingJob {
         _.map(this.matsInRange, mat => {
 
             const isBranded = this.isBranded(mat.tagNumber);
-            if (isBranded === true) {
-                console.log("isBranded is true");
-            } else {
-
+            if (isBranded === false) {
+    
                 const temp = {
                     tags: [mat.tagNumber],
                     matId: uuid(),
