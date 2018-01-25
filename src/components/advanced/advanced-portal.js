@@ -3,9 +3,9 @@ import { Field, reduxForm } from "redux-form";
 import { Divider } from "semantic-ui-react";
 import { connect } from "react-redux";
 import MyTransition from "../_common/my-transition";
-import { renderField } from "../_common/render-field";
+import { renderField, renderCheckboxField } from "../_common/render-field";
 import * as actions from "../../actions";
- 
+
 
 class AdvancedPortal extends Component {
 
@@ -25,12 +25,10 @@ class AdvancedPortal extends Component {
             str;
     };
 
-
     onSubmit(props) {
         let { settings } = this.props;
         props.url = this.stripTrailingSlash(props.url);
         settings.portal = props;
-        console.log("props", props);
         this.props.saveSettings(settings, () => {
             this.setState({ disabled: true });
         });
@@ -72,6 +70,7 @@ class AdvancedPortal extends Component {
     }
 
 
+
     render() {
 
         const visible = this.props.current === "portal";
@@ -95,13 +94,16 @@ class AdvancedPortal extends Component {
                             disabled={this.state.disabled}
                         />
 
+
                         <Field
-                            name="upload"  
-                            label="Upload"  
-                            component={ props => <input type="checkbox" {...props} /> }
-                            type="checkbox"   
-                            disabled={this.state.disabled} 
+                            name="upload"
+                            label="Upload"
+                            component={renderCheckboxField}
+                            type="checkbox"
+                            disabled={this.state.disabled}
                         />
+
+                        <div className="height-10" />
 
                         {this.renderChangeButton()}
 
@@ -127,8 +129,10 @@ const validate = values => {
 
 
 function mapStateToProps({ settings }) {
+
     return {
         initialValues: settings.data.portal,
+        enableReinitialize: true,
         settings: settings.data
     };
 }

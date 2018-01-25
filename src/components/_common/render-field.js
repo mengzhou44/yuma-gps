@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const renderField = ({
         input, label, placeholder, type, disabled,
@@ -7,7 +7,7 @@ export const renderField = ({
 
     return (
 
-        <div className='render-field-container'>
+        <div className="render-field-container">
             <label>{label}</label>
             <input
                 {...input}
@@ -16,8 +16,24 @@ export const renderField = ({
                 type={type}
             />
 
-            {touched && error && <div className='error'>{error}</div>}
+            {touched && error && <div className="error">{error}</div>}
 
+        </div>
+    );
+};
+
+
+export const renderCheckboxField = ({
+    input, label, disabled, type
+}) => {
+
+    return (
+        <div className="render-field-container">
+            <input
+                {...input}
+                disabled={disabled}
+                type="checkbox"
+            />  &nbsp;  &nbsp; <label>{label}</label>
         </div>
     );
 };
