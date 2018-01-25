@@ -35,7 +35,7 @@ class ContaminationJob {
         let matFound = _.find(this.matsInRange, (mat) => mat.matId === matId);
         if (matFound) {
             matFound.timeStamp = Math.floor(Date.now());
-            addTag(tagNumber, matFound);
+            this.addTag(tagNumber, matFound);
         } else {
             const timeStamp = Math.floor(Date.now());
             const mat = {
