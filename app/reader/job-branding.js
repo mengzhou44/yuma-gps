@@ -70,20 +70,18 @@ class BrandingJob {
 
     isBranded(tagNumber) {
 
-        if ( _.includes(['AAAA00002535','AAAA00002536'],  'AAAA00002536')) {
-             return true;
-        }
-        
-           return false;
-       /*
-           _.forEach(this.matsBranded, mat => {       
-                if(_.includes(mat.tags, tagNumber)) {
-                 
-                      return true;
-                }
+           _.forEach(this.matsBranded, mat => { 
+               _.forEach(mat.tags, tag=> {
+                    console.log(`${tag}=== ${tagNumber}`, tag === tagNumber)
+                    if (tag === tagNumber) {
+                        console.log("return true");
+                        return true;
+                    }
+               })      
+                
            });
         
-           return false;*/
+           return false; 
     }
 
     async processBatch(data) {
@@ -95,17 +93,20 @@ class BrandingJob {
 
         _.map(this.matsInRange, mat => {
 
-            if (this.isBranded(mat.tagNumber)=== false) {
-               const temp = {
+            const isBranded = this.isBranded(mat.tagNumber);
+            if (isBranded === true) {
+                console.log("isBranded is true");
+            } else {
+
+                const temp = {
                     tags: [mat.tagNumber],
                     matId: uuid(),
                     timeStamp: Math.floor(Date.now()),
                     gps: [this.location.longitude, this.location.latitude],
                     branded: true
                 };
-               this.matsBranded.push(temp);
+                this.matsBranded.push(temp);
             }
-           
         });
 
         this.matsInRange = [];
