@@ -56,6 +56,7 @@ app.on("ready", async () => {
         webPreferences: { backgroundThrottling: false }
     });
 
+   
     mainWindow.on("close", () => {
         closeApp();
     });
@@ -77,8 +78,11 @@ app.on("before-quit", () => {
 
 
 ipcMain.on("system:initialized", (event) => {
-    splashScreen.hide();
+     splashScreen.hide();
      mainWindow.show();
+    mainWindow.maximize();
+   
+    
 });
 
 

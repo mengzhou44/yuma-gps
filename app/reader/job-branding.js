@@ -1,13 +1,14 @@
 
 const _ = require('lodash');
 const uuid = require("uuid/v4");
+const Tags = require("../tags");
 
 class BrandingJob {
 
     constructor(mainWindow, yumaServices) {
         this.mainWindow = mainWindow;
         this.yumaServices = yumaServices;
-
+        this.knownTags = new Tags().getTags();
         this.matsBranded = [];
         this.matsInRange = [];
         this.matsInRangeTimer = null;
@@ -68,6 +69,10 @@ class BrandingJob {
 
 
     isBranded(tagNumber) {
+          if (this.knownTags[tagNumber]) {
+             return true;
+          }
+
           let branded = false;
           _.forEach(this.matsBranded, mat => { 
                const found = _.find(mat.tags, tag=> tag === tagNumber);
