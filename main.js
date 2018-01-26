@@ -47,11 +47,11 @@ app.on("ready", async () => {
 
     yumaServices = getYumaServices();
 
-    //splashScreen = new BrowserWindow({});
-    //splashScreen.loadURL(`file://${__dirname}/splash.html`);
+    splashScreen = new BrowserWindow({});
+    splashScreen.loadURL(`file://${__dirname}/splash.html`);
 
     mainWindow = new BrowserWindow({
-        show: true,
+        show: false,
         icon: path.join(__dirname, "/assets/images/icon.ico"),
         webPreferences: { backgroundThrottling: false }
     });
@@ -70,15 +70,15 @@ app.on("window-all-closed", () => {
 
 app.on("before-quit", () => {
     mainWindow.removeAllListeners("close");
-  //  splashScreen.removeAllListeners("close");
+    splashScreen.removeAllListeners("close");
     mainWindow.close();
-  //  splashScreen.close();
+    splashScreen.close();
 });
 
 
 ipcMain.on("system:initialized", (event) => {
-  //  splashScreen.hide();
-  //  mainWindow.show();
+    splashScreen.hide();
+     mainWindow.show();
 });
 
 

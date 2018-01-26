@@ -20,7 +20,7 @@ class Settings {
                 {
                     "portal": {
                         "url": "http://empirelinux.com:9000",
-                        "upload": false
+                        "upload": "false"
                     },
                     "reader": {
                         "host": "speedwayr-xx-xx-xx.local",
@@ -44,7 +44,13 @@ class Settings {
         }
 
         var text = fs.readFileSync(this.jsonFile, "utf8");
-        return JSON.parse(text);
+        let settings =  JSON.parse(text);
+
+        if (settings.portal.upload === undefined) {
+            settings.portal.upload = "true";
+        }
+
+        return settings; 
     }
 
     getToken() {

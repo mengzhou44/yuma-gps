@@ -103,18 +103,18 @@ class Scans {
             }
 
             const settings = new Settings().fetch();
+       
 
-            if (settings.portal.upload && settings.portal.upload === false )
+            if (settings.portal.upload && settings.portal.upload === "false" )
             {
                  _.map(scans, (scan) => {
                         scan.scanid = uuid();
                         this.backupScan(scan);
                  });
-
+              
                  return Promise.resolve({ success: true });
             }
-
-
+ 
             const config = {
                 headers: { Authorization: `${token}` }
             };
@@ -140,7 +140,7 @@ class Scans {
                     });
                     throw `upload failed - ${failedScans[0].data.error}`;
                 } else {
-
+                    
                     return Promise.resolve({ success: true });
                 }
 
