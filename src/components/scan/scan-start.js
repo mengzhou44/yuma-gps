@@ -94,7 +94,7 @@ class ScanStart extends Component {
             }
         ];
 
-        return _.sortBy(options, "label");
+        return  options;
     }
 
 
