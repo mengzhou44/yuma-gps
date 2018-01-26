@@ -3,7 +3,7 @@ import { Field, reduxForm } from "redux-form";
 import { Divider } from "semantic-ui-react";
 import { connect } from "react-redux";
 import MyTransition from "../_common/my-transition";
-import { renderField, renderCheckboxField } from "../_common/render-field";
+import { renderField } from "../_common/render-field";
 import * as actions from "../../actions";
 
 
@@ -98,8 +98,8 @@ class AdvancedPortal extends Component {
                         <Field
                             name="upload"
                             label="Upload"
-                            component={renderCheckboxField}
-                            type="checkbox"
+                            component={renderField}
+                            type="text"
                             disabled={this.state.disabled}
                         />
 
@@ -132,7 +132,6 @@ function mapStateToProps({ settings }) {
 
     return {
         initialValues: settings.data.portal,
-        enableReinitialize: true,
         settings: settings.data
     };
 }
@@ -141,7 +140,6 @@ function mapStateToProps({ settings }) {
 export default connect(mapStateToProps, actions)(
     reduxForm({
         form: "portal-form",
-        enableReinitialize: true,
         validate
     })(AdvancedPortal));
 

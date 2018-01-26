@@ -13,6 +13,7 @@ export const renderField = ({
                 {...input}
                 placeholder={placeholder}
                 disabled={disabled}
+
                 type={type}
             />
 
@@ -28,14 +29,17 @@ export const renderCheckboxField = ({
 }) => {
 
     return (
-        <div className="render-field-container">
+        <div className="render-field-container border-test">
             <input
                 {...input}
+                type={type}
                 disabled={disabled}
-                type="checkbox"
-            />  &nbsp;  &nbsp; <label>{label}</label>
+            /> &nbsp; &nbsp;  <label > {label}</label>
+
         </div>
     );
 };
+
+
 
 

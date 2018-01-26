@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 
-const environment  = require('../environment');
+const environment = require('../environment');
 
 
 class Settings {
@@ -15,25 +15,25 @@ class Settings {
     }
 
     createJsonFile() {
-        try{
+        try {
             const myDefault =
-            {
-                "portal": {
-                    "url": "http://empirelinux.com:9000",
-                    "upload": false
-                },
-                "reader": {
-                    "host": "speedwayr-xx-xx-xx.local",
-                    "port": 14250
-                },
-                "tablet": {
-                }
-            };
+                {
+                    "portal": {
+                        "url": "http://empirelinux.com:9000",
+                        "upload": false
+                    },
+                    "reader": {
+                        "host": "speedwayr-xx-xx-xx.local",
+                        "port": 14250
+                    },
+                    "tablet": {
+                    }
+                };
 
-        fs.outputFileSync(this.jsonFile, JSON.stringify(myDefault, null, 4));
-    
-        }catch (error) {
-           console.log("Eerror: ", error);
+            fs.outputFileSync(this.jsonFile, JSON.stringify(myDefault, null, 4));
+
+        } catch (error) {
+            console.log("Eerror: ", error);
         }
 
     }
@@ -43,7 +43,7 @@ class Settings {
             this.createJsonFile();
         }
 
-        var text = fs.readFileSync(this.jsonFile);
+        var text = fs.readFileSync(this.jsonFile, "utf8");
         return JSON.parse(text);
     }
 
