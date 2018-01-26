@@ -4,6 +4,7 @@ const path = require("path");
 const findProcess = require("find-process");
 
 const { app, BrowserWindow, ipcMain } = electron;
+ 
 
 const { getYumaServices } = require("./app/yuma/yuma-services-factory");
 const { getReader, checkReader } = require("./app/reader/reader-factory");
@@ -55,10 +56,11 @@ app.on("ready", async () => {
         icon: path.join(__dirname, "/assets/images/icon.ico"),
         webPreferences: { backgroundThrottling: false }
     });
+     
+    
 
-   
     mainWindow.on("close", () => {
-        closeApp();
+          closeApp();
     });
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
