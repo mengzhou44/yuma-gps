@@ -3,7 +3,7 @@ const _ = require("lodash");
 const path = require("path");
 const findProcess = require("find-process");
 
-const { app, BrowserWindow, ipcMain } = electron;
+const { app, BrowserWindow, ipcMain, dialog } = electron;
  
 
 const { getYumaServices } = require("./app/yuma/yuma-services-factory");
@@ -59,8 +59,20 @@ app.on("ready", async () => {
      
     
 
-    mainWindow.on("close", () => {
-          closeApp();
+    mainWindow.on("close", (e) => {
+        var choice = dialog.showMessageBox(mainWindow,
+        {
+          type: "question",
+          buttons: ["Yes", "No"],
+          title: "Confirm",
+          message: "Are you sure you want to close SmartMat?"
+       });
+       if(choice == 1){
+            e.preventDefault();
+       } else {
+              closeApp();
+       }
+      
     });
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
