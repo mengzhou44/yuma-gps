@@ -44,8 +44,16 @@ class Reader {
                 if (line.trim() === "") {
                     return;
                 }
-                const fields = line.toString().split(",");
-                const tagNumber = fields[1];
+
+                 const fields = line.toString().split(",");
+                 if (fields.length !==4 ) {
+                     return;
+                 }
+
+                 const tagNumber = fields[1];
+                 if (tagNumber.length < 6 ) {
+                       return;
+                 }
 
                 await this.job.processTag(tagNumber);
             });

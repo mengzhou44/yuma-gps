@@ -58,7 +58,6 @@ app.on("ready", async () => {
     });
      
     
-
     mainWindow.on("close", (e) => {
         var choice = dialog.showMessageBox(mainWindow,
         {
